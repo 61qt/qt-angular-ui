@@ -1,0 +1,301 @@
+/**
+ * JS代码规范
+ * 配置文档地址: http://eslint.cn/docs/rules
+ */
+
+{
+  /**
+   * 规则
+   * 0: off
+   * 1: warn
+   * 2: error
+   */
+  "rules": {
+    /**
+     * ===============================
+     * Possible Errors
+     * ===============================
+     */
+
+    // 不能在单行节点上添加拖尾逗号
+    "comma-dangle": [2, "only-multiline"],
+    // 禁用 console
+    "no-console": 1,
+    // 禁止在条件中使用常量表达式
+    "no-constant-condition": 2,
+    // 禁用 debugger
+    "no-debugger": 2,
+    // 禁止重复的 case 标签
+    "no-duplicate-case": 2,
+    // 禁止空语句块，空语句必须填入注释表示语句块的正确性
+    "no-empty": 2,
+    // 禁止在正则表达式中使用空字符
+    "no-empty-character-class": 2,
+    // 禁止对 catch 块的异常进行赋值
+    "no-ex-assign": 2,
+    // 在布尔类型的上下文中禁止双重否定布尔转换
+    "no-extra-boolean-cast": 2,
+    // 禁止不必要的括号
+    "no-extra-parens": 1,
+    // 禁止不必要的分号
+    "no-extra-semi": 2,
+    // 禁止重写函数声明
+    "no-func-assign": 2,
+    // 禁止RegExp构造函数中无效的正则表达式字符串
+    "no-invalid-regexp": 2,
+    // 禁止in操作符的否定的左操作数
+    "no-negated-in-lhs": 2,
+    // 禁止在正则表达式字面量中使用多个空格
+    "no-regex-spaces": 2,
+    // 禁用稀疏数组
+    "no-sparse-arrays": 2,
+    // 禁止 return，throw，continue 或 break 语句之后的不可达语句
+    "no-unreachable": 2,
+    // 禁止与 NaN 进行比较
+    "use-isnan": 2,
+    // 确保 JSDoc 注释是有效的
+    "valid-jsdoc": [
+      0,
+      {
+        "requireReturn": false,
+      }
+    ],
+    // 确保 typeof 结果与一个有效的字符串相比较
+    "valid-typeof": 2,
+
+    /**
+     * ===============================
+     * Best Practices
+     * ===============================
+     */
+
+    // 把 var 语句看作是在块级作用域范围之内
+    "block-scoped-var": 2,
+    // 必须使用代码块
+    "curly": 2,
+    // 要求使用点号
+    "dot-notation": 2,
+    // 要求使用 === 和 !==
+    "eqeqeq": 2,
+    // 禁用 caller 或 callee
+    "no-caller": 2,
+    // 禁止使用看起来像除法的正则表达式
+    "no-div-regex": 2,
+    // 禁止在else前有return
+    "no-else-return": 2,
+    // 禁止Null比较
+    "no-eq-null": 2,
+    // 禁用 eval()
+    "no-eval": 2,
+    // 禁止浮点小数
+    "no-floating-decimal": 2,
+    // 禁用隐式的eval()
+    "no-implied-eval": 2,
+    // 禁用不必要的嵌套块
+    "no-lone-blocks": 2,
+    // 禁止循环中存在函数
+    "no-loop-func": 2,
+    // 禁止出现多个空格
+    "no-multi-spaces": [
+      0,
+      {
+        "exceptions": {
+          "Property": true,
+          "VariableDeclarator": true,
+          "ImportDeclaration": true
+        }
+      }
+    ],
+    // 禁止多行字符串
+    "no-multi-str": 2,
+    // 禁止对原生对象赋值
+    "no-native-reassign": 1,
+    // 禁止使用new产生副作用
+    "no-new": 2,
+    // 禁用Function构造函数
+    "no-new-func": 2,
+    // 禁止原始包装实例
+    "no-new-wrappers": 2,
+    // 禁用八进制字面量
+    "no-octal": 2,
+    // 禁止八进制转义
+    "no-octal-escape": 2,
+    // 禁用__proto__
+    "no-proto": 2,
+    // 禁止重新定义变量
+    "no-redeclare": 2,
+    // 禁止在返回语句中赋值
+    "no-return-assign": 2,
+    // 禁用 Script URLs
+    "no-script-url": 2,
+    // 禁止自身比较
+    "no-self-compare": 2,
+    // 禁止使用void操作符
+    "no-void": 2,
+    // 禁用 with 语句
+    "no-with": 2,
+    // 要求将变量声明放在它们作用域的顶部
+    "vars-on-top": 2,
+    // 需要把立即执行的函数包裹起来
+    "wrap-iife": [2, "inside"],
+    // 要求或者禁止Yoda条件
+    "yoda": [1, "always"],
+
+
+    /**
+     * ===============================
+     * 严格模式
+     * ===============================
+     */
+
+    /**
+     * ===============================
+     * 变量
+     * ===============================
+     */
+
+    // 不允许在catch语句中遮盖变量
+    "no-catch-shadow": 1,
+    // 禁用于变量同名的标签
+    "no-label-var": 2,
+    // 关键字不能被遮蔽
+    "no-shadow-restricted-names": 2,
+    // 不允许使用未申明变量
+    "no-undef": 1,
+    // 不允许初始化变量值为 undefined
+    "no-undef-init": 2,
+    // 禁止未使用过的变量
+    "no-unused-vars": 1,
+    // 不允许定义前使用
+    "no-use-before-define": [
+      2,
+      {
+        "functions": false
+      }
+    ],
+
+
+    /**
+     * ===============================
+     * 代码风格
+     * ===============================
+     */
+
+    // 大括号风格要求
+    "brace-style": [
+      2,
+      "stroustrup"
+    ],
+    // 要求使用骆驼拼写法
+    "camelcase": [
+      2,
+      {
+        "properties": "never"
+      }
+    ],
+    // 强制在逗号周围使用空格
+    "comma-spacing": [
+      2,
+      {
+        "before"  : false,
+        "after"   : true
+      }
+    ],
+    // 只能结尾加逗号
+    "comma-style": [2, "last"],
+    // 要求一致的 this
+    "consistent-this": [2, "self"],
+    // 最多不能超过3个callback
+    "max-nested-callbacks": [1, 4],
+    // 要求构造函数首字母大写
+    "new-cap": [
+      2,
+      {
+        "capIsNew": false
+      }
+    ],
+    // 要求构造函数带括号
+    "new-parens": 2,
+    // 不允许使用Array的构造函数创建稠密数组
+    "no-array-constructor": 2,
+    // 代码后面不允许有注释。注释必须单独成行
+    "no-inline-comments": 2,
+    // 不允许空格和tab混合缩进
+    "no-mixed-spaces-and-tabs": 2,
+    // 禁止使用 Object 的构造函数
+    "no-new-object": 2,
+    // 禁止在函数调用时使用空格
+    "no-spaced-func": 2,
+    // 禁用行尾空格
+    "no-trailing-spaces": 2,
+    // 属性只有在需要的时候才使用引号统一使用单引号，数字也必须带引号
+    "quote-props": [
+      2,
+      "as-needed",
+      {
+        "numbers": true
+      }
+    ],
+    // 必须使用单引号或反勾号
+    "quotes": [2, "single"],
+    // 必须写分号
+    "semi": [2, "always"],
+    // 函数名后必须添加空格
+    "space-before-function-paren": [2, "always"],
+    // 要求或禁止在关键字后存在空格
+    "keyword-spacing": 2,
+    // 要求或禁止块之前必须添加空格
+    "space-before-blocks": [2, "always"],
+    // 要求中缀操作符周围有空格
+    "space-infix-ops": 2,
+    // 部分一元运算符前后必须加空格
+    "space-unary-ops": [
+      2, {
+        "words": true,
+        "nonwords": false,
+        "overrides": {
+          "new": false,
+          "++": true,
+          "--": true
+        }
+      }
+    ],
+
+
+    /**
+     * ===============================
+     * ECMAScript 6
+     * ===============================
+     */
+
+    // 要求使用 let 或 const 而不是 var
+    "no-var": 2,
+    "generator-star-spacing": 1,
+  },
+
+  /**
+   * 额外的语言特性
+   */
+
+  "ecmaFeatures": {
+    // 允许在全局作用域下使用 return 语句
+    "globalReturn": false,
+    // 启用全局 strict mode
+    "impliedStrict": false
+  },
+
+  /**
+   * 环境
+   */
+
+  "env": {
+    // 支持除了modules所有 ECMAScript 6 特性
+    "es6": true,
+    // browser 全局变量
+    "browser": true,
+    // nodejs 全局变量
+    "node": true,
+  },
+
+  "parser": "babel-eslint"
+}

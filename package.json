@@ -1,0 +1,19 @@
+{
+  "name": "qt-angular-ui",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "青藤网 angular ui 组件库",
+  "homepage": "http://www.61qt.cn",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:61qt/qt-angular-ui.git"
+  },
+  "engines": {
+    "node": ">= 6.2.2"
+  },
+  "scripts": {},
+  "peerDependencies": {},
+  "devDependencies": {
+    "angular": "1.x.x"
+  }
+}
