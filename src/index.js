@@ -7,7 +7,9 @@ import Cropper from './cropper';
 import Lazier   from './lazier';
 import Locker from './locker';
 import Radio  from './radio';
+import Router from './router';
 import Spinner from './spinner';
+import Statistics from './statistics';
 import Switch from './switch';
 import Toast     from './toast';
 import Tracker from './tracker';
@@ -23,7 +25,9 @@ export default angular.module('qtAngularUi', [
   Lazier,
   Locker,
   Radio,
+  Router,
   Spinner,
+  Statistics,
   Switch,
   Toast,
   Tracker,
