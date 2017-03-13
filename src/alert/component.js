@@ -1,7 +1,7 @@
 import _        from 'lodash';
 import angular  from 'angular';
-import Template from './alert.jade';
-import Config   from './alert.config';
+import Template from './index.jade';
+import Config   from './config';
 
 export default function ($timeout) {
   'ngInject';

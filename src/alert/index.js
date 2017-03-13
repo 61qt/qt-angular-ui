@@ -1,10 +1,10 @@
-import './alert.scss';
+import './index.scss';
 
 import angular   from 'angular';
-import Component from './alert.component';
-import Service   from './alert.service';
+import Component from './component';
+import Service   from './service';
 
-export default angular.module('component.alert', [])
+export default angular.module('qtAngularUi.alert', [])
 .directive('alert', Component)
 .provider('$alert', Service)
 .name;
