@@ -1,7 +1,10 @@
 import angular from 'angular';
+import func from './func';
 
-export default angular.module('qtAngularUi.statistics', [])
-.run(function ($rootScope, $location, $user) {
+export default angular.module('qtAngularUi.statistics', [
+  func,
+])
+.run(function ($rootScope, $location) {
   'ngInject';
 
   /**
