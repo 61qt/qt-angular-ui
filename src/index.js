@@ -20,6 +20,7 @@ import Toast     from './toast';
 import Tracker from './tracker';
 import Utilitybar from './utilitybar';
 import Validator from './validator';
+import Wechat from './wechat';
 
 export default angular.module('qtAngularUi', [
   Alert,
@@ -43,5 +44,6 @@ export default angular.module('qtAngularUi', [
   Tracker,
   Utilitybar,
   Validator,
+  Wechat,
 ])
 .name;
