@@ -2,7 +2,7 @@ $spinner-offset   : 187;
 $spinner-duration : 1.4s;
 $spinner-index    : 4110;
 
-@import "assets/styles/_bootstrap";
+@import "../styles/_bootstrap";
 
 @include keyframes(rotator) {
   0% {

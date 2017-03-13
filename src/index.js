@@ -10,6 +10,7 @@ import Spinner from './spinner';
 import Switch from './switch';
 import Toast     from './src/toast';
 import Tracker from './tracker';
+import Validator from './validator';
 
 export default angular.module('qtAngularUi', [
   Alert,
@@ -23,5 +24,6 @@ export default angular.module('qtAngularUi', [
   Switch,
   Toast,
   Tracker,
+  Validator,
 ])
 .name;
