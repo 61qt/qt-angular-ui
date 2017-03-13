@@ -1,0 +1,97 @@
+/**
+ * Design Size
+ */
+
+$ratio-design                 : 750px/375px; // IPhone 6
+
+/**
+ * Bourbon Rewrite
+ */
+
+$em-base                      : 16px;
+
+/**
+ * Base Definations
+ */
+
+$root-base                    : $em-base;
+
+/**
+ * Colors
+ */
+
+$black                        : #3c3d3e !default;
+$cyan                         : #129fdd !default;
+$red                          : #ff4640 !default;
+$green                        : #1aac19 !default;
+$orange                       : #fc8010 !default;
+
+/**
+ * Base Styles
+ */
+
+$font-size-base               : rem(13px);
+$font-family-normal           : 'PingFangSC-Regular', 'Microsoft YaHei', '微软雅黑', 'Adobe 黑体Std R', sans-serif;
+
+$text-color-dark              : #333 !default;
+$text-color-normal            : #666 !default;
+$text-color-mute              : #999 !default;
+
+$text-color-cyan              : $cyan !default;
+$text-color-cyan-dark         : #4c5e70 !default;
+
+$text-color-red               : $red !default;
+
+$text-color-orange            : $orange !default;
+
+$link-color                   : $text-color-cyan !default;
+$link-color-hover             : $text-color-cyan !default;
+
+$border-color-normal          : #f0f0f0 !default;
+$border-color-cyan-light      : #dbe1e8 !default;
+$border-color-cyan            : #00b0da !default;
+$border-color-orange          : $orange !default;
+
+$button-disable-bgc           : #dbe1e8 !default;
+$button-cyan                  : $border-color-cyan !default;
+$button-orange                : $border-color-orange !default;
+
+$form-control-border          : $border-color-cyan-light !default;
+$form-control-border-focus    : $border-color-cyan !default;
+
+$body-bgc                     : #fff !default;
+$body-bgc-gray                : #f0f3f6 !default;
+
+/**
+ * Label Style
+ */
+
+$label-bgc                    : #f0f3f6 !default;
+$label-color                  : $text-color-cyan-dark !default;
+
+
+/**
+ * Gutter
+ */
+
+$gutter-width                 :
+  'xl' 20px,
+  'lg' 18px,
+  'md' 15px,
+  'sm' 10px,
+  'xs' 4px,
+;
+
+
+/**
+ * Transform Rotate
+ */
+
+$rotate-degree                  :
+  '30'  30deg,
+  '45'  45deg,
+  '90'  90deg,
+  '120' 120deg,
+  '135' 135deg,
+  '180' 180deg
+;
