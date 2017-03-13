@@ -1,10 +1,5 @@
 import './index.scss';
 
-import angular      from 'angular';
-import Radio        from './component.js';
-import RadioOrigin  from './origin.component.js';
+import component   from '_index';
 
-export default angular.module('qtAngularUi.radio', [])
-.directive('radio', Radio)
-.directive('radioOrigin', RadioOrigin)
-.name;
+export default component;

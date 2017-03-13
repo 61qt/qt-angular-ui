@@ -1,10 +1,5 @@
 import './index.scss';
 
-import angular   from 'angular';
-import Component from './component';
-import Modal     from './modal';
+import component   from '_index';
 
-export default angular.module('qtAngularUi.calendar', [])
-.directive('calendar', Component)
-.directive('calendarModal', Modal)
-.name;
+export default component;

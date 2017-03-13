@@ -1,10 +1,5 @@
 import './index.scss';
 
-import angular   from 'angular';
-import Service   from './service';
-import Component from './component';
+import component   from '_index';
 
-export default angular.module('qtAngularUi.locker', [])
-.provider('$locker', Service)
-.directive('locker', Component)
-.name;
+export default component;

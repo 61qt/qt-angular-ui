@@ -1,8 +1,3 @@
-import angular          from 'angular';
-import CaptchaProvider  from './providor';
-import CaptchaComponent from './component';
+import component   from '_index';
 
-export default angular.module('qtAngularUi.captcha', [])
-.provider('$uiCaptcha', CaptchaProvider)
-.directive('captcha', CaptchaComponent)
-.name;
+export default component;

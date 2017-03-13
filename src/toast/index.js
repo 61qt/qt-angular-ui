@@ -1,8 +1,5 @@
-import angular   from 'angular';
-import Component from './component';
-import Service   from './service';
+import './index.scss';
 
-export default angular.module('qtAngularUi.toast', [])
-.directive('toast', Component)
-.provider('$toast', Service)
-.name;
+import component   from '_index';
+
+export default component;
