@@ -1,9 +1,11 @@
 import angular   from 'angular';
-import toast     from './src/toast';
-import alert     from './src/alert';
+import Alert     from './src/alert';
+import Calendar from './calendar';
+import Toast     from './src/toast';
 
 export default angular.module('qtAngularUi', [
-  toast,
-  alert,
+  Alert,
+  Calendar,
+  Toast,
 ])
 .name;
