@@ -3,13 +3,15 @@ import Alert     from './src/alert';
 import Calendar from './calendar';
 import Captcha  from './captcha';
 import Checkbox from './checkbox';
+import Cropper from './cropper';
 import Lazier   from './lazier';
 import Locker from './locker';
 import Radio  from './radio';
 import Spinner from './spinner';
 import Switch from './switch';
-import Toast     from './src/toast';
+import Toast     from './toast';
 import Tracker from './tracker';
+import Utilitybar from './utilitybar';
 import Validator from './validator';
 
 export default angular.module('qtAngularUi', [
@@ -17,6 +19,7 @@ export default angular.module('qtAngularUi', [
   Calendar,
   Captcha,
   Checkbox,
+  Cropper,
   Lazier,
   Locker,
   Radio,
@@ -24,6 +27,7 @@ export default angular.module('qtAngularUi', [
   Switch,
   Toast,
   Tracker,
+  Utilitybar,
   Validator,
 ])
 .name;
