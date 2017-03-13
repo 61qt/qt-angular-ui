@@ -1,4 +1,4 @@
-angular ui
+qt-angular-ui/src/toast
 ---
 
 # 功能介绍
@@ -19,7 +19,6 @@ let app = angular.module('app', [
 // service 使用方式
 app.run(($toast) => {
   $toast.create('弹出一个 toast service 的例子。');
-
 })
 export default app.name;
 
@@ -29,5 +28,3 @@ export default app.name;
 // directive 用法，不推荐。没啥效果。
 <toast>弹出一个 toast service 的例子。</toast>
 ```
-
-
