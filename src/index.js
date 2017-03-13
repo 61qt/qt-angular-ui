@@ -3,6 +3,7 @@ import Alert     from './src/alert';
 import Calendar from './calendar';
 import Captcha  from './captcha';
 import Checkbox from './checkbox';
+import Lazier   from './lazier';
 import Locker from './locker';
 import Radio  from './radio';
 import Spinner from './spinner';
@@ -15,6 +16,7 @@ export default angular.module('qtAngularUi', [
   Calendar,
   Captcha,
   Checkbox,
+  Lazier,
   Locker,
   Radio,
   Spinner,
