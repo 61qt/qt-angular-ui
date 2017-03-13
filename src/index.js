@@ -11,6 +11,7 @@ import Loghub from './loghub';
 import QiniuUploader from './qiniu_uploader';
 import Radio  from './radio';
 import Rem from './rem';
+import Restangular from './restangular';
 import Router from './router';
 import Spinner from './spinner';
 import Statistics from './statistics';
@@ -33,6 +34,7 @@ export default angular.module('qtAngularUi', [
   QiniuUploader,
   Radio,
   Rem,
+  Restangular,
   Router,
   Spinner,
   Statistics,
