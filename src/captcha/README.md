@@ -2,7 +2,7 @@ qt-angular-ui/src/captcha
 ---
 
 # 功能介绍
-验证码的通用组件
+验证码的通用组件。
 
 ---
 

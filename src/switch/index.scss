@@ -1,0 +1,122 @@
+@import "../styles/_bootstrap";
+
+.switch {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border: 1px solid $cyan;
+  border-radius: rem(4px);
+  min-width: rem(104px);
+  height: rem(30px);
+  cursor: pointer;
+  @include user-select(none);
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    display: none;
+  }
+
+  .switch-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+    @include transition(margin .3s);
+
+    .switch-on,
+    .switch-off {
+      box-sizing: border-box;
+      display: table;
+      float: left;
+      margin: 0;
+      padding: 0;
+      min-width: 50%;
+      height: 100%;
+      text-align: center;
+      word-break: keep-all;
+      white-space: nowrap;
+      font-size: rem(12px);
+      font-family: Trebuchet, Arial, sans-serif;
+      font-weight: bold;
+      color: #fff;
+      @include transition(all .3s ease);
+
+      .inner {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      .content {
+        display: inline-block;
+        padding: 0 rem(8px);
+        min-width: 50%;
+        text-align: center;
+      }
+    }
+
+    .switch-on {
+      color: $cyan;
+    }
+
+    .switch-off {
+      color: #fff;
+    }
+  }
+
+  .switch-switcher {
+    position: absolute;
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    display: block;
+    margin: auto 0;
+    border-radius: rem(2px) 0 0 rem(2px);
+    width: 50%;
+    height: 100%;
+    background: $cyan;
+    pointer-events: none;
+    @include transform(translateX(100%));
+    @include transition(all .3s ease);
+
+    &:before {
+      display: inline-block;
+      padding-right: 100%;
+      content: '';
+    }
+  }
+
+  input:checked {
+    + .switch-switcher {
+      border-radius: 0 rem(2px) rem(2px) 0;
+      @include transform(translateX(0));
+
+      + .switch-inner {
+        margin-left: 0;
+
+        .switch-on {
+          color: #fff;
+        }
+
+        .switch-off {
+          color: $cyan;
+        }
+      }
+    }
+  }
+
+  input.disabled,
+  input:disabled {
+    + .switch-inner .switch-on,
+    + .switch-inner .switch-off {
+      opacity: .3;
+    }
+  }
+
+  &[disabled] {
+    pointer-events: none;
+  }
+}
