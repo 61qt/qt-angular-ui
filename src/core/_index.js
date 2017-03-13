@@ -1,7 +1,8 @@
 import _       from 'lodash';
 import angular from 'angular';
+require('./module');
 
-export default angular.module('conf.core', [])
+export default angular.module('qtAngularUi.core', [])
 /**
  * 在 AngularJS@1.5.9 (或某些 beta版本) 中, $q.reject 没有定义 catch
  * 方法会出现 'Possibly unhandled rejection: {}' 错误
