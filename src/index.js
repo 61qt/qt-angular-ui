@@ -3,6 +3,7 @@ import Alert     from './src/alert';
 import Calendar from './calendar';
 import Captcha  from './captcha';
 import Checkbox from './checkbox';
+import Core from './core';
 import Cropper from './cropper';
 import Lazier   from './lazier';
 import Locker from './locker';
@@ -22,6 +23,7 @@ export default angular.module('qtAngularUi', [
   Calendar,
   Captcha,
   Checkbox,
+  Core,
   Cropper,
   Lazier,
   Locker,
