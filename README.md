@@ -118,3 +118,7 @@ module.exports = {
   }
 };
 ```
+# 依赖
+```
+npm install
+```
