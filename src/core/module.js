@@ -66,3 +66,5 @@ function noConflict (module, funcName, message) {
     return origin.apply(module, arguments);
   };
 }
+
+export default angular.module('qtAngularUi.coreModule', []);
