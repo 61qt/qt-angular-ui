@@ -6,7 +6,7 @@ qt-angular-ui/src/toast
 
 ---
 
-# 使用方式
+# 引入
 
 ```javascript
 import angular from 'angular';
@@ -15,16 +15,27 @@ import toast from 'qt-angulat-ui/src/toast';
 let app = angular.module('app', [
   toast,
 ]);
+export default app.name;
+```
 
-// service 使用方式
+# service 使用方式
+
 app.run(($toast) => {
   $toast.create('弹出一个 toast service 的例子。');
 })
-export default app.name;
 
+# directive 使用方式
+restrict: EA
+
+## data
+
+```javascript
+{
+  message: '弹出一个 toast service 的例子。'
+}
 ```
+## template
 
 ```html
-// directive 用法，不推荐。没啥效果。
-<toast>弹出一个 toast service 的例子。</toast>
+<toast>{{message}}</toast>
 ```

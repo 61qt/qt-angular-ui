@@ -7,7 +7,7 @@ qt-angular-ui/src/alert
 
 ---
 
-# 使用方式
+# 引入
 
 ```javascript
 import angular from 'angular';
@@ -17,15 +17,26 @@ let app = angular.module('app', [
   alert,
 ]);
 
-// service 使用方式
+export default app.name;
+```
+
+# service 使用方式
 app.run(($alert) => {
   $alert.create('弹出一个 alert service 的例子。');
 })
-export default app.name;
 
+# directive 使用方式
+restrict: EA
+
+## data
+
+```javascript
+{
+  message: '弹出一个 alert service 的例子。'
+}
 ```
+## template
 
 ```html
-// directive 用法，不推荐。没啥效果。
-<alert>弹出一个 alert service 的例子。</alert>
+<alert>{{message}}</alert>
 ```
