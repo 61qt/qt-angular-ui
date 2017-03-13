@@ -8,6 +8,7 @@ import Cropper from './cropper';
 import Lazier   from './lazier';
 import Locker from './locker';
 import Loghub from './loghub';
+import QiniuImage from './qiniu_image';
 import QiniuUploader from './qiniu_uploader';
 import Radio  from './radio';
 import Rem from './rem';
@@ -32,6 +33,7 @@ export default angular.module('qtAngularUi', [
   Lazier,
   Locker,
   Loghub,
+  QiniuImage,
   QiniuUploader,
   Radio,
   Rem,
