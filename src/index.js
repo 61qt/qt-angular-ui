@@ -7,6 +7,7 @@ import Core from './core';
 import Cropper from './cropper';
 import Lazier   from './lazier';
 import Locker from './locker';
+import Loghub from './loghub';
 import Radio  from './radio';
 import Rem from './rem';
 import Router from './router';
@@ -27,6 +28,7 @@ export default angular.module('qtAngularUi', [
   Cropper,
   Lazier,
   Locker,
+  Loghub,
   Radio,
   Rem,
   Router,
