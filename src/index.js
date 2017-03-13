@@ -8,6 +8,7 @@ import Radio  from './radio';
 import Spinner from './spinner';
 import Switch from './switch';
 import Toast     from './src/toast';
+import Tracker from './tracker';
 
 export default angular.module('qtAngularUi', [
   Alert,
@@ -19,5 +20,6 @@ export default angular.module('qtAngularUi', [
   Spinner,
   Switch,
   Toast,
+  Tracker,
 ])
 .name;
