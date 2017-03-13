@@ -1,0 +1,91 @@
+$spinner-offset   : 187;
+$spinner-duration : 1.4s;
+$spinner-index    : 4110;
+
+@import "assets/styles/_bootstrap";
+
+@include keyframes(rotator) {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+@include keyframes(dash) {
+  0% {
+    stroke-dashoffset: $spinner-offset;
+  }
+
+  50% {
+    stroke-dashoffset: $spinner-offset/4;
+    transform: rotate(135deg);
+  }
+
+  100% {
+    stroke-dashoffset: $spinner-offset;
+    transform: rotate(450deg);
+  }
+}
+
+.spinner {
+  width: rem(24px);
+  height: rem(24px);
+  @include animation(rotator $spinner-duration linear infinite);
+
+  .path {
+    stroke-dasharray: $spinner-offset;
+    stroke-dashoffset: 0;
+    stroke: $green;
+    @include transform-origin(center);
+    @include animation(dash $spinner-duration ease-in-out infinite);
+  }
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $spinner-index;
+    margin: auto;
+  }
+}
+
+.spinner-fixed {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0;
+  @include transition(opacity .35s);
+  pointer-events: none;
+
+  &.active {
+    z-index: $spinner-index;
+    opacity: 1;
+  }
+
+  .spinner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+  }
+
+  .spinner-backdrop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    background-color: rgba(255,255,255,.75);
+  }
+}
