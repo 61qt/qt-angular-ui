@@ -20,6 +20,7 @@ import Statistics from './statistics';
 import Switch from './switch';
 import Toast     from './toast';
 import Tracker from './tracker';
+import User from './user';
 import Utilitybar from './utilitybar';
 import Validator from './validator';
 import Wechat from './wechat';
@@ -46,6 +47,7 @@ export default angular.module('qtAngularUi', [
   Switch,
   Toast,
   Tracker,
+  User,
   Utilitybar,
   Validator,
   Wechat,
