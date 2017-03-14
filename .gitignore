@@ -32,4 +32,7 @@ nbproject
 *.sublime-workspace
 .idea
 
-src_bak
+templates
+unitest
+src/.libs
+src/.conf
