@@ -1,4 +1,5 @@
 import _              from 'lodash';
+import angular from 'angular';
 import CanvasCompress from 'canvas-compress';
 
 const K                = 1024;

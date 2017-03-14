@@ -1,9 +1,10 @@
+import _ from 'lodash';
 import angular        from 'angular';
-import QiniuUploader from './class'
+import QiniuUploader from './class';
 import Conf from './conf';
 
 export default angular.module('qtAngularUi.qiniuUploader', [
-  Conf
+  Conf,
 ])
 .provider('$qiniuUploader', function () {
   /**

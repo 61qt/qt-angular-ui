@@ -7,7 +7,7 @@ describe('toast component test', function () {
   beforeEach(angular.mock.module(toast));
 
   it('can run the entry module', function () {
-    expect(toast).to.equal('qtAngularUi.toast');
+    expect(toast).to.equal('qtAngularUi.toast1111');
 
     angular.mock.inject(function ($toast) {
       expect($toast.create).to.be.a('function');

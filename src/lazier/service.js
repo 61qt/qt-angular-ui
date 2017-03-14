@@ -1,6 +1,6 @@
 import _       from 'lodash';
 import angular from 'angular';
-import imagePlaceholder from './image_placeholder'
+import imagePlaceholder from './image_placeholder';
 
 export default function () {
   let defaults = {};

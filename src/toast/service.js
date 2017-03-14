@@ -1,6 +1,6 @@
 import _       from 'lodash';
 import angular from 'angular';
-import Config  from './toast.config';
+import Config  from './config';
 
 export default class toastService {
   constructor () {

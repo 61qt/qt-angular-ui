@@ -6,7 +6,7 @@ export default function () {
     scope    : false,
     link ($scope, $element, $attrs) {
       if (!angular.collect || 'function' !== typeof angular.collect) {
-        console.warning('[tracker dependent]: angular.collect is not define');
+        window && window.console && window.console.warning('[tracker dependent]: angular.collect is not define');
         return;
       }
       $element.on('click', function () {
