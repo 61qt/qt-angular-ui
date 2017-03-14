@@ -1,0 +1,8 @@
+@if mixin-exists(sprites) and variable_exists($spritesheet-sprites) {
+  .sp {
+    display: inline-block;
+    transition: all .35s ease-in-out;
+  }
+
+  @include sprites($spritesheet-sprites);
+}

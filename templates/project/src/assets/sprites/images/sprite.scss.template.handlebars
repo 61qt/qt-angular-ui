@@ -1,0 +1,128 @@
+{
+  // Default options
+  'functions': true,
+  'variableNameTransforms': ['dasherize']
+}
+
+{{#block "sprites-comment"}}
+{{/block}}
+
+{{#block "sprites"}}
+  {{#each sprites}}
+    ${{strings.name_name}}         : 'sp-{{name}}';
+    ${{strings.name_x}}            : {{px.x}};
+    ${{strings.name_y}}            : {{px.y}};
+    ${{strings.name_offset_x}}     : {{px.offset_x}};
+    ${{strings.name_offset_y}}     : {{px.offset_y}};
+    ${{strings.name_width}}        : {{px.width}};
+    ${{strings.name_height}}       : {{px.height}};
+    ${{strings.name_total_width}}  : {{px.total_width}};
+    ${{strings.name_total_height}} : {{px.total_height}};
+    ${{strings.name_image}}        : '{{{escaped_image}}}';
+    ${{strings.name}}              : ({{px.x}}, {{px.y}}, {{px.offset_x}}, {{px.offset_y}}, {{px.width}}, {{px.height}}, {{px.total_width}}, {{px.total_height}}, '{{{escaped_image}}}', '{{name}}', );
+  {{/each}}
+{{/block}}
+
+{{#block "spritesheet"}}
+  ${{spritesheet_info.strings.name_width}}   : {{spritesheet.px.width}};
+  ${{spritesheet_info.strings.name_height}}  : {{spritesheet.px.height}};
+  ${{spritesheet_info.strings.name_image}}   : '{{{spritesheet.escaped_image}}}';
+  ${{spritesheet_info.strings.name_sprites}} : ({{#each sprites}}${{strings.name}}, {{/each}});
+  ${{spritesheet_info.strings.name}}         : ({{spritesheet.px.width}}, {{spritesheet.px.height}}, '{{{spritesheet.escaped_image}}}', ${{spritesheet_info.strings.name_sprites}}, );
+{{/block}}
+
+{{#block "sprite-functions-comment"}}
+  {{#if options.functions}}
+  {{/if}}
+{{/block}}
+
+{{#block "sprite-functions"}}
+  {{#if options.functions}}
+    @mixin sprite-position($sprite) {
+      $sprite-offset-x: nth($sprite, 3);
+      $sprite-offset-y: nth($sprite, 4);
+      background-position: $sprite-offset-x $sprite-offset-y;
+    }
+
+    @mixin sprite-image($sprite) {
+      $sprite-image: nth($sprite, 9);
+      background-image: url(#{$sprite-image});
+    }
+
+    @mixin sprite($sprite) {
+      $sprite-offset-x     : nth($sprite, 3);
+      $sprite-offset-y     : nth($sprite, 4);
+      $sprite-width        : nth($sprite, 5);
+      $sprite-height       : nth($sprite, 6);
+      $sprite-total-width  : nth($sprite, 7);
+      $sprite-total-height : nth($sprite, 8);
+      $sprite-image        : nth($sprite, 9);
+
+      $sprite-rw           : $sprite-total-width / $sprite-width;
+      $sprite-rh           : $sprite-total-height / $sprite-height;
+      $sprite-rx           : $sprite-offset-x / ($sprite-total-width - $sprite-width);
+      $sprite-ry           : $sprite-offset-y / ($sprite-total-height - $sprite-height);
+
+      @if $sprite-rw == NaN or $sprite-rw == Infinity {
+        $sprite-rx: 0;
+      }
+
+      @if $sprite-rh == NaN or $sprite-rh == Infinity {
+        $sprite-rx: 0;
+      }
+
+      @if $sprite-rx == NaN or $sprite-rx == Infinity {
+        $sprite-rx: strip-unit($sprite-offset-x);
+      }
+
+      @if $sprite-ry == NaN or $sprite-ry == Infinity {
+        $sprite-ry: strip-unit($sprite-offset-y);
+      }
+
+      $sprite-rx: abs($sprite-rx);
+      $sprite-ry: abs($sprite-ry);
+
+      background-image: url(#{$sprite-image});
+      background-repeat: no-repeat;
+      background-size: percentage($sprite-rw) percentage($sprite-rh);
+      background-position: percentage($sprite-rx) percentage($sprite-ry);
+    }
+  {{/if}}
+{{/block}}
+
+{{#block "spritesheet-functions-comment"}}
+  {{#if options.functions}}
+  {{/if}}
+{{/block}}
+
+{{#block "spritesheet-functions"}}
+  {{#if options.functions}}
+    @mixin sprites($sprites) {
+      @each $sprite in $sprites {
+        $sprite-name: nth($sprite, 10);
+
+        .sp.sp-#{$sprite-name} {
+          display: inline-block;
+          width: rem(nth($sprite, 5) / 2);
+          height: rem(nth($sprite, 6) / 2);
+
+          &:before {
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            @include sprite($sprite);
+          }
+        }
+      }
+    }
+  {{/if}}
+{{/block}}
+
+@function strip-unit ($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
