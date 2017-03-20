@@ -1,5 +1,3 @@
-import './lazier.scss';
-
 import angular   from 'angular';
 import Component from './component';
 import Service   from './service';

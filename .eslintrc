@@ -297,5 +297,9 @@
     "node": true,
   },
 
+  "global": {
+    "angular": true
+  },
+
   "parser": "babel-eslint"
 }

@@ -1,7 +1,7 @@
 import _          from 'lodash';
 import angular    from 'angular';
-import Controller from './switch.controller';
-import Template   from './switch.jade';
+import Controller from './controller';
+import Template   from './index.jade';
 
 export default function ($rootScope) {
   'ngInject';

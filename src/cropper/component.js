@@ -3,7 +3,7 @@
  */
 import _          from 'lodash';
 import Template   from './index.jade';
-import Controller from './index.controller';
+import Controller from './controller';
 
 export default function ($rootScope, $controller, $uibModal, $qiniuUploader, cropperPromptInterceptor) {
   'ngInject';

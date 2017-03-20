@@ -1,11 +1,11 @@
 import _        from 'lodash';
-import Template from './lazier.jade';
+import Template from './index.jade';
 
 export default function ($lazier) {
   'ngInject';
 
   return {
-    restrict   : 'A',
+    restrict   : 'AE',
     transclude : true,
     replace    : true,
     template   : Template,
