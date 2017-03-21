@@ -1,7 +1,7 @@
 import _       from 'lodash';
 import angular from 'angular';
 
-export default angular.module('qtAngularUi.qiniu', [])
+export default angular.module('qtAngularUi.qiniuImage', [])
 .filter('qiniuImage', (QINIU_SERVER) => {
   'ngInject';
 
