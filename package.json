@@ -12,15 +12,7 @@
     "node": ">= 6.2.2"
   },
   "scripts": {
-    "eslint": "eslint ./src",
-    "mocha": "mocha --require babel-polyfill --compilers js:babel-register ./unitest/*.spec.js",
-    "browser-test": "babel-node ./unitest/browser.js",
-    "test": "npm run eslint && npm run mocha",
-    "doctor": "rimraf ./.temporary && npm run test  && npm run browser-test && rimraf ./.temporary",
-    "coverage": "rimraf ./coverage && nyc --reporter=text --reporter=lcov --report-dir=./coverage/cli npm run test && npm run browser-test",
-    "coveralls": "npm run coverage && babel-node ./src/coveralls.js",
-    "build": "rimraf ./dist && babel ./src --out-dir ./dist",
-    "start": "babel ./src --out-dir ./dist --watch"
+    "eslint": "eslint ./src"
   },
   "peerDependencies": {},
   "devDependencies": {
