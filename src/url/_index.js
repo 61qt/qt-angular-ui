@@ -145,4 +145,4 @@ function paramsToString (params, pre) {
 }
 
 
-export default angular.module('qtAngularUi.url', []);
+export default angular.module('qtAngularUi.url', []).name;
