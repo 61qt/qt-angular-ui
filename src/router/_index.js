@@ -1,9 +1,9 @@
 import _       from 'lodash';
 import angular from 'angular';
-import Conf from './conf';
+// import Conf from './conf';
 
 export default angular.module('qtAngularUi.router', [
-  Conf,
+  // Conf,
 ])
 /**
  * 删除路径中敏感的 query 字段
