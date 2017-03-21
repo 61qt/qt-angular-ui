@@ -19,4 +19,4 @@ _.defaultsDeep(MobileDetect, {
 
 angular.device = new MobileDetect(window.navigator.userAgent);
 
-export default angular.module('qtAngularUi.devide', []);
+export default angular.module('qtAngularUi.devide', []).name;
