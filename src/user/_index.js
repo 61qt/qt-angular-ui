@@ -3,7 +3,7 @@ import angular from 'angular';
 
 export default angular.module('qtAngularUi.user', [])
 .service('$user', function (localStorageService, jwtHelper) {
-  const JWT_TOKEN  = 'JWT_TOKEN';
+  const JWT_TOKEN  = 'JWT_TOKEN_$USER';
 
   this._decodeToken = function (token) {
     try {
