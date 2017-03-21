@@ -14,15 +14,15 @@ export default angular.module('qtAngularUi.statistics', [
     angular.collect('PV')($location.$$path);
   });
 })
-.run(function ($user) {
-  'ngInject';
+// .run(function ($user) {
+//   'ngInject';
 
-  /**
-   * 记录用户
-   */
-  let uid = $user.get('id');
-  if ($user.checkAuth() && uid) {
-    angular.collect('USR')(uid + '');
-  }
-})
+//   /**
+//    * 记录用户
+//    */
+//   let uid = $user.get('id');
+//   if ($user.checkAuth() && uid) {
+//     angular.collect('USR')(uid + '');
+//   }
+// })
 .name;

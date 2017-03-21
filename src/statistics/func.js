@@ -33,4 +33,4 @@ angular.collect = function (type) {
   return angular.noop;
 };
 
-export default angular.module('qtAngularUi.statisticsFunc', []);
+export default angular.module('qtAngularUi.statisticsFunc', []).name;
