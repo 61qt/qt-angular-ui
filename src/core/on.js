@@ -28,4 +28,4 @@ angular.element.prototype.on = function (event, callback, bind) {
 };
 
 
-export default angular.module('qtAngularUi.coreOn', []);
+export default angular.module('qtAngularUi.coreOn', []).name;
