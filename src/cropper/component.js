@@ -92,7 +92,9 @@ export default function ($rootScope, $controller, $uibModal, $qiniuUploader, cro
               $scope.uploadProgress = progress;
             },
           },
-          function (err, { image }) {
+          function (err, data) {
+            let image = data.image;
+
             $scope.uploading = false;
 
             $scope.$cropper.enable();

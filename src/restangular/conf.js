@@ -17,6 +17,13 @@ export default angular.module('qtAngularUi.restangularConf', [])
   RestangularProvider.setBaseUrl(_.trimEnd(API_SERVER.BACKEND, '/'));
 
   /**
+   * 设置默认不开启内嵌方法
+   * docs:
+   * - https://github.com/mgonto/restangular#setplainbydefault
+   */
+  RestangularProvider.setPlainByDefault(true);
+
+  /**
    * 设置默认头
    */
   RestangularProvider.setDefaultHeaders({
@@ -229,18 +236,14 @@ export default angular.module('qtAngularUi.restangularConf', [])
    */
   RestangularProvider.setResponseExtractor(function (response, operation) {
     if (200 === response.status_code && 0 === response.code) {
+      let maindata = response.data || {};
       if ('getList' === operation) {
-        if (_.isPlainObject(response.data)) {
-          let data      = _.get(response, 'data.data');
-          data.metadata = _.omit(response.data, 'data');
-
-          return data;
-        }
+        let listdata = maindata.data || [];
+        listdata.metadata = maindata;
+        return listdata;
       }
-
-      return response.data;
+      return maindata;
     }
-
     return response;
   });
 })
