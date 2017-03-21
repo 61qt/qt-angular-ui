@@ -520,4 +520,5 @@ function destoryDeepData (source) {
 
 export default angular.module('qtAngularUi.loghub', [
   Conf,
-]);
+])
+.name;
