@@ -3,9 +3,9 @@ import angular from 'angular';
 export default angular.module('qtAngularUi.wechatConfExample', [])
 /**
  * 微信连登
- * 获取 token 并将 token 直接写入 cookie 中
+ * 获取 ticket ，通过 ticket 获取一次性 token ，并将 token 直接写入 cookie 中
  */
-.run(function ($rootScope, $location, $user, $toast, Restangular) {
+.run(function ($rootScope, $location, $user, $toast, Restangular, mUser) {
   'ngInject';
 
   if (!angular.device.is('WeChat')) {
@@ -19,15 +19,33 @@ export default angular.module('qtAngularUi.wechatConfExample', [])
    * 必须重新获取用户信息
    * 否则 userInfo 可能失效
    */
-  if (params.token) {
-    /**
-     * 若 token 真正写入失败
-     * 则提示错误不在做任何获取 openid 的操作
-     */
-    if (false === $user.setToken(params.token)) {
-      $toast.create('系统繁忙请刷新再试');
-      return;
-    }
+
+  function showTicketError () {
+    $toast.create('系统繁忙请刷新再试');
+  }
+
+  if (params.ticket) {
+
+    mUser.ticketToken(params.ticket)
+    .then((res) => {
+      window.res = res;
+      window.console.log(res);
+      let token = res.token;
+      if (!token) {
+        showTicketError();
+        return;
+      }
+
+      if (false === $user.setToken(token)) {
+        showTicketError();
+        return;
+      }
+
+      $rootScope.$broadcast('beginRrlRouterListen');
+    })
+    .catch(() => {
+      $toast.create('密钥已经被使用过，请重新进行授权');
+    });
   }
 
   /**
