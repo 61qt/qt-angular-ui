@@ -68,8 +68,8 @@
     box-shadow: px-to-rem(2px) px-to-rem(2px) px-to-rem(8px) rgba(0,0,0,.5);
     opacity: 0;
     @include clearfix;
-    @include transform(translateY(15px + $utilitybar-size));
-    @include transition(transform .25s, opacity .25s);
+    transform: translateY(15px + $utilitybar-size);
+    transition: transform .25s, opacity .25s;
 
     .item {
       margin: 0;
@@ -98,7 +98,7 @@
   &.active {
     .group {
       opacity: 1;
-      @include transform(translateY(0));
+      transform: translateY(0);
     }
   }
 }

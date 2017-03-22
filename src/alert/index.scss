@@ -40,16 +40,16 @@
   box-shadow: none;
   color: #fff;
   opacity: 0;
-  @include user-select(none);
-  @include transition(all .35s);
+  user-select: none;
+  transition: all .35s;
 
   &.in {
     opacity: 0;
-    @include animation(alert-fade-in .75s forwards);
+    animation: alert-fade-in .75s forwards;
   }
 
   &.out {
     opacity: 1;
-    @include animation(alert-fade-out .75s forwards);
+    animation: alert-fade-out .75s forwards;
   }
 }

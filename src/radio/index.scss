@@ -15,7 +15,7 @@ $radio-color: #129fdd !default;
     margin-right: px-to-rem(10px);
     font-weight: normal;
     cursor: pointer;
-    @include user-select(none);
+    user-select: none;
 
     input[type="radio"],
     input[type="checkbox"] {
@@ -34,7 +34,7 @@ $radio-color: #129fdd !default;
       vertical-align: middle;
       border-radius: px-to-rem(2px);
       cursor: pointer;
-      @include transition(all .2s);
+      transition: all .2s;
 
       &:before {
         position: absolute;
@@ -50,7 +50,7 @@ $radio-color: #129fdd !default;
         content: '';
         opacity: 0;
         @include transform(rotate(-45deg))
-        @include transition(all .2s);
+        transition: all .2s;
       }
     }
 

@@ -33,6 +33,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    @include animation(lazier-fade .75s forwards);
+    animation: lazier-fade .75s forwards;
   }
 }
