@@ -1,7 +1,6 @@
 import _            from 'lodash';
 import MobileDetect from 'mobile-detect';
 import angular      from 'angular';
-import Conf from './conf';
 
 const device = new MobileDetect(window.navigator.userAgent);
 
@@ -518,7 +517,5 @@ function destoryDeepData (source) {
   }
 }
 
-export default angular.module('qtAngularUi.loghub', [
-  Conf,
-])
+export default angular.module('qtAngularUi.loghub', [])
 .name;
