@@ -4,7 +4,7 @@ $spinner-index    : 4110;
 
 @import "../_styles/_bootstrap";
 
-@include keyframes(rotator) {
+@keyframes rotator {
   0% {
     transform: rotate(0deg);
   }
@@ -14,7 +14,7 @@ $spinner-index    : 4110;
   }
 }
 
-@include keyframes(dash) {
+@keyframes dash {
   0% {
     stroke-dashoffset: $spinner-offset;
   }

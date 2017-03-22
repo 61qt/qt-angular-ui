@@ -1,6 +1,6 @@
 @import "../_styles/_bootstrap";
 
-@include keyframes (lazier-fade) {
+@keyframes lazier-fade {
   0 {
     opacity: 0;
   }

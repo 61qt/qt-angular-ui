@@ -1,6 +1,6 @@
 @import "../_styles/_bootstrap";
 
-@include keyframes (alertFadeIn) {
+@keyframes alert-fade-in {
   0 {
     opacity: 0;
   }
@@ -10,7 +10,7 @@
   }
 }
 
-@include keyframes (alertFadeOut) {
+@keyframes alert-fade-out {
   0 {
     opacity: 1;
   }
@@ -45,11 +45,11 @@
 
   &.in {
     opacity: 0;
-    @include animation(alertFadeIn .75s forwards);
+    @include animation(alert-fade-in .75s forwards);
   }
 
   &.out {
     opacity: 1;
-    @include animation(alertFadeOut .75s forwards);
+    @include animation(alert-fade-out .75s forwards);
   }
 }
