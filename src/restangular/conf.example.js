@@ -8,7 +8,7 @@ export default angular.module('qtAngularUi.restangularConf', [])
  * 这里主要设置默认头部信息和 token
  * 还有部分返回的操作信息, 主要为错误处理
  */
-.config(function (RestangularProvider, API_SERVER) {
+.config(function (RestangularProvider, API_SERVER, LOCALSTORAGE_PREFIX, USER_JWT_TOKEN) {
   'ngInject';
 
   /**
@@ -17,32 +17,25 @@ export default angular.module('qtAngularUi.restangularConf', [])
   RestangularProvider.setBaseUrl(_.trimEnd(API_SERVER.BACKEND, '/'));
 
   /**
-   * 设置 token
-   * 这里要注意 restangular 并没有自动 inejct
-   * 注入其他服务机制, 因此这里要手动创建 injector
-   * 如果当前注入的 app 并不是绑定在 document 时,
-   * 要主动更改注入的 DOM 节点, 否则无法创建当前
-   * injector
+   * 设置 token ，token 是通过 LOCALSTORAGE 进行设置的的，所以需要拼接 LOCALSTORAGE_PREFIX 和 USER_JWT_TOKEN。
    */
   RestangularProvider.setFullRequestInterceptor((element, operation, route, url, headers, params, httpConfig) => {
     let $injector = angular.element(document).injector();
 
-    if ($injector) {
-      if ($injector.has('$user')) {
-        let $user = $injector.get('$user');
-        let token = $user.getToken();
-        let data  = {};
+    let regex = new RegExp(`\\b${LOCALSTORAGE_PREFIX}\\.${USER_JWT_TOKEN}=([^\\s;]+)`);
+    let token = _.get(document.cookie.match(regex), '[1]');
+    if (token) {
+      let data  = {};
 
-        /**
-         * 设置 token
-         * 前缀含有 Bearer
-         */
-        if (token) {
-          data.Authorization = `Bearer ${token}`;
-        }
-
-        headers = _.assign(headers, data);
+      /**
+       * 设置 token
+       * 前缀含有 Bearer
+       */
+      if (token) {
+        data.Authorization = `Bearer ${token}`;
       }
+
+      headers = _.assign(headers, data);
     }
 
     /**
