@@ -3,9 +3,11 @@ U: 升级
 A: 新增
 F: fix bug
 
-## 未确定版本 (2017-03-21)
+## 1.3.0 (2017-03-21)
 
 * `A` wechat conf 使用新的 ticket 方式进行授权，更新 wechat conf example。
+* `F` fix px-to-rem mixin 方法不存在的问题。
+* `F` fix calendar 选中的日期大小的问题。
 
 ## 1.2.1 (2017-03-21)
 
