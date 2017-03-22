@@ -4,7 +4,7 @@ $spinner-index    : 4110;
 
 @import "../_styles/_bootstrap";
 
-@include keyframes(rotator) {
+@keyframes rotator {
   0% {
     transform: rotate(0deg);
   }
@@ -14,7 +14,7 @@ $spinner-index    : 4110;
   }
 }
 
-@include keyframes(dash) {
+@keyframes dash {
   0% {
     stroke-dashoffset: $spinner-offset;
   }
@@ -31,16 +31,16 @@ $spinner-index    : 4110;
 }
 
 .spinner {
-  width: rem(24px);
-  height: rem(24px);
-  @include animation(rotator $spinner-duration linear infinite);
+  width: px-to-rem(24px);
+  height: px-to-rem(24px);
+  animation: rotator $spinner-duration linear infinite;
 
   .path {
     stroke-dasharray: $spinner-offset;
     stroke-dashoffset: 0;
     stroke: $green;
-    @include transform-origin(center);
-    @include animation(dash $spinner-duration ease-in-out infinite);
+    transform-origin: center;
+    animation: dash $spinner-duration ease-in-out infinite;
   }
 
   &.fixed {
@@ -62,7 +62,7 @@ $spinner-index    : 4110;
   left: 0;
   z-index: -1;
   opacity: 0;
-  @include transition(opacity .35s);
+  transition: opacity .35s;
   pointer-events: none;
 
   &.active {

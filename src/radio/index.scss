@@ -12,10 +12,10 @@ $radio-color: #129fdd !default;
 
   &.radio-replace {
     display: inline-block;
-    margin-right: rem(10px);
+    margin-right: px-to-rem(10px);
     font-weight: normal;
     cursor: pointer;
-    @include user-select(none);
+    user-select: none;
 
     input[type="radio"],
     input[type="checkbox"] {
@@ -28,29 +28,29 @@ $radio-color: #129fdd !default;
       vertical-align: middle;
       margin: 0;
       padding: 0;
-      border: rem(1px) solid #ccc;
-      width: rem(16px);
-      height: rem(16px);
+      border: px-to-rem(1px) solid #ccc;
+      width: px-to-rem(16px);
+      height: px-to-rem(16px);
       vertical-align: middle;
-      border-radius: rem(2px);
+      border-radius: px-to-rem(2px);
       cursor: pointer;
-      @include transition(all .2s);
+      transition: all .2s;
 
       &:before {
         position: absolute;
-        top: rem(2.5px);
+        top: px-to-rem(2.5px);
         right: 0;
         left: 0;
         margin: auto;
-        border: rem(2px) solid $radio-color;
+        border: px-to-rem(2px) solid $radio-color;
         border-top: none;
         border-right: none;
         width: 80%;
         height: 40%;
         content: '';
         opacity: 0;
-        @include transform(rotate(-45deg))
-        @include transition(all .2s);
+        transform: rotate(-45deg);
+        transition: all .2s;
       }
     }
 
@@ -88,7 +88,7 @@ $radio-color: #129fdd !default;
     .radio-inner {
       display: inline-block;
       vertical-align: middle;
-      margin-right: rem(10px);
+      margin-right: px-to-rem(10px);
     }
   }
 }

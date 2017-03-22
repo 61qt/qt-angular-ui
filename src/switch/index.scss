@@ -5,11 +5,11 @@
   display: inline-block;
   overflow: hidden;
   border: 1px solid $cyan;
-  border-radius: rem(4px);
-  min-width: rem(104px);
-  height: rem(30px);
+  border-radius: px-to-rem(4px);
+  min-width: px-to-rem(104px);
+  height: px-to-rem(30px);
   cursor: pointer;
-  @include user-select(none);
+  user-select: none;
 
   input[type="checkbox"],
   input[type="radio"] {
@@ -23,7 +23,7 @@
     height: 100%;
     background: transparent;
     pointer-events: none;
-    @include transition(margin .3s);
+    transition: margin .3s;
 
     .switch-on,
     .switch-off {
@@ -37,11 +37,11 @@
       text-align: center;
       word-break: keep-all;
       white-space: nowrap;
-      font-size: rem(12px);
+      font-size: px-to-rem(12px);
       font-family: Trebuchet, Arial, sans-serif;
       font-weight: bold;
       color: #fff;
-      @include transition(all .3s ease);
+      transition: all .3s ease;
 
       .inner {
         display: table-cell;
@@ -50,7 +50,7 @@
 
       .content {
         display: inline-block;
-        padding: 0 rem(8px);
+        padding: 0 px-to-rem(8px);
         min-width: 50%;
         text-align: center;
       }
@@ -74,13 +74,13 @@
     z-index: 0;
     display: block;
     margin: auto 0;
-    border-radius: rem(2px) 0 0 rem(2px);
+    border-radius: px-to-rem(2px) 0 0 px-to-rem(2px);
     width: 50%;
     height: 100%;
     background: $cyan;
     pointer-events: none;
-    @include transform(translateX(100%));
-    @include transition(all .3s ease);
+    transform: translateX(100%);
+    transition: all .3s ease;
 
     &:before {
       display: inline-block;
@@ -91,8 +91,8 @@
 
   input:checked {
     + .switch-switcher {
-      border-radius: 0 rem(2px) rem(2px) 0;
-      @include transform(translateX(0));
+      border-radius: 0 px-to-rem(2px) px-to-rem(2px) 0;
+      transform: translateX(0);
 
       + .switch-inner {
         margin-left: 0;

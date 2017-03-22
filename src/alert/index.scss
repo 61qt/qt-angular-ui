@@ -1,6 +1,6 @@
 @import "../_styles/_bootstrap";
 
-@include keyframes (alertFadeIn) {
+@keyframes alert-fade-in {
   0 {
     opacity: 0;
   }
@@ -10,7 +10,7 @@
   }
 }
 
-@include keyframes (alertFadeOut) {
+@keyframes alert-fade-out {
   0 {
     opacity: 1;
   }
@@ -30,26 +30,26 @@
   display: block;
   margin: 0 auto;
   border-radius: 0;
-  padding: rem(12.5px) rem(15px);
+  padding: px-to-rem(12.5px) px-to-rem(15px);
   width: auto;
   height: auto;
   text-align: center;
-  line-height: rem(16px);
-  font-size: rem(16px);
+  line-height: px-to-rem(16px);
+  font-size: px-to-rem(16px);
   background-color: #ff4640;
   box-shadow: none;
   color: #fff;
   opacity: 0;
-  @include user-select(none);
-  @include transition(all .35s);
+  user-select: none;
+  transition: all .35s;
 
   &.in {
     opacity: 0;
-    @include animation(alertFadeIn .75s forwards);
+    animation: alert-fade-in .75s forwards;
   }
 
   &.out {
     opacity: 1;
-    @include animation(alertFadeOut .75s forwards);
+    animation: alert-fade-out .75s forwards;
   }
 }

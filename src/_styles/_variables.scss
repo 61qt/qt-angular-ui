@@ -30,7 +30,7 @@ $orange                       : #fc8010 !default;
  * Base Styles
  */
 
-$font-size-base               : rem(13px);
+$font-size-base               : px-to-rem(13px);
 $font-family-normal           : 'PingFangSC-Regular', 'Microsoft YaHei', '微软雅黑', 'Adobe 黑体Std R', sans-serif;
 
 $text-color-dark              : #333 !default;

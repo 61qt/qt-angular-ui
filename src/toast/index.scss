@@ -8,7 +8,7 @@
   display: block;
   float: none;
   margin: 0;
-  padding: rem(17px) rem(23px);
+  padding: px-to-rem(17px) px-to-rem(23px);
   min-height: 0;
   max-height: auto;
   min-width: 0;
@@ -16,16 +16,16 @@
   width: auto;
   height: auto;
   text-align: center;
-  font-size: rem(13px);
+  font-size: px-to-rem(13px);
   opacity: 0;
-  border-radius: rem(10px);
+  border-radius: px-to-rem(10px);
   background-color: rgba(0,0,0,.8);
   box-shadow: none;
   color: #fff;
   pointer-events: none;
-  @include user-select(none);
-  @include transform(translate(-50%, -50%));
-  @include transition(all 500ms ease-in-out);
+  user-select: none;
+  transform: translate(-50%, -50%);
+  transition: all 500ms ease-in-out;
 
   &.in {
     opacity: 1;
