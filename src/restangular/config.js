@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-export default angular.module('qtAngularUi.restangularConf', [])
+export default angular.module('qtAngularUi.restangularConfig', [])
 /**
  * 配置 restangular
  * 该服务是类似 restjs 库编写
