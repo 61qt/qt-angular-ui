@@ -23,3 +23,8 @@ export default app.name;
 
 # directive 使用方式
 无
+
+# 其他用法
+angular.collect(type)
+
+其中 type 可以为 UA , PV , USR 。
