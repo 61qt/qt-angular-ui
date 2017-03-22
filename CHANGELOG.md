@@ -3,6 +3,10 @@ U: 升级
 A: 新增
 F: fix bug
 
+## 1.3.2 (2017-03-21)
+
+* `F` 修复  Restangular conf example 中 RestangularProvider.setFullRequestInterceptor 没法注入 injector 造成没法获取 token 的问题。
+
 ## 1.3.1 (2017-03-21)
 
 * `F` wechat conf 中需要调用 $urlRouter.listen 和$urlRouter.sync;
