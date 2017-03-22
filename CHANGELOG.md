@@ -3,6 +3,11 @@ U: 升级
 A: 新增
 F: fix bug
 
+## 1.3.1 (2017-03-21)
+
+* `F` wechat conf 中需要调用 $urlRouter.listen 和$urlRouter.sync;
+* `A` url 中增加 ticket 为敏感字眼，同时删除。
+
 ## 1.3.0 (2017-03-21)
 
 * `A` wechat conf 使用新的 ticket 方式进行授权，更新 wechat conf example。

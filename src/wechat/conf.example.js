@@ -5,7 +5,7 @@ export default angular.module('qtAngularUi.wechatConfExample', [])
  * 微信连登
  * 获取 ticket ，通过 ticket 获取一次性 token ，并将 token 直接写入 cookie 中
  */
-.run(function ($rootScope, $location, $user, $toast, Restangular, mUser) {
+.run(function ($rootScope, $location, $user, $toast, Restangular, mUser, $urlRouter) {
   'ngInject';
 
   if (!angular.device.is('WeChat')) {
@@ -40,12 +40,15 @@ export default angular.module('qtAngularUi.wechatConfExample', [])
         showTicketError();
         return;
       }
-
-      $rootScope.$broadcast('beginRrlRouterListen');
+      $toast.create('微信账号授权成功');
+      $urlRouter.listen();
+      $urlRouter.sync();
     })
     .catch(() => {
       $toast.create('密钥已经被使用过，请重新进行授权');
     });
+
+    return;
   }
 
   /**
@@ -57,9 +60,17 @@ export default angular.module('qtAngularUi.wechatConfExample', [])
     Restangular
     .all('wechat')
     .get('is_oauth')
+    .then(() => {
+      $urlRouter.listen();
+      $urlRouter.sync();
+    })
     .catch(() => {
       $toast.create('正在为您的微信账号授权');
     });
+  }
+  else {
+    $urlRouter.listen();
+    $urlRouter.sync();
   }
 })
 .name;

@@ -7,7 +7,7 @@ export default  angular.module('qtAngularUi.routerConf', [])
  * 但用户在不知情的情况下容易泄露自身信息, 因此
  * 设置部分敏感的 query 字段名, 当存在时立即清除
  */
-.constant('IGNORE_QUERY_KEYWORDS', ['token'])
+.constant('IGNORE_QUERY_KEYWORDS', ['token', 'ticket'])
 /**
  * 路由配置
  * 开启 html5 history 模式
