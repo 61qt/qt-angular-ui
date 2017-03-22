@@ -49,7 +49,7 @@ $radio-color: #129fdd !default;
         height: 40%;
         content: '';
         opacity: 0;
-        @include transform(rotate(-45deg))
+        transform: rotate(-45deg);
         transition: all .2s;
       }
     }
