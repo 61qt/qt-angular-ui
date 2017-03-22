@@ -12,7 +12,8 @@
     "node": ">= 6.2.2"
   },
   "scripts": {
-    "eslint": "eslint ./src"
+    "eslint": "eslint ./src",
+    "push": "git push github master && git push origin master"
   },
   "peerDependencies": {},
   "devDependencies": {
