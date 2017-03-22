@@ -1,12 +1,12 @@
 @import "../_styles/_bootstrap";
 
 $calendar-border-color      : $border-color-normal !default;
-$calendar-spacing           : rem(10px) 0 !default;
-$calendar-header-height     : rem(45px) !default;
+$calendar-spacing           : px-to-rem(10px) 0 !default;
+$calendar-header-height     : px-to-rem(45px) !default;
 
-$calendar-header-size       : rem(15px) !default;
-$calendar-day-in-week-size  : rem(13px) !default;
-$calendar-date-size         : rem(12px) !default;
+$calendar-header-size       : px-to-rem(15px) !default;
+$calendar-day-in-week-size  : px-to-rem(13px) !default;
+$calendar-date-size         : px-to-rem(12px) !default;
 
 $calendar-day-in-week-color : $text-color-dark !default;
 $calendar-date-color        : $text-color-normal !default;
@@ -59,13 +59,13 @@ $calendar-today-bgc         : #e3f2ff !default;
 
   .button {
     position: relative;
-    margin-top: rem(15px);
+    margin-top: px-to-rem(15px);
     right: 0;
     left: 0;
     display: block;
     margin: auto;
-    width: rem(40px);
-    height: rem(40px);
+    width: px-to-rem(40px);
+    height: px-to-rem(40px);
   }
 }
 
@@ -74,7 +74,7 @@ $calendar-today-bgc         : #e3f2ff !default;
   z-index: 4;
   display: block;
   margin: auto;
-  border-bottom: rem(1px) solid $border-color-normal;
+  border-bottom: px-to-rem(1px) solid $border-color-normal;
   width: 100%;
   background: #fff;
 
@@ -97,16 +97,16 @@ $calendar-today-bgc         : #e3f2ff !default;
       vertical-align: middle;
       margin: auto;
       text-align: center;
-      font-size: rem(12px);
+      font-size: px-to-rem(12px);
       color: inherit;
       cursor: pointer;
 
       &.prev {
-        left: rem(15px);
+        left: px-to-rem(15px);
       }
 
       &.next {
-        right: rem(15px);
+        right: px-to-rem(15px);
       }
     }
 
@@ -164,7 +164,7 @@ $calendar-today-bgc         : #e3f2ff !default;
     }
 
     &.names > .day {
-      padding: rem(4px) 0;
+      padding: px-to-rem(4px) 0;
       font-size: $calendar-day-in-week-size;
       font-weight: bold;
       color: $calendar-day-in-week-color;

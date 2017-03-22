@@ -31,8 +31,8 @@ $spinner-index    : 4110;
 }
 
 .spinner {
-  width: rem(24px);
-  height: rem(24px);
+  width: px-to-rem(24px);
+  height: px-to-rem(24px);
   @include animation(rotator $spinner-duration linear infinite);
 
   .path {

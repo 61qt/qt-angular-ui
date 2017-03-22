@@ -34,7 +34,7 @@
     display: block;
     float: none;
     margin: 0;
-    padding: rem(17px) rem(23px);
+    padding: px-to-rem(17px) px-to-rem(23px);
     min-height: 0;
     max-height: auto;
     min-width: 0;
@@ -42,8 +42,8 @@
     width: auto;
     height: auto;
     text-align: center;
-    font-size: rem(13px);
-    border-radius: rem(10px);
+    font-size: px-to-rem(13px);
+    border-radius: px-to-rem(10px);
     background-color: rgba(0,0,0,.8);
     box-shadow: none;
     color: #fff;
@@ -53,16 +53,16 @@
     @include transition(all 500ms ease-in-out);
 
     .icon {
-      margin: rem(10px);
-      width: rem(30px);
-      height: rem(30px);
+      margin: px-to-rem(10px);
+      width: px-to-rem(30px);
+      height: px-to-rem(30px);
     }
 
     .content {
       display: block;
       margin: 0;
       text-align: center;
-      font-size: rem(15px);
+      font-size: px-to-rem(15px);
     }
   }
 

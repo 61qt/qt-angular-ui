@@ -81,13 +81,13 @@
 
   .cropper-toolsbar {
     position: absolute;
-    bottom: rem(15px);
+    bottom: px-to-rem(15px);
     display: block;
     margin: auto;
-    padding: 0 rem(15px);
+    padding: 0 px-to-rem(15px);
     width: 100%;
     text-align: center;
-    font-size: rem(14px);
+    font-size: px-to-rem(14px);
 
     .cancel {
       display: inline-block;
