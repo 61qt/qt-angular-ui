@@ -10,9 +10,11 @@ qt-angular-ui/src/user
 
 ```javascript
 import angular from 'angular';
+import constant from 'qt-angulat-ui/src/constant';
 import user from 'qt-angulat-ui/src/user';
 
 let app = angular.module('app', [
+  constant,
   user,
 ]);
 export default app.name;

@@ -2,8 +2,7 @@ import _       from 'lodash';
 import angular from 'angular';
 
 export default angular.module('qtAngularUi.user', [])
-.service('$user', function (localStorageService, jwtHelper) {
-  const JWT_TOKEN  = 'JWT_TOKEN_$USER';
+.service('$user', function (localStorageService, jwtHelper, USER_JWT_TOKEN) {
 
   this._decodeToken = function (token) {
     try {
@@ -28,12 +27,12 @@ export default angular.module('qtAngularUi.user', [])
   };
 
   this.getToken = function () {
-    return localStorageService.cookie.get(JWT_TOKEN);
+    return localStorageService.cookie.get(USER_JWT_TOKEN);
   };
 
   this.setToken = function (token) {
     if (_.isString(token) && token && true === this.checkToken(token)) {
-      localStorageService.cookie.set(JWT_TOKEN, token);
+      localStorageService.cookie.set(USER_JWT_TOKEN, token);
       return true;
     }
 
@@ -41,7 +40,7 @@ export default angular.module('qtAngularUi.user', [])
   };
 
   this.unsetToken = function () {
-    localStorageService.cookie.remove(JWT_TOKEN);
+    localStorageService.cookie.remove(USER_JWT_TOKEN);
     return true;
   };
 
