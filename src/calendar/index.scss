@@ -7,6 +7,7 @@ $calendar-header-height     : px-to-rem(45px) !default;
 $calendar-header-size       : px-to-rem(15px) !default;
 $calendar-day-in-week-size  : px-to-rem(13px) !default;
 $calendar-date-size         : px-to-rem(12px) !default;
+$calendar-date-content-size : px-to-rem(12px * 12 / 30) !default;
 
 $calendar-day-in-week-color : $text-color-dark !default;
 $calendar-date-color        : $text-color-normal !default;
@@ -137,14 +138,12 @@ $calendar-today-bgc         : #e3f2ff !default;
       cursor: pointer;
 
       .content {
-        $size: $calendar-date-size * (30 / 12);
-
         display: block;
         vertical-align: middle;
         margin: auto;
-        width: $size;
-        height: $size;
-        line-height: $size;
+        width: $calendar-date-content-size;
+        height: $calendar-date-content-size;
+        line-height: $calendar-date-content-size;
         font-size: $calendar-date-size;
         border-radius: 100%;
       }
