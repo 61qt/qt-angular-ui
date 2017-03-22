@@ -17,26 +17,6 @@ export default angular.module('qtAngularUi.restangularConf', [])
   RestangularProvider.setBaseUrl(_.trimEnd(API_SERVER.BACKEND, '/'));
 
   /**
-   * 设置默认不开启内嵌方法
-   * docs:
-   * - https://github.com/mgonto/restangular#setplainbydefault
-   */
-  RestangularProvider.setPlainByDefault(true);
-
-  /**
-   * 设置默认头
-   */
-  RestangularProvider.setDefaultHeaders({
-    'Content-Type'     : 'application/json',
-    'X-Requested-With' : 'XMLHttpRequest',
-  });
-
-  RestangularProvider.setDefaultHttpFields({
-    skipAuthorization : true,
-    withCredentials   : true,
-  });
-
-  /**
    * 设置 token
    * 这里要注意 restangular 并没有自动 inejct
    * 注入其他服务机制, 因此这里要手动创建 injector
@@ -227,24 +207,6 @@ export default angular.module('qtAngularUi.restangularConf', [])
     }
 
     return deferred.reject(rejection);
-  });
-
-  /**
-   * 设置正常回调返回值
-   * 直接无视 status 与 code
-   * 直接返回数据字段
-   */
-  RestangularProvider.setResponseExtractor(function (response, operation) {
-    if (200 === response.status_code && 0 === response.code) {
-      let maindata = response.data || {};
-      if ('getList' === operation) {
-        let listdata = maindata.data || [];
-        listdata.metadata = maindata;
-        return listdata;
-      }
-      return maindata;
-    }
-    return response;
   });
 })
 .name;
