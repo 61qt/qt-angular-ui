@@ -1,6 +1,14 @@
+# Output folders
+/dist
+/scripts_dist
+
 
 # Dependency folders
 node_modules
+
+
+# Yarn
+/yarn.lock
 
 
 # Numerous always-ignore extensions
