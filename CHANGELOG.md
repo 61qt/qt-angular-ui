@@ -9,6 +9,7 @@ F: fix bug
 * `FA` Captcha 组件，conf example 配置错误。增加未配置的警告。
 * `FA` Cropper 修复背景 image 。loading 脱离 spinner 组件。脱离切割和上传完毕之后的配置。
 * `A` Device 组件，补充文档的依赖。
+* `A` 移除 localstorage conf example 对 url 组件的依赖。
 
 ## 1.3.2 (2017-03-22)
 
