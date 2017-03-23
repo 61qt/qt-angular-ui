@@ -12,7 +12,7 @@ export default function ($timeout) {
     transclude  : true,
     template    : Template,
     scope       : {
-      options : '=?alertOptions',
+      options: '=?alertOptions',
     },
     link ($scope, $element) {
       let defaults = _.defaultsDeep($scope.options, Config);

@@ -29,7 +29,7 @@ describe('Alert 组件', function () {
 
   describe('结构规范', function () {
     it('会返回组件名称', function () {
-      expect('Alert').to.be.a('string');
+      expect(Alert).to.be.a('string');
     });
 
     it('能进行初始化, 并且能自定义信息', function () {
