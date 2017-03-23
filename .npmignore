@@ -1,16 +1,31 @@
 # Output folders
-/dist
+/unitest
+/scripts
 /scripts_dist
 /.temporary
 /coverage
 
 
 # Dependency folders
+.nyc_output
+yarn.lock
 node_modules
+npm-debug.log
+yarn-debug.log
 
 
-# Yarn
-/yarn.lock
+# Vendors
+.babelrc
+.eslintrc
+.stylelintrc
+.stylelintrc
+.travis.yml
+.git
+.hg
+.svn
+.gitignore
+.npmrc
+.yarnrc
 
 
 # Numerous always-ignore extensions
@@ -41,4 +56,3 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 .idea
-

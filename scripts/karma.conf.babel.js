@@ -1,7 +1,7 @@
 import fs            from 'fs-extra';
 import path          from 'path';
 import webpackConfig from './webpack.config.babel';
-import * as VARS     from '../variables';
+import * as VARS     from './variables';
 
 /**
  * Build unified entrance
@@ -22,11 +22,12 @@ fs.writeFileSync(testEntryFile, depsSource);
  */
 module.exports = function (config) {
   config.set({
-    basePath   : VARS.ROOT_PATH,
-    browsers   : ['PhantomJS'],
-    frameworks : ['mocha', 'chai', 'sinon'],
-    files      : [testEntryFile],
-    client: {
+    captureConsole : true,
+    basePath       : VARS.ROOT_PATH,
+    browsers       : ['PhantomJS'],
+    frameworks     : ['mocha', 'chai', 'sinon'],
+    files          : [testEntryFile],
+    client         : {
       chai: {
         includeStack: true,
       },

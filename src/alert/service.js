@@ -28,9 +28,7 @@ export default class AlertService {
           }
 
           let $element = $compile($alert)($scope);
-          angular.element(document).ready(function () {
-            angular.element(document.body).append($element);
-          });
+          angular.element(document.body).append($element);
 
           openScopes.push($scope);
         },

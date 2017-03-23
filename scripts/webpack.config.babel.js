@@ -3,8 +3,8 @@ import fs                 from 'fs-extra';
 import path               from 'path';
 import webpack            from 'webpack';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
-import * as VARS          from '../variables';
-import * as PKG           from '../../package.json';
+import * as VARS          from './variables';
+import * as PKG           from '../package.json';
 
 const entries = {
   blank: path.join(VARS.ROOT_PATH, './scripts/misc/blank.js'),
@@ -87,7 +87,7 @@ const plugins = [
    * run it first to reset the project.
    */
   new CleanWebpackPlugin([
-    VARS.DISTRICT_PATH.replace(VARS.ROOT_PATH, ''),
+    VARS.OUTPUT_PATH.replace(VARS.ROOT_PATH, ''),
     VARS.COVERAGE_PATH.replace(VARS.ROOT_PATH, ''),
   ],
   {
@@ -101,7 +101,7 @@ export default {
   devtool       : 'inline-source-map',
   entry         : entries,
   output        : {
-    path        : VARS.DISTRICT_PATH,
+    path        : VARS.OUTPUT_PATH,
     publicPath  : '/',
     filename    : '[name].js',
   },

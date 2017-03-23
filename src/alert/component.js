@@ -12,13 +12,15 @@ export default function ($timeout) {
     replace     : true,
     transclude  : true,
     template    : Template,
-    scope       : {
-      options : '=?alertOptions',
-    },
+    // scope       : {
+    //   options : '=?alertOptions',
+    //   isOpen  : '=',
+    // },
     link ($scope, $element) {
       let defaults = _.assign(Config, $scope.options);
 
-      $scope.type = defaults.type;
+      $scope.isOpen = false;
+      $scope.type   = defaults.type;
 
       /**
        * 显示
@@ -33,6 +35,7 @@ export default function ($timeout) {
         $timeout(() => {
           $element.addClass(options.enterClass);
           $timeout(callback.bind(null), options.during);
+          $scope.isOpen = true;
         });
       };
 
@@ -48,6 +51,7 @@ export default function ($timeout) {
 
         $element.removeClass(options.enterClass).addClass(options.leaveClass);
         $timeout(callback.bind(null), options.during);
+        $scope.isOpen = false;
       };
 
       /**

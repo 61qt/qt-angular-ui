@@ -1,9 +1,10 @@
-if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
-  window.console.log('qt-angular-ui/src/alert load');
-}
-
 import './index.scss';
 
-import component   from './_index';
+import angular   from 'angular';
+import Component from './component';
+import Service   from './service';
 
-export default component;
+export default angular.module('qtAngularUi.alert', [])
+.directive('alert', Component)
+.provider('$alert', Service)
+.name;

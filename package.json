@@ -2,9 +2,8 @@
   "name": "qt-angular-ui",
   "version": "1.0.0",
   "license": "MIT",
-  "description": "青藤网 angular ui 组件库",
+  "description": "qt61.cn angular ui components (only for webpack now)",
   "homepage": "http://www.61qt.cn",
-  "main": "./dist/qt-angular-ui.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:61qt/qt-angular-ui.git"
@@ -15,13 +14,15 @@
   "scripts": {
     "eslint": "eslint ./src ./scripts",
     "transform:scripts": "babel ./scripts --out-dir ./scripts_dist",
-    "develop": "",
-    "product": "",
-    "unitest": "npm run transform:scripts && karma start",
-    "test": "npm run unitest",
+    "develop": "echo \"require component with webpack see: https://webpack.js.org\"",
+    "product": "echo \"require component with webpack see: https://webpack.js.org\"",
+    "unitest": "karma start",
+    "test": "npm run transform:scripts && npm run unitest",
     "start": "npm run develop"
   },
   "devDependencies": {
+    "angular": "^1.6.3",
+    "angular-mocks": "^1.6.3",
     "babel-cli": "^6.24.0",
     "babel-eslint": "^7.2.0",
     "babel-loader": "^6.4.1",
@@ -35,7 +36,9 @@
     "html-loader": "^0.4.5",
     "ignore-loader": "^0.1.2",
     "istanbul-instrumenter-loader": "^2.0.0",
+    "jquery": "^3.2.1",
     "karma": "^1.5.0",
+    "karma-babel-preprocessor": "^6.0.1",
     "karma-chai": "^0.1.0",
     "karma-coverage": "^1.1.1",
     "karma-mocha": "^1.3.0",
@@ -53,7 +56,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
-    "angular": "1.5.x",
+    "angular": "^1.6.3",
     "blueimp-canvas-to-blob": "^3.7.0",
     "bourbon": "^4.3.3",
     "canvas-compress": "^1.1.5",
