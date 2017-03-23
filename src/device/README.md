@@ -4,6 +4,10 @@ qt-angular-ui/src/device
 # 功能介绍
 图片上传功能
 
+# 依赖
+
+* [MobileDetect](https://www.npmjs.com/package/mobile-detect) ，需要写进 package 的依赖中。
+
 ---
 
 # 引入

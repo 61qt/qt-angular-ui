@@ -5,9 +5,10 @@ F: fix bug
 
 ## 位置版本 (2017-03-23)
 * `F` 修复 alert 配置的bug 。
-* `F` calendar 组件，icon 替换成原生的 scss 写的 icon
+* `A` calendar 组件，icon 替换成原生的 scss 写的 icon
 * `FA` Captcha 组件，conf example 配置错误。增加未配置的警告。
-* `F` Cropper 修复背景 image 。loading 脱离 spinner 组件。脱离切割和上传完毕之后的配置。
+* `FA` Cropper 修复背景 image 。loading 脱离 spinner 组件。脱离切割和上传完毕之后的配置。
+* `A` Device 组件，补充文档的依赖。
 
 ## 1.3.2 (2017-03-22)
 
