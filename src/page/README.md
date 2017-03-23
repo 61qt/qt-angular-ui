@@ -4,19 +4,53 @@ qt-angular-ui/src/page
 # 功能介绍
 配置页面的 title 及微信分享相关的信息。
 
+# 依赖
+* [weixin-js-sdk](https://www.npmjs.com/package/weixin-js-sdk)
+* [device](qt-angular-ui/src/device)
+
 ---
 
 # 引入
 
 ```javascript
 import angular from 'angular';
+import device from 'qt-angulat-ui/src/device';
 import page from 'qt-angulat-ui/src/page';
 
 let app = angular.module('app', [
+  device,
   page,
-]);
+])
+.provider('pageInterceptor', function () {
+  this.$get = function ($filter, IGNORE_QUERY_KEYWORDS) {
+    'ngInject';
+
+    return {
+      imgUrl (image) {
+        return $filter('qiniuImage')(image);
+      },
+      link (link) {
+        let newLink = link;
+        let uri    = angular.parseUrl(link);
+        let params = angular.parseParameters(uri.query);
+
+        if (!_.isEmpty(params)) {
+          params = _.assign(params, _.zipObject(IGNORE_QUERY_KEYWORDS));
+
+          let query = angular.stringifyParameters(params);
+          newLink = query
+            ? `${uri.scheme}://${uri.host}${uri.path}?${query}`
+            : `${uri.scheme}://${uri.host}${uri.path}`;
+        }
+        return newLink;
+      }
+    };
+  };
+})
 export default app.name;
 ```
+
+必须配置 pageInterceptor 拦截器，包含 format imgUrl 和 link 的方式。
 
 # service 使用方式
 ```javascript
@@ -51,7 +85,7 @@ mWechat
 });
 
 /**
- * 页面使用
+ * 页面 controller 中使用
  */
 /**
  * 设置分享文案
