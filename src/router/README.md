@@ -2,7 +2,9 @@ qt-angular-ui/src/router
 ---
 
 # 功能介绍
-监控 router 变化，删除 url 中的敏感信息。
+监控 router 变化，处理异常。
+删除 url 中的敏感信息。
+未进行配置的单独化处理。
 
 ---
 

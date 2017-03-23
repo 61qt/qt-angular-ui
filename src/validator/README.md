@@ -3,6 +3,7 @@ qt-angular-ui/src/validator
 
 # 功能介绍
 表单校验触发器。
+需要进行错误时候的配置，详情查看 conf.example 文件。
 
 ---
 

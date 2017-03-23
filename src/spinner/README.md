@@ -4,6 +4,8 @@ qt-angular-ui/src/spinner
 # 功能介绍
 一个简单的 loading 组件。
 
+未进行配置的单独化处理。
+
 ---
 
 # 引入

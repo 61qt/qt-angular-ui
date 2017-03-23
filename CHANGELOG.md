@@ -17,6 +17,9 @@ TODO: 发现需要增加的功能
 * `A` page 增加 conf 拦截分享时候的 imgUrl 和 link 的设置。需要额外引用 qt-angular-ui/src/page/conf.example 。
 * `F` qiniu image readme fix 。
 * `A` qiniu uploader readme add 。
+* `F` toast configure 的 bug fix 。
+* `A` 删除 validator 对 angular.noop 的依赖。
+* `A` 增加了其他一堆说明，如：未进行配置的单独化处理；和业务相关，后期可能删除；之类的说明。
 
 
 ## 1.3.2 (2017-03-22)

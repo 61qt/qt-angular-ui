@@ -3,6 +3,8 @@ qt-angular-ui/src/statistics
 
 # 功能介绍
 页面统计 pv 和 uv 功能。
+未进行配置的单独化处理。
+和业务相关，后期可能删除。
 
 ---
 

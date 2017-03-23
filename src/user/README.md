@@ -4,6 +4,9 @@ qt-angular-ui/src/user
 # 功能介绍
 使用 jwtToken 的 user 设置模块
 
+未进行配置的单独化处理。
+和业务相关，后期可能删除。
+
 ---
 
 # 引入
