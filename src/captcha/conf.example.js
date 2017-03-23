@@ -1,12 +1,12 @@
-import _ from 'lodash';
 import angular from 'angular';
 
 export default angular.module('qtAngularUi.captchaConfExample', [])
 .config(function ($uiCaptchaProvider) {
-  let uri = angular.parseUrl(document.location.href);
 
+  let temp = location.host.split('.').reverse();
+  let rootDomain = temp[1] + '.' + temp[0];
   $uiCaptchaProvider.configure({
-    captchaUrl: `${_.trimEnd(`${uri.scheme}://student-api.${uri.rootDomain}`, '/')}/common/captcha`,
+    captchaUrl: `${location.protocol}//student-api.${rootDomain}/common/captcha`,
   });
 })
 .name;

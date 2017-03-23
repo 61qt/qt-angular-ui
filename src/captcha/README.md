@@ -15,7 +15,7 @@ import captcha from 'qt-angulat-ui/src/captcha';
 let app = angular.module('app', [
   captcha,
 ])
-.run(($uiCaptchaProvider) => {
+.config(($uiCaptchaProvider) => {
   // 配置验证码的 url 。
   $uiCaptchaProvider.configure({
     captchaUrl: 'http://example.com/common/captcha',
