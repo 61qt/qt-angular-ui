@@ -18,6 +18,9 @@ let app = angular.module('app', [
 export default app.name;
 ```
 
+# 如何配置
+直接查看 [_index.js](_index.js) ，看看就知道了。几个不同的参数。
+
 # service 使用方式
 无
 
