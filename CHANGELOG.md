@@ -10,6 +10,7 @@ F: fix bug
 * `FA` Cropper 修复背景 image 。loading 脱离 spinner 组件。脱离切割和上传完毕之后的配置。
 * `A` Device 组件，补充文档的依赖。
 * `A` 移除 localstorage conf example 对 url 组件的依赖。
+* `FA` locker 组件，分离 conf 的配置。续额外引用 qt-angular-ui/src/locker/conf.example 。
 
 ## 1.3.2 (2017-03-22)
 

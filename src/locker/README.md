@@ -25,4 +25,7 @@ app.run(($locker) => {
 })
 
 # directive 使用方式
-无
+无 (不推荐)
+
+# conf
+非必要 conf
