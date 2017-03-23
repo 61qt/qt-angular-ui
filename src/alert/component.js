@@ -1,8 +1,7 @@
 import _        from 'lodash';
+import angular  from 'angular';
 import Template from './index.jade';
 import Config   from './config';
-
-function noop () {}
 
 export default function ($timeout) {
   'ngInject';
@@ -12,20 +11,19 @@ export default function ($timeout) {
     replace     : true,
     transclude  : true,
     template    : Template,
-    // scope       : {
-    //   options : '=?alertOptions',
-    //   isOpen  : '=',
-    // },
+    scope       : {
+      options : '=?alertOptions',
+    },
     link ($scope, $element) {
-      let defaults = _.assign(Config, $scope.options);
+      let defaults = _.defaultsDeep($scope.options, Config);
 
       $scope.isOpen = false;
-      $scope.type   = defaults.type;
+      $scope.type   = defaults.type || '';
 
       /**
        * 显示
        */
-      $scope.show = function (options, callback = noop) {
+      $scope.show = function (options, callback = angular.noop) {
         if (_.isFunction(options)) {
           return $scope.show({}, options);
         }
@@ -42,7 +40,7 @@ export default function ($timeout) {
       /**
        * 隐藏
        */
-      $scope.hide = function (options, callback = noop) {
+      $scope.hide = function (options, callback = angular.noop) {
         if (_.isFunction(options)) {
           return $scope.hide({}, options);
         }
@@ -74,6 +72,8 @@ export default function ($timeout) {
         },
         defaults.delay || 2500);
       });
+
+      $scope.$digest();
     }
   };
 }

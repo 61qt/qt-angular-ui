@@ -1,10 +1,7 @@
-import _                  from 'lodash';
-import fs                 from 'fs-extra';
 import path               from 'path';
 import webpack            from 'webpack';
 import CleanWebpackPlugin from 'clean-webpack-plugin';
 import * as VARS          from './variables';
-import * as PKG           from '../package.json';
 
 const entries = {
   blank: path.join(VARS.ROOT_PATH, './scripts/misc/blank.js'),

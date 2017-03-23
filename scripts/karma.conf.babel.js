@@ -32,6 +32,11 @@ module.exports = function (config) {
         includeStack: true,
       },
     },
+    browserConsoleLogOptions: {
+      level    : 'log',
+      format   : '%b %T : %m',
+      terminal : true,
+    },
     reporters: [
       'mocha',
       'coverage',

@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "license": "MIT",
   "description": "qt61.cn angular ui components (only for webpack now)",
-  "homepage": "http://www.61qt.cn",
+  "homepage": "https://github.com/61qt/qt-angular-ui",
   "repository": {
     "type": "git",
-    "url": "git@github.com:61qt/qt-angular-ui.git"
+    "url": "https://github.com/61qt/qt-angular-ui.git"
   },
   "engines": {
     "node": ">= 6.2.2"
@@ -14,10 +14,13 @@
   "scripts": {
     "eslint": "eslint ./src ./scripts",
     "transform:scripts": "babel ./scripts --out-dir ./scripts_dist",
+    "transform": "npm run eslint && npm run transform:scripts",
     "develop": "echo \"require component with webpack see: https://webpack.js.org\"",
     "product": "echo \"require component with webpack see: https://webpack.js.org\"",
     "unitest": "karma start",
-    "test": "npm run transform:scripts && npm run unitest",
+    "coverage": "rimraf ./coverage && npm run transform && nyc --reporter=text --reporter=lcov --report-dir=./coverage npm run unitest",
+    "coveralls": "npm run transform && nyc --reporter=text-lcov --report-dir=./coverage npm run unitest | coveralls",
+    "test": "npm run transform && npm run unitest",
     "start": "npm run develop"
   },
   "devDependencies": {
@@ -31,7 +34,7 @@
     "chai": "^3.5.0",
     "clean-webpack-plugin": "^0.1.16",
     "eslint": "^3.18.0",
-    "eslint-loader": "^1.6.3",
+    "eslint-loader": "^1.7.0",
     "fs-extra": "^2.1.2",
     "html-loader": "^0.4.5",
     "ignore-loader": "^0.1.2",
@@ -49,10 +52,12 @@
     "karma-webpack": "^2.0.3",
     "mocha": "^3.2.0",
     "ng-annotate-loader": "^0.2.0",
+    "nyc": "^10.1.2",
     "pug": "^2.0.0-beta11",
     "pug-loader": "^2.3.0",
+    "rimraf": "^2.6.1",
     "sinon": "^2.1.0",
-    "style-loader": "^0.15.0",
+    "style-loader": "^0.16.0",
     "webpack": "^2.2.1"
   },
   "dependencies": {
