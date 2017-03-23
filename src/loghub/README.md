@@ -2,7 +2,7 @@ qt-angular-ui/src/loghub
 ---
 
 # 功能介绍
-锁住页面的操作，页面跳转时候会锁住，提交表单时候也会锁住。
+捕抓系统的错误，然后发回到 feedback 地址。
 
 ---
 
@@ -23,3 +23,10 @@ export default app.name;
 
 # directive 使用方式
 无
+
+# 其他使用方式
+```
+let errorRecord = angular.loghub.capture(new Error('例子错误'), 'error');
+record.report();
+record.print();
+```

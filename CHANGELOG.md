@@ -3,7 +3,7 @@ U: 升级
 A: 新增
 F: fix bug
 
-## 位置版本 (2017-03-23)
+## 未知版本 (2017-03-23)
 * `F` 修复 alert 配置的bug 。
 * `A` calendar 组件，icon 替换成原生的 scss 写的 icon
 * `FA` Captcha 组件，conf example 配置错误。增加未配置的警告。
@@ -11,6 +11,7 @@ F: fix bug
 * `A` Device 组件，补充文档的依赖。
 * `A` 移除 localstorage conf example 对 url 组件的依赖。
 * `FA` locker 组件，分离 conf 的配置。续额外引用 qt-angular-ui/src/locker/conf.example 。
+* `A` loghub 增加使用说明 。
 
 ## 1.3.2 (2017-03-22)
 
