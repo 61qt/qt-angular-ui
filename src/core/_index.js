@@ -1,4 +1,3 @@
-import _       from 'lodash';
 import angular from 'angular';
 import module from './module';
 import on from './on';
@@ -28,7 +27,7 @@ export default angular.module('qtAngularUi.core', [
    * 因为在部分版本中没有该方法的存在,
    * 因此也需要确定该方法是否存在
    */
-  if ($qProvider && _.isFunction($qProvider.errorOnUnhandledRejections)) {
+  if ($qProvider && 'function' === typeof $qProvider.errorOnUnhandledRejections) {
     $qProvider.errorOnUnhandledRejections(false);
   }
 })
