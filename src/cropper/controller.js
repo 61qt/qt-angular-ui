@@ -3,7 +3,7 @@ import angular from 'angular';
 import Cropper from 'cropperjs/dist/cropper.min';
 
 export default class CropperController {
-  constructor ($scope, $qiniuUploader) {
+  constructor ($scope, cropperPromptInterceptor) {
     'ngInject';
 
     $scope.cropperImage;
@@ -47,14 +47,7 @@ export default class CropperController {
         throw new Error('CropperController.upload: callback is not provided.');
       }
 
-      $qiniuUploader
-      .uploadImage(file, options)
-      .then((data) => {
-        callback(null, data);
-      })
-      .catch((error) => {
-        callback(error);
-      });
+      cropperPromptInterceptor.upload(file, options, callback);
 
       return {
         cancel () {
