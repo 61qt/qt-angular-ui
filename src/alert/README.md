@@ -20,6 +20,12 @@ let app = angular.module('app', [
 export default app.name;
 ```
 
+# 配置
+app
+.config(($alertProvider) => {
+  $alertProvider.configure({delay: 1000, during:1000});
+});
+
 # service 使用方式
 app.run(($alert) => {
   $alert.create('弹出一个 alert service 的例子。');

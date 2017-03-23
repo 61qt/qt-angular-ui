@@ -8,7 +8,7 @@ export default class AlertService {
     let defaults   = Config;
 
     this.configure = function (options) {
-      defaults = _.defaults(Config, options);
+      defaults = _.assign(Config, options);
     };
 
     this.$get = function ($rootScope, $compile) {
