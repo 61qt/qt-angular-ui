@@ -2,7 +2,8 @@ qt-angular-ui/src/qiniu_image
 ---
 
 # 功能介绍
-监控 router 变化，删除 url 中的敏感信息。
+传入七牛 key ，输出能访问的七牛图片连接
+未进行配置的单独化处理。
 
 ---
 

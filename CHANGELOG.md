@@ -15,6 +15,7 @@ TODO: 发现需要增加的功能
 * `FA` locker 组件，分离 conf 的配置。需要额外引用 qt-angular-ui/src/locker/conf.example 。
 * `A` loghub 增加使用说明 。
 * `A` page 增加 conf 拦截分享时候的 imgUrl 和 link 的设置。需要额外引用 qt-angular-ui/src/page/conf.example 。
+* `F` qiniu image readme fix 。
 
 
 ## 1.3.2 (2017-03-22)
