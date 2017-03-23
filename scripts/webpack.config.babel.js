@@ -38,6 +38,12 @@ let rules = [
     },
   },
   {
+    test    : /\.js$/,
+    loader  : 'istanbul-instrumenter-loader',
+    include : resolveModules,
+    exclude : [/node_modules/],
+  },
+  {
     test : /\.js$/,
     use  : [
       {

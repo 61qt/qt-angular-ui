@@ -18,9 +18,8 @@
     "develop": "echo \"require component with webpack see: https://webpack.js.org\"",
     "product": "echo \"require component with webpack see: https://webpack.js.org\"",
     "unitest": "karma start",
-    "coverage": "rimraf ./coverage && npm run transform && nyc --reporter=text --reporter=lcov --report-dir=./coverage npm run unitest",
-    "coveralls": "npm run transform && nyc --reporter=text-lcov --report-dir=./coverage npm run unitest | coveralls",
-    "test": "npm run transform && npm run unitest",
+    "coveralls": "",
+    "test": "rimraf ./coverage ./.temporary ./scripts_dist && npm run transform && npm run unitest",
     "start": "npm run develop"
   },
   "devDependencies": {
@@ -43,7 +42,7 @@
     "karma": "^1.5.0",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chai": "^0.1.0",
-    "karma-coverage": "^1.1.1",
+    "karma-coverage-istanbul-reporter": "^1.0.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.3",
     "karma-phantomjs-launcher": "^1.0.4",
@@ -52,7 +51,6 @@
     "karma-webpack": "^2.0.3",
     "mocha": "^3.2.0",
     "ng-annotate-loader": "^0.2.0",
-    "nyc": "^10.1.2",
     "pug": "^2.0.0-beta11",
     "pug-loader": "^2.3.0",
     "rimraf": "^2.6.1",

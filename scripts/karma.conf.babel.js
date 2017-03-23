@@ -37,10 +37,6 @@ module.exports = function (config) {
       format   : '%b %T : %m',
       terminal : true,
     },
-    reporters: [
-      'mocha',
-      'coverage',
-    ],
     preprocessors: {
       [testEntryFile]: [
         'webpack',
@@ -56,6 +52,10 @@ module.exports = function (config) {
       noInfo : false,
       stats  : true,
     },
+    reporters: [
+      'mocha',
+      'coverage-istanbul',
+    ],
     /**
      * in empty test folder, it will return
      * status 1 and throw error.
@@ -71,9 +71,10 @@ module.exports = function (config) {
       'karma-chai',
       'karma-sinon',
       'karma-mocha',
-      'karma-mocha-reporter',
+      'karma-coverage-istanbul-reporter',
       'karma-sourcemap-loader',
-      'karma-coverage',
+      'karma-mocha-reporter',
+      // 'karma-coverage',
     ],
   });
 };
