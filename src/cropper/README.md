@@ -4,6 +4,9 @@ qt-angular-ui/src/cropper
 # 功能介绍
 图片上传功能
 
+## 依赖
+[blueimp-canvas-to-blob](http://npmjs.com/package/blueimp-canvas-to-blob)
+
 ---
 
 # 引入
