@@ -75,7 +75,7 @@ $calendar-today-bgc         : #e3f2ff !default;
   z-index: 4;
   display: block;
   margin: auto;
-  border-bottom: px-to-rem(1px) solid $border-color-normal;
+  border-bottom: px-to-rem(1px) solid $calendar-border-color;
   width: 100%;
   background: #fff;
 
@@ -167,6 +167,37 @@ $calendar-today-bgc         : #e3f2ff !default;
       font-size: $calendar-day-in-week-size;
       font-weight: bold;
       color: $calendar-day-in-week-color;
+    }
+  }
+}
+
+.calendar-modal {
+  $qt-icon-wrong-color: #7e8e9f;
+  .colse-icon {
+    display: inline-block;
+    transition: all .35s ease-in-out;
+    display: inline-block;
+    width: px-to-rem(44px);
+    height: px-to-rem(44px);
+    border: px-to-rem(1.5px) solid $qt-icon-wrong-color;
+    border-radius: 50%;
+    position: relative;
+    &:after, &:before {
+      content: ' ';
+      display: block;
+      width: px-to-rem(22px);
+      height: px-to-rem(1.5px);
+      overflow: hidden;
+      left: px-to-rem(10px);
+      top: px-to-rem(20.5px);
+      position: absolute;
+      background: $qt-icon-wrong-color;
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+    &:before {
+      transform: rotate(45deg);
     }
   }
 }

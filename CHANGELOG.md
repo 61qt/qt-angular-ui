@@ -3,26 +3,30 @@ U: 升级
 A: 新增
 F: fix bug
 
-## 1.3.2 (2017-03-21)
+## 位置版本 (2017-03-23)
+* `F` 修复 alert 配置的bug 。
+* `F` calendar 组件，icon 替换成原生的 scss 写的 icon
+
+## 1.3.2 (2017-03-22)
 
 * `F` 修复  Restangular conf example 中 RestangularProvider.setFullRequestInterceptor 没法注入 injector 造成没法获取 token 的问题。
 
-## 1.3.1 (2017-03-21)
+## 1.3.1 (2017-03-22)
 
 * `F` wechat conf 中需要调用 $urlRouter.listen 和$urlRouter.sync;
 * `A` url 中增加 ticket 为敏感字眼，同时删除。
 
-## 1.3.0 (2017-03-21)
+## 1.3.0 (2017-03-22)
 
 * `A` wechat conf 使用新的 ticket 方式进行授权，更新 wechat conf example。
 * `F` fix px-to-rem mixin 方法不存在的问题。
 * `F` fix calendar 选中的日期大小的问题。
 
-## 1.2.1 (2017-03-21)
+## 1.2.1 (2017-03-22)
 
 * `F` 修复 calendar scss 的编译问题。
 
-## 1.2.0 (2017-03-21)
+## 1.2.0 (2017-03-22)
 
 * `U` 升级因为 bourbon 升级了之后，部分 scss 方法无效的问题。
 

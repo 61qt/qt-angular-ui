@@ -37,6 +37,6 @@ restrict: E
 
 ```html
 <calendar-modal ng-model='isOpenCalendar'>
-  <calendar ng-model='schooltimes', disabled></calendar>
+  <calendar ng-model='schooltimes' disabled></calendar>
 </calendar-modal>
 ```
