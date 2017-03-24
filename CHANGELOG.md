@@ -20,6 +20,7 @@ TODO: 发现需要增加的功能
 * `F` toast configure 的 bug fix 。
 * `A` 删除 validator 对 angular.noop 的依赖。
 * `A` 增加了其他一堆说明，如：未进行配置的单独化处理；和业务相关，后期可能删除；之类的说明。
+* `F` 同步状态，wechat 组件，不需要调用 $urlRouter.sync() 。
 
 
 ## 1.3.2 (2017-03-22)

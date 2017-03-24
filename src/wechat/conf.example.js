@@ -70,7 +70,6 @@ export default angular.module('qtAngularUi.wechatConfExample', [])
   }
   else {
     $urlRouter.listen();
-    $urlRouter.sync();
   }
 })
 .name;
