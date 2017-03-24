@@ -6,8 +6,11 @@ let folder  = path.join(__dirname, '../coverage/');
 let file    = path.join(folder, './lcov.info');
 let content = fs.readFileSync(file);
 
-Coveralls(content, function (error) {
+Coveralls(content.toString(), function (error) {
   if (error) {
     throw error;
   }
+
+  /* eslint no-console:off */
+  console.log('Coveralls is done.');
 });
