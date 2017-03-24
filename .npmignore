@@ -6,6 +6,10 @@
 /coverage
 
 
+# Config file
+/karma.conf.js
+
+
 # Dependency folders
 .nyc_output
 yarn.lock

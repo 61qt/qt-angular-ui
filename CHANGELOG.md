@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/61qt/qt-angular-ui.svg?branch=master)](https://travis-ci.org/61qt/qt-angular-ui)
+
 # 前缀说明
 U: 升级
 A: 新增
