@@ -4,6 +4,9 @@ A: 新增
 F: fix bug
 TODO: 发现需要增加的功能
 
+## 2.0.1 (2017-03-24)
+* `F` 修复 restangular/conf.example Object.entries 的问题。
+
 ## 2.0.0 (2017-03-24)
 * `F` 修复 alert 配置的bug 。
 * `A` calendar 组件，icon 替换成原生的 scss 写的 icon

@@ -134,7 +134,7 @@ export default angular.module('qtAngularUi.restangularConf', [])
       if (-1 !== ['POST', 'PUT', 'DELETE'].indexOf(method)) {
         if (!_.isEmpty(response.data)) {
           /* eslint no-unused-vars:off */
-          for (let [name, msg] of Object.entries(response.data)) {
+          for (let [name, msg] of _.entries(response.data)) {
             if (_.isArray(msg) && 0 < msg.length) {
               _.assign(rejection, {
                 msg: msg[0],
