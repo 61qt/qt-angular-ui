@@ -18,7 +18,7 @@
     "develop": "echo \"require component with webpack see: https://webpack.js.org\"",
     "product": "echo \"require component with webpack see: https://webpack.js.org\"",
     "unitest": "karma start",
-    "coveralls": "npm run test && node ./scripts_dist/coveralls",
+    "coveralls": "npm run test && cat ./coverage/phantomjs/lcov.info | coveralls",
     "test": "rimraf ./coverage ./.temporary ./scripts_dist && npm run transform && npm run unitest",
     "start": "npm run develop"
   },
