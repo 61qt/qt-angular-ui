@@ -4,7 +4,7 @@ A: 新增
 F: fix bug
 TODO: 发现需要增加的功能
 
-## 未知版本 (2017-03-23)
+## 2.0.0 (2017-03-24)
 * `F` 修复 alert 配置的bug 。
 * `A` calendar 组件，icon 替换成原生的 scss 写的 icon
 * `FA` Captcha 组件，conf example 配置错误。增加未配置的警告。
@@ -21,6 +21,7 @@ TODO: 发现需要增加的功能
 * `A` 删除 validator 对 angular.noop 的依赖。
 * `A` 增加了其他一堆说明，如：未进行配置的单独化处理；和业务相关，后期可能删除；之类的说明。
 * `F` 同步状态，wechat 组件，不需要调用 $urlRouter.sync() 。
+* `A` 增加部分测试方法和用例，测试框架初步。
 
 
 ## 1.3.2 (2017-03-22)
