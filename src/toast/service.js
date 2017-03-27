@@ -16,6 +16,10 @@ export default class toastService {
 
       return {
         create (message, options = defaults) {
+          if (_.isString(options)) {
+            return this.create(message, { type: options });
+          }
+
           let $toast = angular.element(`<toast>${message}</toast>`);
           let $scope = $rootScope.$new();
 
@@ -24,9 +28,7 @@ export default class toastService {
           }
 
           let $element = $compile($toast)($scope);
-          angular.element(document).ready(function () {
-            angular.element(document.body).append($element);
-          });
+          angular.element(document.body).append($element);
 
           openScopes.push($scope);
         },

@@ -1,9 +1,9 @@
-if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
-  window.console.log('qt-angular-ui/src/toast load');
-}
-
 import './index.scss';
+import angular   from 'angular';
+import Component from './component';
+import Service   from './service';
 
-import component   from './_index';
-
-export default component;
+export default angular.module('qtAngularUi.toast', [])
+.directive('toast', Component)
+.provider('$toast', Service)
+.name;

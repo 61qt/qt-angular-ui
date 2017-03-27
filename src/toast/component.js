@@ -15,7 +15,10 @@ export default function ($timeout) {
       options : '=?toastOptions',
     },
     link ($scope, $element) {
-      let defaults = _.defaults(Config, $scope.options);
+      let defaults = _.defaultsDeep($scope.options, Config);
+
+      $scope.isOpen = false;
+      $scope.type   = defaults.type || '';
 
       /**
        * 显示
@@ -30,6 +33,7 @@ export default function ($timeout) {
         $timeout(() => {
           $element.addClass(options.enterClass);
           $timeout(callback.bind(null), options.during);
+          $scope.isOpen = true;
         });
       };
 
@@ -43,8 +47,9 @@ export default function ($timeout) {
 
         options = _.defaults(defaults, options);
 
-        $element.addClass(options.leaveClass);
+        $element.removeClass(options.enterClass).addClass(options.leaveClass);
         $timeout(callback.bind(null), options.during);
+        $scope.isOpen = false;
       };
 
       /**
@@ -63,10 +68,12 @@ export default function ($timeout) {
 
       $scope.show(function () {
         setTimeout(function () {
-          $scope.hide();
+          $scope.dismiss();
         },
         defaults.delay || 1500);
       });
+
+      $scope.$digest();
     }
   };
 }
