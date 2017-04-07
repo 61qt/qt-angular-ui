@@ -14,7 +14,7 @@ describe('Locker 组件', function () {
   const { module, inject } = angular.mock;
 
   beforeEach(function () {
-    // 设置延迟消失时间为 0
+    // 设置延迟时间为 0
     Config.during = 10;
 
     // 初始化 Locker 组件
@@ -63,8 +63,6 @@ describe('Locker 组件', function () {
 
   describe('触发流程', function () {
     it('能够显示与隐藏', function () {
-      this.timeout(1000);
-
       inject(function ($rootScope, $compile, $timeout) {
         let $element = $compile('<locker></locker>')($rootScope.$new());
         let $scope   = angular.element($element[0].childNodes[0]).scope();
@@ -73,30 +71,32 @@ describe('Locker 组件', function () {
         expect($scope.isOpened).to.be.false;
         expect(document.getElementsByClassName('locker').length).to.equal(1);
 
-        $scope.show(NEST_CONTENT);
+        // FadeIn
+        $scope.show();
         $timeout.flush();
 
         expect($scope.isOpened).to.be.true;
-        expect($scope.content).to.equal(NEST_CONTENT);
         expect($element.hasClass(Config.duringClass)).to.be.true;
         expect($element.hasClass(Config.enterClass)).to.be.true;
+        expect($element.hasClass(Config.leaveClass)).to.be.false;
 
+        // out
         $scope.hide();
+        expect($element.hasClass(Config.leaveClass)).to.be.true;
+
         $timeout.flush();
 
         expect($scope.isOpened).to.be.false;
         expect($element.hasClass(Config.duringClass)).to.be.false;
         expect($element.hasClass(Config.enterClass)).to.be.false;
+        expect($element.hasClass(Config.leaveClass)).to.be.false;
       });
     });
   });
 
   describe('服务', function () {
     it('能够显示与隐藏', function () {
-      this.timeout(1000);
-
       inject(function ($locker, $timeout) {
-
         let $jqLocker = $('.locker');
         let $scope    = angular.element($jqLocker[0].childNodes[0]).scope();
 
@@ -107,30 +107,115 @@ describe('Locker 组件', function () {
         expect($scope.isOpened).to.be.false;
 
         // FadeIn
-        $scope.show(NEST_CONTENT);
+        $scope.show();
         $timeout.flush();
 
         expect($scope.isOpened).to.be.true;
-        expect($scope.content).to.equal(NEST_CONTENT);
         expect($jqLocker.hasClass(Config.duringClass)).to.be.true;
         expect($jqLocker.hasClass(Config.enterClass)).to.be.true;
+        expect($jqLocker.hasClass(Config.leaveClass)).to.be.false;
 
         // out
         $scope.hide();
+        expect($jqLocker.hasClass(Config.leaveClass)).to.be.true;
+
         $timeout.flush();
 
         expect($scope.isOpened).to.be.false;
         expect($jqLocker.hasClass(Config.duringClass)).to.be.false;
         expect($jqLocker.hasClass(Config.enterClass)).to.be.false;
+        expect($jqLocker.hasClass(Config.leaveClass)).to.be.false;
       });
     });
 
-    it('能同时触发', function () {
-      inject(function ($locker) {
-        $locker.show(NEST_CONTENT);
-        $locker.show(NEST_CONTENT);
+    it('更改内容', function () {
+      inject(function ($locker, $timeout) {
+        $locker.configure({ content: NEST_CONTENT });
 
+        let $jqLocker = $('.locker');
+        let $scope    = angular.element($jqLocker[0].childNodes[0]).scope();
+
+        $locker.show();
+        $timeout.flush();
+        expect($scope.content).to.equal(NEST_CONTENT);
+
+        $locker.hide('hide');
+        $timeout.flush();
         expect(document.getElementsByClassName('locker').length).to.equal(1);
+        expect($scope.content).to.equal('hide');
+
+        $locker.show('show');
+        $timeout.flush();
+        expect(document.getElementsByClassName('locker').length).to.equal(1);
+        expect($scope.content).to.equal('show');
+      });
+    });
+
+    it('多次显示隐藏', function () {
+      inject(function ($locker, $timeout) {
+        let $jqLocker = $('.locker');
+        let $scope    = angular.element($jqLocker[0].childNodes[0]).scope();
+
+        $locker.show();
+        expect($scope.isOpened).to.be.an('undefined');
+
+        $timeout.flush();
+        expect($scope.isOpened).to.be.true;
+
+        $locker.show();
+        expect($scope.isOpened).to.be.true;
+
+        $locker.hide();
+        expect($scope.isOpened).to.be.an('undefined');
+
+        $timeout.flush();
+        expect($scope.isOpened).to.be.false;
+
+        $locker.hide();
+        expect($scope.isOpened).to.be.false;
+      });
+    });
+
+    it('只传一个为function的参数', function () {
+      inject(function ($locker, $timeout) {
+        let $jqLocker = $('.locker');
+        let $scope    = angular.element($jqLocker[0].childNodes[0]).scope();
+        let callback  = false;
+
+        $scope.show(function () {
+          callback = true;
+        });
+        $timeout.flush();
+        expect(callback).to.be.true;
+
+        callback = false;
+
+        $scope.hide(function () {
+          callback = true;
+        });
+        $timeout.flush();
+        expect(callback).to.be.true;
+      });
+    });
+
+    it('取消上一次未完成的timeout', function () {
+      inject(function ($locker, $timeout) {
+        let $jqLocker = $('.locker');
+        let $scope    = angular.element($jqLocker[0].childNodes[0]).scope();
+
+        $scope.show({ during: 99999 });
+        expect($scope.isOpened).to.be.an('undefined');
+
+        $scope.show({ during: 10 });
+        $timeout.flush();
+        expect($scope.isOpened).to.be.true;
+
+        $scope.hide({ during: 99999 });
+        expect($scope.isOpened).to.be.an('undefined');
+
+        $scope.hide({ during: 10 });
+        $timeout.flush();
+        expect($scope.isOpened).to.be.false;
       });
     });
   });
