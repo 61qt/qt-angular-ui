@@ -20,7 +20,6 @@ export default class LockerService {
       angular.element(document.body).append($component);
 
       return {
-        configure: this.configure,
         show (options = defaults, callback) {
           $childScope.show(options, callback);
         },
