@@ -20,21 +20,22 @@ export default class AlertService {
             return this.create(message, { type: options });
           }
 
-          let $alert = angular.element(`<alert>${message}</alert>`);
-          let $scope = $rootScope.$new();
+          let $alert    = angular.element(`<alert alert-options='alertOptions'>${message}</alert>`);
+          let $newscope = $rootScope.$new();
 
           if (_.isPlainObject(options)) {
-            $scope.alertOptions = options;
+            $newscope.alertOptions = options;
           }
 
-          let $element = $compile($alert)($scope);
+          let $element = $compile($alert)($newscope);
+          let $scope   = angular.element($element[0].childNodes[0]).scope();
           angular.element(document.body).append($element);
 
           openScopes.push($scope);
         },
         removeAll () {
           _.forEach(openScopes, (scope) => {
-            scope.hide();
+            scope.dismiss();
           });
         },
       };
