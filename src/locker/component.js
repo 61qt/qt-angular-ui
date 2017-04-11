@@ -35,7 +35,7 @@ export default function ($timeout) {
         }
 
         if (_.isFunction(options)) {
-          return $scope.enter({}, options);
+          return $scope.show({}, options);
         }
 
         /**
@@ -96,7 +96,7 @@ export default function ($timeout) {
          * 设置属性
          */
         $scope.isOpened = undefined;
-        $scope.content  = defaults.content;
+        $scope.content  = options.content;
 
         timeoutPromise && $timeout.cancel(timeoutPromise);
 
