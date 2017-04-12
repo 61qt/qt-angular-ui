@@ -1,4 +1,4 @@
-export default function ($window, $windowOnscroll) {
+export default function ($windowOnscroll) {
   'ngInject';
 
   return {
@@ -15,23 +15,23 @@ export default function ($window, $windowOnscroll) {
         let x = false;
         let y = false;
 
-        if (0 === endX && startX <= $window.scrollX) {
+        if (0 === endX && startX <= window.scrollX) {
           x = true;
         }
-        else if (0 < endX && startX < endX && startX <= $window.scrollX && endX >= $window.scrollX) {
+        else if (0 < endX && startX < endX && startX <= window.scrollX && endX >= window.scrollX) {
           x = true;
         }
-        else if (0 < endX && startX > endX && (startX <= $window.scrollX || endX >= $window.scrollX)) {
+        else if (0 < endX && startX > endX && (startX <= window.scrollX || endX >= window.scrollX)) {
           x = true;
         }
 
-        if (0 === endY && startY <= $window.scrollY) {
+        if (0 === endY && startY <= window.scrollY) {
           y = true;
         }
-        else if (0 < endY && startY < endY && startY <= $window.scrollY && endY >= $window.scrollY) {
+        else if (0 < endY && startY < endY && startY <= window.scrollY && endY >= window.scrollY) {
           y = true;
         }
-        else if (0 < endY && startY > endY && (startY <= $window.scrollY || endY >= $window.scrollY)) {
+        else if (0 < endY && startY > endY && (startY <= window.scrollY || endY >= window.scrollY)) {
           y = true;
         }
 

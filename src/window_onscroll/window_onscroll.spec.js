@@ -18,4 +18,11 @@ describe('WindowOnScroll 组件', function () {
     // 清场
     document.body.innerHTML = '';
   });
+
+  describe('结构规范', function () {
+    it('', function () {
+      console.log(WindowOnScroll);
+      expect(WindowOnScroll).to.be.a('string');
+    });
+  });
 });
