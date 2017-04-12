@@ -144,10 +144,25 @@ describe('Alert 组件', function () {
       });
     });
 
-    it('能更改类型', function () {
+    it('能更改类型(用对象传参)', function () {
       inject(function ($alert) {
         _.forEach(['correct', 'error', 'info'], function (type) {
-          $alert.create(NEST_CONTENT, _.assign(Config, { type }));
+          $alert.create(NEST_CONTENT, { type });
+
+          let $jqAlert = $(`.alert.${type}`);
+          let scope    = angular.element($jqAlert[0].childNodes[0]).scope();
+
+          expect(scope.type).to.equal(type);
+          expect($(`.alert.${type}`).length).to.equal(1);
+        });
+      });
+    });
+
+    it('能更改类型(用字符串传参)）', function () {
+
+      inject(function ($alert) {
+        _.forEach(['correct', 'info', 'error'], function (type) {
+          $alert.create(NEST_CONTENT, type);
 
           let $jqAlert = $(`.alert.${type}`);
           let scope    = angular.element($jqAlert[0].childNodes[0]).scope();
@@ -164,6 +179,76 @@ describe('Alert 组件', function () {
         $alert.create(NEST_CONTENT);
 
         expect(document.getElementsByClassName('alert').length).to.equal(2);
+      });
+    });
+
+    it('删除全部', function (done) {
+      this.timeout(1000);
+
+      inject(function ($alert, $timeout) {
+        $alert.removeAll();
+
+        $alert.create(NEST_CONTENT);
+        $alert.create(NEST_CONTENT);
+
+        expect(document.getElementsByClassName('alert').length).to.equal(2);
+
+        $alert.removeAll();
+        $timeout.flush();
+        setTimeout(function () {
+          expect(document.getElementsByClassName('alert').length).to.equal(0);
+          done();
+        }, Config.during + Config.delay + 10);
+      });
+    });
+
+    it('能更改默认值', function (done) {
+      this.timeout(1000);
+
+      let config = {
+        enterClass : 'in-test',
+        leaveClass : 'out-test',
+        during     : 100,
+        delay      : 100,
+      };
+
+      module(function ($alertProvider) {
+        $alertProvider.configure(config);
+      });
+
+      inject(function ($alert, $timeout) {
+        $alert.create(NEST_CONTENT);
+
+        let $jqAlert = $('.alert');
+        let $scope   = angular.element($jqAlert[0].childNodes[0]).scope();
+        expect(document.getElementsByClassName('alert').length).to.equal(1);
+
+        let hideCompleted = function () {
+          expect(document.getElementsByClassName('alert').length).to.equal(0);
+          done();
+        };
+
+        let delayCompleted = function () {
+          expect($jqAlert.hasClass(config.leaveClass)).to.be.true;
+
+          $timeout.flush();
+          setTimeout(hideCompleted, config.during);
+        };
+
+        let showCompleted = function () {
+          expect($jqAlert.hasClass(config.enterClass)).to.be.true;
+
+          $timeout.flush();
+          setTimeout(delayCompleted, config.delay);
+        };
+
+        // 监听 hide 事件
+        sinon.spy($scope, 'dismiss');
+        sinon.spy($scope, 'hide');
+
+        // 开始淡入窗口
+        $timeout.flush();
+        setTimeout(showCompleted, config.during);
       });
     });
   });

@@ -1,9 +1,10 @@
-if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
-  window.console.log('qt-angular-ui/src/locker load');
-}
-
 import './index.scss';
 
-import component   from './_index';
+import angular   from 'angular';
+import Service   from './service';
+import Component from './component';
 
-export default component;
+export default angular.module('qtAngularUi.locker', [])
+.provider('$locker', Service)
+.directive('locker', Component)
+.name;
