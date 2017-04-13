@@ -11,7 +11,7 @@ export default function ($windowOnscroll) {
       let endY      = $attrs.endY * 1 || 0;
       let className = $attrs.activeClass || 'active';
 
-      let scrollHandle = function () {
+      let _scrollHandle = function () {
         let x = false;
         let y = false;
 
@@ -43,7 +43,7 @@ export default function ($windowOnscroll) {
         }
       };
 
-      $windowOnscroll.bind($scope, scrollHandle);
+      $windowOnscroll.bind($scope, _scrollHandle);
     },
   };
 }
