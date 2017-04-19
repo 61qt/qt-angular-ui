@@ -17,11 +17,7 @@ export default function () {
       $scope.selected = _.isArray($scope.selected) ? $scope.selected : [];
       $scope.month    = $scope.selected[0] ? moment($scope.selected[0]) : moment();
 
-      let start = $scope.month.clone();
-      start.date(1);
-
-      _removeTime(start.day(0));
-      _buildMonth($scope, start, $scope.month);
+      _buildMonth($scope, $scope.month);
 
       $scope.select = function (day) {
         if (isDisabled) {
@@ -41,30 +37,49 @@ export default function () {
         return -1 !== $scope.selected.indexOf(date);
       };
 
-      $scope.focus = function (next) {
-        _buildMonth($scope, next, $scope.month);
+      $scope.redirectYear = function (number) {
+        $scope.month
+        .date(1)
+        .year(number);
+
+         _buildMonth($scope, $scope.month);
+      };
+
+      $scope.redirectMonth = function (number) {
+        $scope.month
+        .date(1)
+        .month(number);
+
+         _buildMonth($scope, $scope.month);
+      };
+
+      $scope.focus = function (date) {
+        let month = moment(date);
+
+        if (!month.isValid()) {
+          return false;
+        }
+
+        $scope.month = month.clone();
+
+        _buildMonth($scope, $scope.month);
       };
 
       $scope.next = function () {
-        let next = $scope.month.clone();
-        _removeTime(next.month(next.month() + 1).date(1));
-
-        $scope.month.month($scope.month.month() + 1);
-        _buildMonth($scope, next, $scope.month);
+        $scope.month.add(1, 'M');
+        _buildMonth($scope, $scope.month);
       };
 
       $scope.previous = function () {
-        let previous = $scope.month.clone();
-        _removeTime(previous.month(previous.month() - 1).date(1));
-
-        $scope.month.month($scope.month.month() - 1);
-        _buildMonth($scope, previous, $scope.month);
+        $scope.month.subtract(1, 'M');
+        _buildMonth($scope, $scope.month);
       };
     }
   };
 
-  function _removeTime (date) {
+  function _startTime (date) {
     return date
+      .date(1)
       .day(0)
       .hour(0)
       .minute(0)
@@ -72,11 +87,11 @@ export default function () {
       .millisecond(0);
   }
 
-  function _buildMonth ($scope, start, month) {
+  function _buildMonth ($scope, month) {
     $scope.weeks = [];
 
     let done       = false;
-    let date       = start.clone();
+    let date       = _startTime(month.clone());
     let monthIndex = date.month();
     let count      = 0;
 
