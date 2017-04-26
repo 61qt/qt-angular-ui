@@ -251,5 +251,36 @@ describe('Alert 组件', function () {
         setTimeout(showCompleted, config.during);
       });
     });
+
+    it('delay为0时', function (done) {
+      inject(function ($alert, $timeout) {
+        Config.delay = 0;
+
+        $alert.create(NEST_CONTENT, 1);
+
+        let $jqAlert = $('.alert');
+        let $scope   = angular.element($jqAlert[0].childNodes[0]).scope();
+
+        let delayCompleted = function () {
+          expect($jqAlert.hasClass(Config.leaveClass)).to.be.false;
+          done();
+        };
+
+        let showCompleted = function () {
+          expect($jqAlert.hasClass(Config.enterClass)).to.be.true;
+
+          $timeout.flush();
+          setTimeout(delayCompleted, 1000);
+        };
+
+        // 监听 hide 事件
+        sinon.spy($scope, 'dismiss');
+        sinon.spy($scope, 'hide');
+
+        // 开始淡入窗口
+        $timeout.flush();
+        setTimeout(showCompleted, Config.delay);
+      });
+    });
   });
 });
