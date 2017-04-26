@@ -1,9 +1,10 @@
-if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
-  window.console.log('qt-angular-ui/src/calendar load');
-}
-
 import './index.scss';
 
-import component   from './_index';
+import angular   from 'angular';
+import Component from './component';
+import Modal     from './modal';
 
-export default component;
+export default angular.module('qtAngularUi.calendar', [])
+.directive('calendar', Component)
+.directive('calendarModal', Modal)
+.name;
