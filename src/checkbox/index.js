@@ -1,9 +1,10 @@
-if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
-  window.console.log('qt-angular-ui/src/checkbox load');
-}
-
 import './index.scss';
 
-import component   from './_index';
+import angular            from 'angular';
+import Checkbox           from './component.js';
+import CheckboxOrigin     from './origin.component.js';
 
-export default component;
+export default angular.module('qtAngularUi.checkbox', [])
+.directive('checkbox', Checkbox)
+.directive('checkboxOrigin', CheckboxOrigin)
+.name;
