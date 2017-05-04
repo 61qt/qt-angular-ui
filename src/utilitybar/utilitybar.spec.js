@@ -146,8 +146,8 @@ describe('Utilitybar 组件', function () {
           window.location.replace(GOBACKDT);
         };
 
-        let tmlp = '<utilitybar><a class="go-origin" scope ng-click="goback()">test</a><a class="goback" ng-click="goback()"></a></utilitybar>';
-        let $element  = $compile(tmlp)($newScope);
+        let tmlp     = '<utilitybar><a class="go-origin" scope ng-click="goback()">test</a><a class="goback" ng-click="goback()"></a></utilitybar>';
+        let $element = $compile(tmlp)($newScope);
 
         angular.element(document.body).append($element);
         expect(window.location.href).to.equal(HREF);
