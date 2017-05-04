@@ -167,7 +167,7 @@ describe('Utilitybar 组件', function () {
       inject(function ($rootScope, $compile) {
         let $newScope    = $rootScope.$new();
         $newScope.isOpen = true;
-        let $element1    = $compile('<utilitybar ng-model = "isOpen"></utilitybar>')($newScope);
+        let $element1    = $compile('<utilitybar ng-model="isOpen"></utilitybar>')($newScope);
         let $element2    = $compile('<utilitybar></utilitybar>')($rootScope.$new());
         let $element3    = $compile('<utilitybar></utilitybar>')($rootScope.$new());
         let $scope1      = $element1.children().scope();
