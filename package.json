@@ -25,6 +25,7 @@
   "devDependencies": {
     "angular": "^1.6.3",
     "angular-mocks": "^1.6.3",
+    "angular-ui-router": "^0.4.2",
     "babel-cli": "^6.24.0",
     "babel-eslint": "^7.2.0",
     "babel-loader": "^6.4.1",

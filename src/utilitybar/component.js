@@ -35,7 +35,7 @@ export default function ($compile, $stateParams, $utilitybar) {
        */
       $scope.goback = function () {
         if ($stateParams.hasOwnProperty('dt') && $stateParams.dt) {
-          angular.redirect($stateParams.dt);
+          window.location.replace($stateParams.dt);
         }
         else if (0 < window.history.length) {
           window.history.back();

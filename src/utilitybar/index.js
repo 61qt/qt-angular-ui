@@ -1,9 +1,12 @@
-if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
-  window.console.log('qt-angular-ui/src/utilitybar load');
-}
-
 import './index.scss';
 
-import component   from './_index';
+import angular    from 'angular';
+import Utilitybar from './component';
+import Transclude from './transclude.component';
+import Service    from './service';
 
-export default component;
+export default angular.module('qtAngularUi.utilitybar', [])
+.directive('utilitybar', Utilitybar)
+.directive('utilitybarTransclude', Transclude)
+.provider('$utilitybar', Service)
+.name;
