@@ -90,10 +90,10 @@ describe('Utilitybar 组件', function () {
   describe('触发流程', function () {
     it('能够显示和隐藏', function () {
       inject(function ($rootScope, $compile) {
-        let $newScope = $rootScope.$new();
+        let $newScope    = $rootScope.$new();
         $newScope.isOpen = true;
-        let $element  = $compile('<utilitybar ng-model="isOpen"></utilitybar>')($newScope);
-        let $scope = $element.children().scope();
+        let $element     = $compile('<utilitybar ng-model="isOpen"></utilitybar>')($newScope);
+        let $scope       = $element.children().scope();
 
         angular.element(document.body).append($element);
         let $utilitybar = $('.utilitybar');
