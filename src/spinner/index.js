@@ -1,9 +1,8 @@
-if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
-  window.console.log('qt-angular-ui/src/spinner load');
-}
-
 import './index.scss';
 
-import component   from './_index';
+import angular      from 'angular';
+import Spinner      from './component';
 
-export default component;
+export default angular.module('qtAngularUi.spinner', [])
+.directive('spinner', Spinner)
+.name;
