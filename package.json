@@ -1,6 +1,6 @@
 {
   "name": "qt-angular-ui",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "description": "qt61.cn angular ui components (only for webpack now)",
   "homepage": "https://github.com/61qt/qt-angular-ui",
