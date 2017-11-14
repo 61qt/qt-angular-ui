@@ -1,6 +1,6 @@
 {
   "name": "qt-angular-ui",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "license": "MIT",
   "description": "qt61.cn angular ui components (only for webpack now)",
   "homepage": "https://github.com/61qt/qt-angular-ui",
@@ -61,7 +61,7 @@
   "dependencies": {
     "angular": "^1.6.3",
     "blueimp-canvas-to-blob": "^3.7.0",
-    "bourbon": "^4.3.3",
+    "bourbon": "^5.0.0-beta.8",
     "canvas-compress": "^1.1.5",
     "cropperjs": "^1.0.0-beta.2",
     "lodash": "^4.17.4",

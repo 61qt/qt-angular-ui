@@ -10,20 +10,21 @@ export default class LockerService {
       defaults = _.defaultsDeep(options, defaults);
     };
 
-    this.$get = ($rootScope, $compile) => {
+    this.$get = function ($rootScope, $compile) {
       'ngInject';
 
-      let $scope      = $rootScope.$new();
-      let $component  = $compile('<locker></locker>')($scope);
-      let $childScope = $component.children().scope();
+      let $scope           = $rootScope.$new();
+      $scope.lockerOptions = defaults;
+      let $component       = $compile('<locker locker-options = "lockerOptions"></locker>')($scope);
+      let $childScope      = $component.children().scope();
 
       angular.element(document.body).append($component);
 
       return {
-        show (options = defaults, callback) {
+        show (options, callback) {
           $childScope.show(options, callback);
         },
-        hide (options = defaults, callback) {
+        hide (options, callback) {
           $childScope.hide(options, callback);
         },
       };
