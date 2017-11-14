@@ -1,6 +1,6 @@
 import _        from 'lodash';
 import moment   from 'moment';
-import Template from './index.jade';
+import Template from './index.pug';
 
 export default function () {
   return {

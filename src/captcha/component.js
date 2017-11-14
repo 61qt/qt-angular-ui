@@ -1,5 +1,5 @@
 import angular  from 'angular';
-import Template from './index.jade';
+import Template from './index.pug';
 
 export default function ($uiCaptcha) {
   return {

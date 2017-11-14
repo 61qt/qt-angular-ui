@@ -1,7 +1,7 @@
 import _          from 'lodash';
 import angular    from 'angular';
 import Controller from './controller';
-import Template   from './index.jade';
+import Template   from './index.pug';
 
 export default function ($rootScope) {
   'ngInject';

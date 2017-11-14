@@ -1,6 +1,6 @@
 import _        from 'lodash';
 import Config   from './config';
-import Template from './index.jade';
+import Template from './index.pug';
 
 export default function ($timeout) {
   'ngInject';
