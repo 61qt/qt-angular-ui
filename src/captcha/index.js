@@ -1,7 +1,8 @@
-if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
-  window.console.log('qt-angular-ui/src/captcha load');
-}
+import angular          from 'angular';
+import CaptchaProvider  from './providor';
+import CaptchaComponent from './component';
 
-import component   from './_index';
-
-export default component;
+export default angular.module('qtAngularUi.captcha', [])
+.provider('$uiCaptcha', CaptchaProvider)
+.directive('captcha', CaptchaComponent)
+.name;

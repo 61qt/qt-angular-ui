@@ -17,7 +17,7 @@ export default function () {
         arrProto.push.call(this);
 
         this.setting = _.assign({}, defaults, options);
-        if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG) {
+        if (window.angular && window.angular.env && window.angular.env.QT_UI_LOG && !defaults.captchaUrl) {
           window.console.error('[qt-angular-ui]尚未进行 Captcha 的配置，请查看 qt-angular-ui/src/captcha/README.md 进行配置');
         }
 

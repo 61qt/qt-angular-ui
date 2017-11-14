@@ -1,6 +1,6 @@
 import _          from 'lodash';
 import angular    from 'angular';
-import Template   from './index.html';
+import Template   from './index.jade';
 import Controller from './controller';
 
 export default function ($rootScope) {
@@ -31,7 +31,7 @@ export default function ($rootScope) {
 
       $scope.attrNgChecked    = $attrs.ngChecked;
       $scope.disabled         = $attrs.hasOwnProperty('disabled');
-      $scope.checked          = _.isBoolean($scope.ngModel) ? $scope.ngModel : $attrs.hasOwnProperty('checked');
+      $scope.checked          = _.isBoolean($scope.model) ? $scope.model : $attrs.hasOwnProperty('checked');
 
       $scope.stopPropagation  = $attrs.hasOwnProperty('stopPropagation');
       $scope.preventDefault   = $attrs.hasOwnProperty('preventDefault');
