@@ -2,7 +2,7 @@
  * Cropper: https://github.com/fengyuanchen/cropperjs
  */
 import _          from 'lodash';
-import Template   from './index.jade';
+import Template   from './index.pug';
 import Controller from './controller';
 
 export default function ($rootScope, cropperPromptInterceptor) {

@@ -1,6 +1,6 @@
 import _        from 'lodash';
 import angular  from 'angular';
-import Template from './index.jade';
+import Template from './index.pug';
 import Config   from './config';
 
 export default function ($timeout) {

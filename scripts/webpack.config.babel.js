@@ -25,7 +25,7 @@ let rules = [
     loader : 'ignore-loader',
   },
   {
-    test   : /\.jade$/,
+    test   : /\.pug$/,
     loader : 'pug-loader',
   },
   {

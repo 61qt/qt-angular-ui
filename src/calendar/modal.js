@@ -1,5 +1,5 @@
 import angular  from 'angular';
-import Template from './modal.jade';
+import Template from './modal.pug';
 
 export default function ($rootScope, $timeout) {
   return {

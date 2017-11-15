@@ -1,7 +1,7 @@
 import _          from 'lodash';
 import angular    from 'angular';
 import Controller from './controller.js';
-import Template   from './index.jade';
+import Template   from './index.pug';
 
 export default function ($compile, $stateParams, $utilitybar) {
   'ngInject';
