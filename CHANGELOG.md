@@ -4,6 +4,12 @@
 * F: fix bug
 * TODO: 发现需要增加的功能
 
+## 3.0.0 (2018-01-04)
+* `U` 所有组件可以单独使用
+* `U` 优化所有文件导入方式
+* `U` 优化打包流程
+* `U` 升级 webpack@^3.0.0
+
 ## 2.0.1 (2017-03-24)
 * `F` 修复 restangular/conf.example Object.entries 的问题。
 
