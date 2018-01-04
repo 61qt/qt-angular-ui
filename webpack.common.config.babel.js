@@ -125,7 +125,7 @@ export let Plugins = [
    * Inline styles can be externally optimized for loading
    */
   new ExtractTextPlugin({
-    filename: 'styles/[name].[contenthash].css',
+    filename: 'index.css',
     allChunks: true
   })
 ]

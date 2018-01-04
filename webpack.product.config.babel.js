@@ -14,7 +14,7 @@ const { UglifyJsPlugin } = webpack.optimize
 let bootFile = path.join(tmpDir, './bootstrap.spec.js')
 let cmpDir = path.join(srcDir, './components')
 let files = map(fs.readdirSync(cmpDir), (folderName) => path.join(cmpDir, folderName, '/index.js'))
-let source = map(files, (file) => `important ${file}`).join('\n')
+let source = map(files, (file) => `import '${file}';`).join('\n')
 
 fs.ensureFileSync(bootFile)
 fs.writeFileSync(bootFile, source)
@@ -42,7 +42,7 @@ export default WebpackMerger(WebpackConfig, {
   },
   module: {
     noParse: [
-      /[/\\]node_modules[/\\]/
+      /[/\\]node_modules[/\\]angular/
     ]
   },
   plugins: [
