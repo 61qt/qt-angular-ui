@@ -27,7 +27,7 @@
     "docs": "rimraf ./temporary/docs && babel-node ./scripts/docs.js",
     "docs-develop": "cross-env development=1 concurrently 'npm run docs' 'docsify serve ./docs'",
     "unitest": "karma start",
-    "coveralls": "cross-env COVERAGE=1 npm run test && cat ./coverage/lcov.info | coveralls",
+    "codecov": "cross-env COVERAGE=1 npm run test && codecov",
     "test": "rimraf ./coverage ./.temporary && npm run unitest",
     "sample": "webpack --progress --profile --hide-modules --config ./webpack.sample.config.babel.js",
     "develop": "webpack-dev-server --hot --config ./webpack.develop.config.babel.js --content-base ./libs",

@@ -7,12 +7,12 @@ cache:
   - node_modules
 install:
 - npm install
-- npm install coveralls
+- npm install codecov
 before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 script:
-- npm run coveralls
+- npm run codecov
 before_deploy:
 - npm run release
 - npm run gh-page

@@ -1,7 +1,9 @@
 [![GitHub version](https://badge.fury.io/gh/61qt%2Fqt-angular-ui.svg)](https://badge.fury.io/gh/61qt%2Fqt-angular-ui)
 [![npm version](https://badge.fury.io/js/qt-angular-ui.svg)](https://badge.fury.io/js/qt-angular-ui)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+
 [![Build Status](https://travis-ci.org/61qt/qt-angular-ui.svg?branch=master)](https://travis-ci.org/61qt/qt-angular-ui)
-[![Coverage Status](https://coveralls.io/repos/github/61qt/qt-angular-ui/badge.svg?branch=master)](https://coveralls.io/github/61qt/qt-angular-ui?branch=master)
+[![codecov](https://codecov.io/gh/DavidKk/qt-angular-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/DavidKk/qt-angular-ui)
 [![Dependency Status](https://dependencyci.com/github/61qt/qt-angular-ui/badge)](https://dependencyci.com/github/61qt/qt-angular-ui)
 
 青藤网 angular ui 组件
