@@ -24,16 +24,16 @@ angular.module('app').config(function ($uiCaptchaProvider) {
 })
 ```
 
+### 使用模板
+
+```html
+<captcha class="captcha"></captcha>
+```
+
 ## 使用模式
 
 ```JSON
 {
   restrict: EA
 }
-```
-
-### 使用模板
-
-```html
-<captcha class="captcha"></captcha>
 ```

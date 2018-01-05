@@ -16,6 +16,14 @@ const App = angular.module('app', [
 export default App.name
 ```
 
+### 使用模板
+
+```html
+<calendar-modal ng-model='isOpenCalendar'>
+  <calendar ng-model='schooltimes' disabled></calendar>
+</calendar-modal>
+```
+
 ## 使用模式
 
 ```JSON
@@ -33,12 +41,4 @@ export default App.name
     '2017-01-01', '2017-01-02', '2017-01-03', '2017-01-04', '2017-01-05', '2017-01-06', '2017-01-07', '2017-01-08'
   ]
 }
-```
-
-### 使用模板
-
-```html
-<calendar-modal ng-model='isOpenCalendar'>
-  <calendar ng-model='schooltimes' disabled></calendar>
-</calendar-modal>
 ```

@@ -36,6 +36,12 @@ App.run(function ($document, $alert) {
 })
 ```
 
+### 使用模板
+
+```html
+<alert>{{message}}</alert>
+```
+
 ## 使用模式
 
 ```JSON
@@ -50,10 +56,4 @@ App.run(function ($document, $alert) {
 {
   message: '弹出一个 alert service 的例子'
 }
-```
-
-### 使用模板
-
-```html
-<alert>{{message}}</alert>
 ```
