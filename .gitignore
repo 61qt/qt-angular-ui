@@ -1,16 +1,32 @@
-# Output folders
-/dist
-/scripts_dist
+# Output files
+/libs
+/docs
+/sample
+/gh-page
+/old
+
+# Temporary folders
+/.nyc_output
 /.temporary
+
+
+# Coverage directory used by tools like istanbul
 /coverage
 
 
 # Dependency folders
 node_modules
+npm-debug.log
+.npmrc
 
 
-# Yarn
-/yarn.lock
+# NPM
+npm-shrinkwrap.json
+
+
+# YARN
+yarn.lock
+.yarnrc
 
 
 # Numerous always-ignore extensions
@@ -41,4 +57,3 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 .idea
-

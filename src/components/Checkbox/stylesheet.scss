@@ -1,0 +1,96 @@
+@import "../../stylesheets/mixins/rem";
+
+$checkbox-color: #129fdd !default;
+
+.checkbox {
+  margin: 0;
+
+  &.checkbox-replace {
+    display: inline-block;
+    font-weight: normal;
+    cursor: pointer;
+    user-select: none;
+
+    input[type="checkbox"],
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    .checkbox-icon {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0;
+      padding: 0;
+      border: rem(1px) solid #ccc;
+      width: rem(16px);
+      height: rem(16px);
+      vertical-align: middle;
+      border-radius: rem(2px);
+      cursor: pointer;
+      transition: all .2s;
+
+      &:before {
+        position: absolute;
+        top: rem(2.5px);
+        right: 0;
+        left: 0;
+        margin: auto;
+        border: rem(2px) solid #fff;
+        border-top: none;
+        border-right: none;
+        width: 80%;
+        height: 40%;
+        content: "";
+        opacity: 0;
+        transform: rotate(-45deg);
+        transition: all .2s;
+      }
+    }
+
+    &:hover {
+      .checkbox-icon {
+        border-color: $checkbox-color;
+      }
+    }
+
+    input[checked] + .checkbox-icon {
+      border-color: $checkbox-color;
+      background-color: $checkbox-color;
+
+      &:before {
+        opacity: 1;
+      }
+    }
+
+    &.disabled,
+    &[disabled],
+    &:disabled {
+      pointer-events: none;
+
+      > .checkbox-icon {
+        opacity: .3;
+      }
+    }
+
+    input.disabled,
+    input:disabled {
+      + .checkbox-icon {
+        opacity: .3;
+      }
+    }
+
+    .checkbox-inner {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}
+
+// checkbox in Form-horizontal
+.form-horizontal {
+  .control-label .checkbox.checkbox-replace {
+    margin-right: 0;
+    padding-top: 0;
+  }
+}

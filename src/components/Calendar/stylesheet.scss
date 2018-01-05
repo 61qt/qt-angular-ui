@@ -1,0 +1,203 @@
+@import "../../stylesheets/mixins/rem";
+
+$calendar-border-color: #f0f0f0 !default;
+$calendar-spacing: rem(10px) 0 !default;
+$calendar-header-height: rem(45px) !default;
+
+$calendar-header-size: rem(15px) !default;
+$calendar-day-in-week-size: rem(13px) !default;
+$calendar-date-size: rem(12px) !default;
+$calendar-date-content-size: rem(12px * 30 / 12) !default;
+
+$calendar-day-in-week-color: #333 !default;
+$calendar-date-color: #666 !default;
+$calendar-different-color: #999 !default;
+
+$calendar-selected-bgc: #129fdd !default;
+$calendar-today-bgc: #e3f2ff !default;
+
+.calendar-modal-open {
+  position: fixed !important;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.calendar-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4200;
+  display: block;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(20%);
+  transition: all .35s;
+
+  &.hide {
+    display: none !important;
+  }
+
+  &.in {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  .calendar-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,.9);
+  }
+
+  .button {
+    position: relative;
+    margin-top: rem(15px);
+    right: 0;
+    left: 0;
+    display: block;
+    margin: auto;
+    width: rem(40px);
+    height: rem(40px);
+  }
+}
+
+.calendar {
+  position: relative;
+  z-index: 4;
+  display: block;
+  margin: auto;
+  border-bottom: rem(1px) solid $calendar-border-color;
+  width: 100%;
+  background: #fff;
+
+  .header {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: $calendar-header-height;
+    line-height: $calendar-header-height;
+    font-size: $calendar-header-size;
+    color: $calendar-day-in-week-color;
+
+    .button {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: auto;
+      right: auto;
+      display: inline-block;
+      vertical-align: middle;
+      margin: auto;
+      text-align: center;
+      font-size: rem(12px);
+      color: inherit;
+      cursor: pointer;
+
+      &.prev {
+        left: rem(15px);
+      }
+
+      &.next {
+        right: rem(15px);
+      }
+    }
+
+    .date {
+      display: block;
+      margin: auto;
+      width: 60%;
+      height: 100%;
+      text-align: center;
+      line-height: inherit;
+    }
+  }
+
+  .week {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+
+    .day {
+      display: table-cell;
+      vertical-align: middle;
+      padding: $calendar-spacing;
+      width: 100%;
+      text-align: center;
+      font-size: $calendar-date-size;
+      background: white;
+      color: $calendar-date-color;
+      cursor: pointer;
+
+      .content {
+        display: block;
+        vertical-align: middle;
+        margin: auto;
+        width: $calendar-date-content-size;
+        height: $calendar-date-content-size;
+        line-height: $calendar-date-content-size;
+        font-size: $calendar-date-size;
+        border-radius: 100%;
+      }
+
+      &.today .content {
+        background-color: $calendar-today-bgc;
+      }
+
+      &.different-month .content {
+        color: $calendar-different-color;
+      }
+
+      &.selected .content {
+        background: $calendar-selected-bgc;
+        color: white;
+      }
+    }
+
+    &.names > .day {
+      padding: rem(4px) 0;
+      font-size: $calendar-day-in-week-size;
+      font-weight: bold;
+      color: $calendar-day-in-week-color;
+    }
+  }
+}
+
+.calendar-modal {
+  $qt-icon-wrong-color: #7e8e9f;
+  .colse-icon {
+    display: inline-block;
+    transition: all .35s ease-in-out;
+    display: inline-block;
+    width: rem(44px);
+    height: rem(44px);
+    border: rem(1.5px) solid $qt-icon-wrong-color;
+    border-radius: 50%;
+    position: relative;
+    &:after, &:before {
+      content: ' ';
+      display: block;
+      width: rem(22px);
+      height: rem(1.5px);
+      overflow: hidden;
+      left: rem(10px);
+      top: rem(20.5px);
+      position: absolute;
+      background: $qt-icon-wrong-color;
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+  }
+}

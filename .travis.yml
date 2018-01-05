@@ -7,14 +7,24 @@ cache:
   - node_modules
 install:
 - npm install
-- npm install coveralls
+- npm install codecov
 before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 script:
-- npm run coveralls
+- npm run codecov
+before_deploy:
+- npm run release
+- npm run gh-page
 deploy:
-  provider: npm
+- provider: pages
+  local_dir: gh-page
+  skip_cleanup: true
+  github_token:
+    secure: bef9k9oIq5wLIZcTjyVcYd3vV5WwyJuMQF6bVF4U+Y0+RxNbMSSA6udcWx6Zfm6i3sADGCMSRCyeqJQdRGNu7vugrFH1dGK1qIqA6AjikidWpurtigyrO7qkueqOGRjWv7Wx+57UTqAgWKBTmRQwspBjNYsSczF8dcbbnKtNG/rrkrtfVzk8r0klkZwLZXS+QSvKqwFMO3zaIlO9NlNCEuo7VOUIB8JSwTJn1EbuJG57EitiklFOicPt1HSBT7xKTQ6Hv21trD0dHXwyG8TkmohsaGoG5d6draoxlaElJJUWjVl4B9XpBZ+Bg7Y0tXPsf4nXRXKAsaUyzYlrgm/Dz3qlpZI6rLreiflwjht2HRpiu6bbEOWyBJ6XctOc4zhJj84CeiT0NCbtf2e1yEZRl+Mnw7Nu256yKvdn3fNesqqZ5DjUGA+wC3OxWlhzBdBgvauyAs2zhEIFk7+itCPz4qNVOxQxXOtklZndLBDxb0bKJVBmfWbXjATBbKW2kugVts6fhA4iqWIcu2SrGF/61hGmgj0XCnJ/gBNPNoETe7bD+WVQISKULUDxwkJIXjdVdTqdw8HnTA4QY4RHHgsOrB02iWhF2rUdOu8K3zXHGKrLF4aje1GcjiBrqESYfcbQ2oUaroMxl7ZvbE33iMn/lBilXgqat1pDErcFfHrel24=
+  on:
+    branch: master
+- provider: npm
   email: qowera@qq.com
   api_key:
     secure: SgnJ140D4GU67sDeqTwozzbmSWf1HzqO34LpykKYySYqlKsNmQiC2lm+4MwAEwD/StprIjDLVt7+F+eBkP7VdjVUg2wSUjXa1g26qKh4mZ0oixb7DTUohy7mgqvW67gd3rsltMCo9ABQP0liYDqIz8cE0tinaaUW/YsFVIrTv2kTlQzqu4WQj1PQh3MoOUTNiHaCkjqlxPPJjVn5MYQOZep3qrb2k+6iVGFXqmeqiJ+2NiwRyAfOxsE6dAyPoAGlHoUwZTayEDKy46vLjEyHyN6PRooFD13dBlS14mkKq7VuqgM8k2mig3D5HpUhMLhap1V4msMngyM/d2UjsjuzTq7Q0Md8gOE/vlAUCQBXHZ18HOTHPiDGD0ctewIfW30eDFimPiPjr3X00wTOWMBqovSkdLY59aOc3beBGFAsGHbeD8bYZA0C6H2OF4L2yS21AULcgmNqfN3vY4e/HkUrTgxeNHHH/kLbXvGgikPCXwLqbV9pTRcZCZmNddszwVMqmm3BBiIQdfVoapPyvhrVQ+j02N4LySErbvYabtb+/1Hxwv/ev1TOPJ6Y2WbPeqDvdqKSeBlxyrfFRXWEcXnuiWyHXiemxcwQ7sJfrsWudlwKkSuEwPIO3cqZa0An6VYPAznUOjzIbFbyZToQuQ5dZIhEnprEVUmHGxN/2gAT7RI=
