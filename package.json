@@ -33,7 +33,7 @@
     "develop": "webpack-dev-server --hot --config ./webpack.develop.config.babel.js --content-base ./libs",
     "product": "webpack --progress --profile --hide-modules --config ./webpack.product.config.babel.js",
     "release": "npm run test && npm run product",
-    "gh-page": "npm run docs && npm run sample && cpy './docs/*' ./gh-page/docs && cpy './sample/*' ./gh-page/sample",
+    "gh-page": "rimraf ./gh-page && npm run docs && npm run sample && cpy './docs/*' './docs/.*' ./gh-page && cpy './sample/*' ./gh-page/sample",
     "start": "npm run develop"
   },
   "peerDependencies": {

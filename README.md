@@ -22,15 +22,15 @@
 #### 普通导入
 
 ```javascript
-const angular = require('angular)
-const QtUI = require('qt-angulat-ui)
+const angular = require('angular')
+const QtUI = require('qt-angulat-ui')
 angular.module('app', QtUI)
 ```
 
 #### Webpack 导入
 ```javascript
 import angular from 'angular'
-import Toast from 'qt-angulat-ui/Alert'
+import Toast from 'qt-angulat-ui/Toast'
 
 angular.module('app', [Toast])
 ```
