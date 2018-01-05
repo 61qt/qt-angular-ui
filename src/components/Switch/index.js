@@ -58,7 +58,7 @@ class Controller {
 }
 
 const Component = ($rootScope) => ({
-  restrict: 'EA',
+  restrict: 'E',
   transclude: true,
   replace: true,
   controller: Controller,
