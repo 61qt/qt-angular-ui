@@ -27,14 +27,14 @@
     "docs": "rimraf ./temporary/docs && babel-node ./scripts/docs.js",
     "docs-develop": "cross-env development=1 concurrently 'npm run docs' 'docsify serve ./docs'",
     "unitest": "karma start",
-    "coveralls": "npm run test && cat ./coverage/lcov.info | coveralls",
+    "coveralls": "cross-env COVERAGE=1 npm run test && cat ./coverage/lcov.info | coveralls",
     "test": "rimraf ./coverage ./.temporary && npm run unitest",
     "sample": "webpack --progress --profile --hide-modules --config ./webpack.sample.config.babel.js",
     "develop": "webpack-dev-server --hot --config ./webpack.develop.config.babel.js --content-base ./libs",
     "product": "webpack --progress --profile --hide-modules --config ./webpack.product.config.babel.js",
     "release": "npm run test && npm run product",
-    "gh-page": "cpy './docs/*' ./gh-page/docs && cpy './sample/*' ./gh-page/sample",
-    "start": "concurrently 'npm run develop' 'npm run docs-develop'"
+    "gh-page": "npm run docs && npm run sample && cpy './docs/*' ./gh-page/docs && cpy './sample/*' ./gh-page/sample",
+    "start": "npm run develop"
   },
   "peerDependencies": {
     "docsify-cli": "^4.1.11"

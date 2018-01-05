@@ -4,6 +4,7 @@ import WebpackMerger from 'webpack-merge'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import WebpackConf from './webpack.common.config.babel'
 import { srcDir, demoDir } from './variables'
+import { name as Name } from './package.json'
 
 export default WebpackMerger(WebpackConf, {
   devtool: 'source-map',
@@ -12,7 +13,7 @@ export default WebpackMerger(WebpackConf, {
   },
   output: {
     path: demoDir,
-    publicPath: '/qt-angular-ui/demo/',
+    publicPath: `/${Name}/${path.basename(demoDir)}`,
     umdNamedDefine: false
   },
   plugins: [

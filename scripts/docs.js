@@ -83,6 +83,6 @@ if (process.env.development) {
     }
 
     forEach(files, (file) => copyMarkdown(path.join(rootDir, file)))
-    console.log(`✨  Docs is completed, you can view docs with ${colors.magenta.bold('docsify serve ./docs')}`)
+    console.log(`✨  Docs is completed, you can view docs with ${colors.magenta.bold(docsDir)}`)
   })
 }
