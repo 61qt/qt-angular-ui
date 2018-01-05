@@ -22,7 +22,10 @@ export default App.name;
 
 ```javascript
 App.config(($alertProvider) => {
-  $alertProvider.configure({ delay: 1000, during: 1000 })
+  $alertProvider.configure({
+    delay: 1000,
+    during: 1000
+  })
 })
 ```
 
