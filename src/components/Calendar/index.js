@@ -6,6 +6,8 @@ import angular from 'angular'
 import Template from './template.pug'
 import ModalTemplate from './modal.pug'
 
+const App = angular.module('QtNgUi.Calendar', [])
+
 const _startTime = function (date) {
   return date
     .date(1)
@@ -54,9 +56,7 @@ const _buildWeek = function (date, month) {
   return days
 }
 
-const App = angular.module('QtNgUi.Calendar', [])
-
-App.directive('calendar', () => ({
+const Calendar = () => ({
   restrict: 'E',
   replace: true,
   template: Template,
@@ -120,9 +120,9 @@ App.directive('calendar', () => ({
       _buildMonth($scope, $scope.month)
     }
   }
-}))
+})
 
-App.directive('calendarModal', ($rootScope, $timeout) => ({
+const Modal = ($rootScope, $timeout) => ({
   restrict: 'E',
   replace: true,
   transclude: true,
@@ -152,6 +152,9 @@ App.directive('calendarModal', ($rootScope, $timeout) => ({
       }
     })
   }
-}))
+})
+
+App.directive('calendar', Calendar)
+App.directive('calendarModal', Modal)
 
 export default App.name
