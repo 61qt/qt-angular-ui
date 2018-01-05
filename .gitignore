@@ -1,5 +1,8 @@
 # Output files
 /libs
+/docs
+/sample
+/gh-page
 /old
 
 # Temporary folders

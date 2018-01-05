@@ -9,6 +9,7 @@
 * `U` 优化所有文件导入方式
 * `U` 优化打包流程
 * `U` 升级 webpack@^3.0.0
+* `A` 完善线上事例与文档
 
 ## 2.0.1 (2017-03-24)
 * `F` 修复 restangular/conf.example Object.entries 的问题。

@@ -4,7 +4,7 @@ import WebpackMerger from 'webpack-merge'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import autoprefixer from 'autoprefixer'
-import { tmpDir, srcDir, distDir, coverageDir, rootDir } from './variables'
+import { tmpDir, srcDir, distDir, coverageDir, rootDir, demoDir } from './variables'
 
 const { CommonsChunkPlugin } = webpack.optimize
 
@@ -105,7 +105,7 @@ export let Plugins = [
    * Clean generate folders
    * run it first to reset the project.
    */
-  new CleanWebpackPlugin([distDir, coverageDir], {
+  new CleanWebpackPlugin([demoDir, distDir, coverageDir], {
     root: '/',
     verbose: true,
     dry: false
