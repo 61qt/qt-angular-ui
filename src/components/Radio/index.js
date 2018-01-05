@@ -6,7 +6,7 @@ import isBoolean from 'lodash/isBoolean'
 import angular from 'angular'
 import Template from './template.pug'
 
-const App = angular.module('QtNgUi.Alert', [])
+const App = angular.module('QtNgUi.Radio', [])
 
 class Controller {
   constructor ($scope) {
