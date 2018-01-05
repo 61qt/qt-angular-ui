@@ -14,7 +14,7 @@ import {
 import transitionEnd from '../../share/transitionEnd'
 import Template from './template.pug'
 
-let App = angular.module('QtNgUi.Alert', [])
+const App = angular.module('QtNgUi.Alert', [])
 
 const Directive = ($timeout, $alert) => ({
   restrict: 'EA',

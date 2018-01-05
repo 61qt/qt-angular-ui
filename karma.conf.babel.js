@@ -40,10 +40,7 @@ export default function (config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'chai', 'sinon'],
     files: [
-      {
-        pattern: './src/**/*.spec.js',
-        watched: false
-      }
+      testEntryFile
     ],
     client: {
       chai: {
@@ -51,6 +48,10 @@ export default function (config) {
       }
     },
     preprocessors: {
+      [testEntryFile]: [
+        'webpack',
+        'sourcemap'
+      ],
       './src/**/*.spec.js': [
         'webpack',
         'sourcemap'
