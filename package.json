@@ -40,6 +40,7 @@
     "docsify-cli": "^4.1.11"
   },
   "devDependencies": {
+    "@uirouter/angularjs": "^1.0.12",
     "angular": "^1.6.3",
     "angular-mocks": "^1.6.3",
     "autoprefixer": "^7.2.4",
@@ -68,6 +69,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^2.30.1",
@@ -95,6 +97,7 @@
     "sass-loader": "^6.0.6",
     "sinon": "^4.1.3",
     "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
     "watch": "^1.0.2",
     "webpack": "^3.1.0",
     "webpack-dev-server": "^2.9.7",
@@ -107,6 +110,7 @@
     "canvas-compress": "^1.1.5",
     "cropperjs": "^1.0.0-beta.2",
     "lodash": "^4.17.4",
-    "moment": "^2.20.1"
+    "moment": "^2.20.1",
+    "qiniup": "^0.2.1"
   }
 }

@@ -7,9 +7,12 @@ import './stylesheet.scss'
 import isFunction from 'lodash/isFunction'
 import defaultsDeep from 'lodash/defaultsDeep'
 import angular from 'angular'
+import QiniuUploader from '../QiniuUploader'
 import Template from './template.pug'
 
-const App = angular.module('QtNgUi.Cropper', [])
+const App = angular.module('QtNgUi.Cropper', [
+  QiniuUploader
+])
 
 const CropperImageLink = ($rootScope, cropperInterceptor) => ({
   restrict: 'A',
@@ -22,7 +25,7 @@ const CropperImageLink = ($rootScope, cropperInterceptor) => ({
   }
 })
 
-const CropperLinkController = ($scope, cropperInterceptor) => {
+const CropperLinkController = function ($scope, cropperInterceptor) {
   $scope.cropperImage = ''
   $scope.$cropper = null
 
@@ -159,12 +162,16 @@ const CropperLink = ($rootScope, cropperInterceptor) => ({
     $scope.onCropperFileSelect = function ([file]) {
       $scope.loading = true
 
-      cropCtrl.readDataByFile(file, function (err, data) {
+      cropCtrl.readDataByFile(file, function (error, data) {
         $scope.loading = false
 
-        if (err) {
-          cropCtrl.upload(file, function (err) {
-            err && notify(err, 'error')
+        if (error) {
+          cropCtrl.upload(file, function (error) {
+            if (error) {
+              notify(error, 'error')
+              $scope.cancel()
+              $scope.$digest()
+            }
           })
 
           return
@@ -191,6 +198,9 @@ const CropperLink = ($rootScope, cropperInterceptor) => ({
 
       cropCtrl.transformBlob(function (error, blob) {
         if (error) {
+          notify(error, 'error')
+          $scope.cancel()
+          $scope.$digest()
           return
         }
 
@@ -204,7 +214,8 @@ const CropperLink = ($rootScope, cropperInterceptor) => ({
 
           if (error) {
             notify(error, 'error')
-            $scope.$cropper.crop()
+            $scope.cancel()
+            $scope.$digest()
             return
           }
 
@@ -237,9 +248,7 @@ const CropperLink = ($rootScope, cropperInterceptor) => ({
         return notify('log', type)
       }
 
-      isFunction(cropperInterceptor.notify)
-        ? cropperInterceptor.notify(message, type)
-        : console.log(message)
+      isFunction(cropperInterceptor.notify) ? cropperInterceptor.notify(message, type) : console.log(message)
     }
   }
 })

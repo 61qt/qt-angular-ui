@@ -1,22 +1,21 @@
 import './sample.scss'
 
+import map from 'lodash/map'
 import angular from 'angular'
 import Component from './index'
 import Template from './sample.pug'
 
-export const App = angular.module('QtNgUi.Alert.Sample', [
+export const App = angular.module('QtNgUi.Lazier.Sample', [
   Component
 ])
 
-App.directive('alertSample', ($alert) => ({
+App.directive('lazierSample', () => ({
   restrict: 'EA',
   replace: true,
   transclude: true,
   template: Template,
   link ($scope) {
-    $scope.alert = function (message) {
-      $alert.create(message || 'message')
-    }
+    $scope.images = map(new Array(100), (_, no) => `//lorempixel.com/1024/768/food/?v=${no}`)
   }
 }))
 

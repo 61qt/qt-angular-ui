@@ -5,9 +5,12 @@ import isString from 'lodash/isString'
 import isFunction from 'lodash/isFunction'
 import angular from 'angular'
 import { config as Config } from './constants'
+import Spinner from '../Spinner'
 import Template from './template.pug'
 
-const App = angular.module('QtNgUi.Locker', [])
+const App = angular.module('QtNgUi.Locker', [
+  Spinner
+])
 
 class Service {
   constructor () {

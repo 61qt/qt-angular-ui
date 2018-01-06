@@ -25,21 +25,7 @@ export let Rules = [
     loader: 'pug-loader'
   },
   {
-    test: /\.css$/,
-    use: ExtractTextPlugin.extract({
-      fallback: 'style-loader',
-      use: [
-        {
-          loader: 'css-loader',
-          options: {
-            minimize: true
-          }
-        }
-      ]
-    })
-  },
-  {
-    test: /\.(sass|scss)$/,
+    test: /\.(sass|s?css)$/,
     use: ExtractTextPlugin.extract({
       fallback: 'style-loader',
       use: [
@@ -94,6 +80,22 @@ export let Rules = [
       }
     ],
     exclude: [/node_modules/]
+  },
+  /**
+   * 少于 1K 图片用 base64
+   * url-loader 依赖 file-loader
+   */
+  {
+    test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)$/i,
+    use: [
+      {
+        loader: 'url-loader',
+        options: {
+          limit: 1 * 1024,
+          name: 'panels/[name].[hash].[ext]'
+        }
+      }
+    ]
   }
 ]
 
@@ -125,7 +127,7 @@ export let Plugins = [
    * Inline styles can be externally optimized for loading
    */
   new ExtractTextPlugin({
-    filename: 'index.css',
+    filename: 'styles/[name].[contenthash].css',
     allChunks: true
   })
 ]
@@ -135,7 +137,7 @@ export default WebpackMerger({
   output: {
     path: distDir,
     publicPath: '/',
-    filename: '[name].js'
+    filename: '[name].[hash].js'
   },
   module: {
     rules: Rules

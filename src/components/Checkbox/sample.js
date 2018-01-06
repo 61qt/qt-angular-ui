@@ -4,19 +4,17 @@ import angular from 'angular'
 import Component from './index'
 import Template from './sample.pug'
 
-export const App = angular.module('QtNgUi.Alert.Sample', [
+export const App = angular.module('QtNgUi.Checkbox.Sample', [
   Component
 ])
 
-App.directive('alertSample', ($alert) => ({
+App.directive('checkboxSample', () => ({
   restrict: 'EA',
   replace: true,
   transclude: true,
   template: Template,
   link ($scope) {
-    $scope.alert = function (message) {
-      $alert.create(message || 'message')
-    }
+
   }
 }))
 
