@@ -24,7 +24,7 @@
     "yamllint": "yamllint .travis.yml",
     "eslint": "eslint --config .eslintrc.js --ext .js --fix './src/**/*.js' './scripts/*.js' './*.js'",
     "lint": "npm run yamllint && npm run eslint",
-    "docs": "rimraf ./temporary/docs && babel-node ./scripts/docs.js",
+    "docs": "rimraf ./docs && babel-node ./scripts/docs.js",
     "docs-develop": "cross-env development=1 concurrently 'npm run docs' 'docsify serve ./docs'",
     "unitest": "karma start",
     "codecov": "cross-env COVERAGE=1 npm run test && codecov",
@@ -33,13 +33,14 @@
     "develop": "webpack-dev-server --hot --config ./webpack.develop.config.babel.js --content-base ./libs",
     "product": "webpack --progress --profile --hide-modules --config ./webpack.product.config.babel.js",
     "release": "npm run test && npm run product",
-    "gh-page": "npm run docs && npm run sample && cpy './docs/*' ./gh-page/docs && cpy './sample/*' ./gh-page/sample",
+    "gh-page": "rimraf ./gh-page && npm run sample && npm run docs && ncp ./docs ./gh-page && ncp ./sample ./gh-page/sample",
     "start": "npm run develop"
   },
   "peerDependencies": {
     "docsify-cli": "^4.1.11"
   },
   "devDependencies": {
+    "@uirouter/angularjs": "^1.0.12",
     "angular": "^1.6.3",
     "angular-mocks": "^1.6.3",
     "autoprefixer": "^7.2.4",
@@ -56,7 +57,6 @@
     "colors": "^1.1.2",
     "concurrently": "^3.5.1",
     "copy-webpack-plugin": "^4.3.1",
-    "cpy-cli": "^1.0.1",
     "cross-env": "^5.1.3",
     "css-loader": "^0.28.7",
     "docsify-cli": "^4.2.0",
@@ -68,6 +68,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
     "fs-extra": "^5.0.0",
     "glob": "^7.1.2",
     "html-webpack-plugin": "^2.30.1",
@@ -86,6 +87,7 @@
     "karma-webpack": "^2.0.3",
     "lint-staged": "^6.0.0",
     "mocha": "^4.1.0",
+    "ncp": "^2.0.0",
     "ng-annotate-loader": "^0.6.1",
     "node-sass": "^4.7.2",
     "postcss-loader": "^2.0.10",
@@ -95,6 +97,7 @@
     "sass-loader": "^6.0.6",
     "sinon": "^4.1.3",
     "style-loader": "^0.19.1",
+    "url-loader": "^0.6.2",
     "watch": "^1.0.2",
     "webpack": "^3.1.0",
     "webpack-dev-server": "^2.9.7",
@@ -107,6 +110,7 @@
     "canvas-compress": "^1.1.5",
     "cropperjs": "^1.0.0-beta.2",
     "lodash": "^4.17.4",
-    "moment": "^2.20.1"
+    "moment": "^2.20.1",
+    "qiniup": "^0.2.1"
   }
 }

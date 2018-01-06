@@ -20,8 +20,9 @@ class Service {
     this.defaultSettings = defaults(options, this.defaultSettings)
   }
 
-  $get ($window) {
+  $get () {
     let openScopes = []
+    let $window = angular.element(window)
 
     $window.on('scroll', () => {
       for (let i = 0, l = openScopes.length; i < l; i++) {

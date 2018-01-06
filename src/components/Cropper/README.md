@@ -28,7 +28,7 @@ export default App.name;
   - notify: 这个将会在失败的 callback 调用时候再次触发, 具体就是为了兼容旧版本的接口，其实可以直接写进 upload 的失败 callback 的时候
 
 ```javascript
-App.provider('cropperPromptInterceptor', function () {
+App.provider('cropperInterceptor', function () {
   this.$get = function ($toast, $qiniuUploader) {
     const notify = () => {
       alert(message)

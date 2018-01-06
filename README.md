@@ -3,7 +3,7 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
 [![Build Status](https://travis-ci.org/61qt/qt-angular-ui.svg?branch=master)](https://travis-ci.org/61qt/qt-angular-ui)
-[![codecov](https://codecov.io/gh/DavidKk/qt-angular-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/DavidKk/qt-angular-ui)
+[![codecov](https://codecov.io/gh/61qt/qt-angular-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/61qt/qt-angular-ui)
 [![Dependency Status](https://dependencyci.com/github/61qt/qt-angular-ui/badge)](https://dependencyci.com/github/61qt/qt-angular-ui)
 
 青藤网 angular ui 组件
@@ -13,24 +13,23 @@
 
 从青藤网的各个项目中抽出来的 angular 组件，发布到 github 及 npm 上，方便维护及其他同行使用。
 
-## 文档
-
-## 实例
+- [文档](https://61qt.github.io/qt-angular-ui/)
+- [实例](https://61qt.github.io/qt-angular-ui/sample)
 
 ## 使用
 
 #### 普通导入
 
 ```javascript
-const angular = require('angular)
-const QtUI = require('qt-angulat-ui)
+const angular = require('angular')
+const QtUI = require('qt-angulat-ui')
 angular.module('app', QtUI)
 ```
 
 #### Webpack 导入
 ```javascript
 import angular from 'angular'
-import Toast from 'qt-angulat-ui/Alert'
+import Toast from 'qt-angulat-ui/Toast'
 
 angular.module('app', [Toast])
 ```

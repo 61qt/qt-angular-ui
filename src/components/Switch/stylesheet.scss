@@ -8,9 +8,9 @@ $switch-color: #129fdd !default;
   display: inline-block;
   overflow: hidden;
   border: 1px solid $switch-border-color;
-  border-radius: px-to-rem(4px);
-  min-width: px-to-rem(104px);
-  height: px-to-rem(30px);
+  border-radius: rem(4px);
+  min-width: rem(104px);
+  height: rem(30px);
   cursor: pointer;
   user-select: none;
 
@@ -40,7 +40,7 @@ $switch-color: #129fdd !default;
       text-align: center;
       word-break: keep-all;
       white-space: nowrap;
-      font-size: px-to-rem(12px);
+      font-size: rem(12px);
       font-family: Trebuchet, Arial, sans-serif;
       font-weight: bold;
       color: #fff;
@@ -53,7 +53,7 @@ $switch-color: #129fdd !default;
 
       .content {
         display: inline-block;
-        padding: 0 px-to-rem(8px);
+        padding: 0 rem(8px);
         min-width: 50%;
         text-align: center;
       }
@@ -77,7 +77,7 @@ $switch-color: #129fdd !default;
     z-index: 0;
     display: block;
     margin: auto 0;
-    border-radius: px-to-rem(2px) 0 0 px-to-rem(2px);
+    border-radius: rem(2px) 0 0 rem(2px);
     width: 50%;
     height: 100%;
     background: $switch-color;
@@ -94,7 +94,7 @@ $switch-color: #129fdd !default;
 
   input:checked {
     + .switch-switcher {
-      border-radius: 0 px-to-rem(2px) px-to-rem(2px) 0;
+      border-radius: 0 rem(2px) rem(2px) 0;
       transform: translateX(0);
 
       + .switch-inner {
@@ -112,14 +112,35 @@ $switch-color: #129fdd !default;
   }
 
   input.disabled,
-  input:disabled {
-    + .switch-inner .switch-on,
-    + .switch-inner .switch-off {
-      opacity: .3;
+  input:disabled,
+  input[disabled] {
+    + .switch-switcher {
+      background-color: #aeaeae;
     }
   }
 
   &[disabled] {
     pointer-events: none;
+    border-color: #aeaeae;
+
+    .switch-inner {
+      .switch-on {
+        color: #aeaeae;
+      }
+
+      .switch-off {
+        color: #fff;
+      }
+    }
+
+    input:checked + .switch-switcher + .switch-inner {
+      .switch-on {
+        color: #fff;
+      }
+
+      .switch-off {
+        color: #aeaeae;
+      }
+    }
   }
 }

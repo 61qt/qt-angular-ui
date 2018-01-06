@@ -30,9 +30,7 @@ class Service {
       }
 
       let $element = $compile($toast)($scope)
-      $document.ready(function () {
-        angular.element(document.body).append($element)
-      })
+      angular.element(document.body).append($element)
 
       this.openScopes.push($scope)
     }
