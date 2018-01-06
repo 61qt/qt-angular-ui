@@ -3,7 +3,7 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
 [![Build Status](https://travis-ci.org/61qt/qt-angular-ui.svg?branch=master)](https://travis-ci.org/61qt/qt-angular-ui)
-[![codecov](https://codecov.io/gh/DavidKk/qt-angular-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/DavidKk/qt-angular-ui)
+[![codecov](https://codecov.io/gh/61qt/qt-angular-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/61qt/qt-angular-ui)
 [![Dependency Status](https://dependencyci.com/github/61qt/qt-angular-ui/badge)](https://dependencyci.com/github/61qt/qt-angular-ui)
 
 青藤网 angular ui 组件
