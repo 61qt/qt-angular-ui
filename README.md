@@ -13,9 +13,8 @@
 
 从青藤网的各个项目中抽出来的 angular 组件，发布到 github 及 npm 上，方便维护及其他同行使用。
 
-## 文档
-
-## 实例
+- [文档](https://61qt.github.io/qt-angular-ui/)
+- [实例](https://61qt.github.io/qt-angular-ui/sample)
 
 ## 使用
 
