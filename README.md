@@ -6,15 +6,20 @@
 [![codecov](https://codecov.io/gh/61qt/qt-angular-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/61qt/qt-angular-ui)
 [![Dependency Status](https://dependencyci.com/github/61qt/qt-angular-ui/badge)](https://dependencyci.com/github/61qt/qt-angular-ui)
 
-青藤网 angular ui 组件
+QT Angular UI
 ---
+
 
 ## 简介
 
-从青藤网的各个项目中抽出来的 angular 组件，发布到 github 及 npm 上，方便维护及其他同行使用。
-
 - [文档](https://61qt.github.io/qt-angular-ui/)
 - [实例](https://61qt.github.io/qt-angular-ui/sample)
+- [广东智慧少年宫](https://zhsng.m.61qt.cn)
+
+<iframe width="437" height="893" title="Alert" src="https://61qt.github.io/qt-angular-ui/sample/frame.html" frameborder="no" allowtransparency="true" allowfullscreen="true" style="display:block;">
+  <a href="https://61qt.github.io/qt-angular-ui/sample/">Sample</a>
+</iframe>
+
 
 ## 使用
 

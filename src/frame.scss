@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+  outline: 0 !important;
+}
+
+html {
+  overflow: auto;
+  margin: auto;
+}
+
+body {
+  position: relative;
+  margin: 0 auto;
+}
+
+.stage {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  > iframe {
+    display: block;
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.phone-models {
+  box-sizing: content-box;
+  position: relative;
+  margin: auto;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  padding: 112px 30px;
+  width: 375px;
+  height: 667px;
+  background-color: #fff;
+  overflow-y: auto;
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 70px;
+    margin: 0 auto;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    width: 70px;
+    height: 10px;
+    display: block;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    margin: 0 auto;
+    display: block;
+    border: 2px solid #ccc;
+    border-radius: 100%;
+    width: 70px;
+    height: 70px;
+  }
+
+  .stage {
+    border: 1px solid #ccc;
+  }
+}

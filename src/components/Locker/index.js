@@ -32,14 +32,15 @@ class Service {
 
     angular.element(document.body).append($component)
 
-    return {
-      show (options, callback) {
-        $childScope.show(options, callback)
-      },
-      hide (options, callback) {
-        $childScope.hide(options, callback)
-      }
+    const show = (options, callback) => {
+      $childScope.show(options, callback)
     }
+
+    const hide = (options, callback) => {
+      $childScope.hide(options, callback)
+    }
+
+    return { show, hide }
   }
 }
 
