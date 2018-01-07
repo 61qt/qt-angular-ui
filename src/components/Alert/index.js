@@ -16,7 +16,51 @@ import Template from './template.pug'
 
 const App = angular.module('QtNgUi.Alert', [])
 
-const Directive = ($timeout, $alert) => ({
+class Service {
+  constructor () {
+    this.openScopes = []
+    this.defaultSettings = Config
+  }
+
+  configure (options) {
+    this.defaultSettings = defaults({}, options, Config)
+  }
+
+  $get ($rootScope, $compile) {
+    const create = (message, options = this.defaultSettings) => {
+      if (isString(options)) {
+        return create(message, { type: options })
+      }
+
+      let AlertTemplate = template(AliasTemplate)({ message })
+      let $alert = angular.element(AlertTemplate)
+      let $newScope = $rootScope.$new()
+
+      if (isPlainObject(options)) {
+        $newScope.alertOptions = options
+      }
+
+      let $element = $compile($alert)($newScope)
+      let $scope = angular.element($element[0].childNodes[0]).scope()
+      angular.element(document.body).append($element)
+
+      !$scope.$$phase && !$scope.$root.$$phase && $scope.$digest()
+      this.openScopes.push($scope)
+    }
+
+    const remove = (scope) => {
+      Remove(this.openScopes, ($scope) => $scope === scope)
+    }
+
+    const removeAll = () => {
+      forEach(this.openScopes, (scope) => scope.dismiss())
+    }
+
+    return { create, remove, removeAll }
+  }
+}
+
+const Component = ($timeout, $alert) => ({
   restrict: 'EA',
   replace: true,
   transclude: true,
@@ -81,55 +125,10 @@ const Directive = ($timeout, $alert) => ({
     $scope.show(() => {
       setTimeout(() => $scope.dismiss(), $scope.delay)
     })
-
-    $scope.$apply()
   }
 })
 
-class Service {
-  constructor () {
-    this.openScopes = []
-    this.defaultSettings = Config
-  }
-
-  configure (options) {
-    this.defaultSettings = defaults({}, options, Config)
-  }
-
-  $get ($rootScope, $compile) {
-    const create = (message, options = this.defaultSettings) => {
-      if (isString(options)) {
-        return create(message, { type: options })
-      }
-
-      let AlertTemplate = template(AliasTemplate)({ message })
-      let $alert = angular.element(AlertTemplate)
-      let $newScope = $rootScope.$new()
-
-      if (isPlainObject(options)) {
-        $newScope.alertOptions = options
-      }
-
-      let $element = $compile($alert)($newScope)
-      let $scope = angular.element($element[0].childNodes[0]).scope()
-      angular.element(document.body).append($element)
-
-      this.openScopes.push($scope)
-    }
-
-    const remove = (scope) => {
-      Remove(this.openScopes, ($scope) => $scope === scope)
-    }
-
-    const removeAll = () => {
-      forEach(this.openScopes, (scope) => scope.dismiss())
-    }
-
-    return { create, remove, removeAll }
-  }
-}
-
-App.directive('alert', Directive)
 App.provider('$alert', Service)
+App.directive('alert', Component)
 
 export default App.name

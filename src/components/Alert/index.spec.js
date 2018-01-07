@@ -144,9 +144,10 @@ describe('Alert 组件', function () {
     })
 
     it('能更改类型(用对象传参)', function () {
-      inject(function ($alert) {
+      inject(function ($rootScope, $alert) {
         forEach(['correct', 'error', 'info'], function (type) {
           $alert.create(NEST_CONTENT, { type })
+          $rootScope.$digest()
 
           let $jqAlert = $(`.alert.${type}`)
           expect($jqAlert.length).to.equal(1)

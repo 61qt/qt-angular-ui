@@ -4,9 +4,19 @@
 
 图片上传功能
 
+- [事例](https://61qt.github.io/qt-angular-ui/sample/#!/cropper/)
+- [事例代码](https://github.com/61qt/qt-angular-ui/blob/master/src/components/Cropper/sample.js)
+- [测试代码](https://github.com/61qt/qt-angular-ui/blob/master/src/components/Cropper/index.spec.js)
+
+<iframe width="437" height="893" title="Cropper" src="https://61qt.github.io/qt-angular-ui/sample/frame.html?q=https%3A%2F%2F61qt.github.io%2Fqt-angular-ui%2Fsample%2F%23!%2Fcropper%2F" frameborder="no" allowtransparency="true" allowfullscreen="true" style="display:block;">
+  <a href="https://61qt.github.io/qt-angular-ui/sample/#!/cropper/">Sample</a>
+</iframe>
+
+
 ## 依赖
 
 - [blueimp-canvas-to-blob](https://github.com/riaan53/meteor-blueimp-canvas-to-blob)
+
 
 ## 引入
 
@@ -20,6 +30,7 @@ let App = angular.module('app', [
 
 export default App.name;
 ```
+
 
 ## 配置
 
@@ -44,6 +55,7 @@ App.provider('cropperInterceptor', function () {
   }
 })
 ```
+
 
 ### 使用模板
 

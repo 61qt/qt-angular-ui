@@ -10,7 +10,8 @@ const DefinePlugin = webpack.DefinePlugin
 export default WebpackMerger(WebpackConf, {
   devtool: 'source-map',
   entry: {
-    index: path.join(srcDir, './index.js')
+    index: path.join(srcDir, './index.js'),
+    frame: path.join(srcDir, './frame.js')
   },
   devServer: {
     // It suppress error shown in console, so it has to be set to false.
@@ -56,6 +57,11 @@ export default WebpackMerger(WebpackConf, {
     new HtmlWebpackPlugin({
       filename: path.join(distDir, './index.html'),
       template: path.join(srcDir, './index.pug')
+    }),
+
+    new HtmlWebpackPlugin({
+      filename: path.join(distDir, './frame.html'),
+      template: path.join(srcDir, './frame.pug')
     })
   ]
 })

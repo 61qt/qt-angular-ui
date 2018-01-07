@@ -32,6 +32,7 @@ class Service {
       let $element = $compile($toast)($scope)
       angular.element(document.body).append($element)
 
+      !$scope.$$phase && !$scope.$root.$$phase && $scope.$digest()
       this.openScopes.push($scope)
     }
 
