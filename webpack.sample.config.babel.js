@@ -3,7 +3,7 @@ import webpack, { DefinePlugin } from 'webpack'
 import WebpackMerger from 'webpack-merge'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import WebpackConf from './webpack.common.config.babel'
-import { srcDir, distDir, demoDir } from './variables'
+import { srcDir, demoDir } from './variables'
 import { name as Name } from './package.json'
 
 const { UglifyJsPlugin } = webpack.optimize
@@ -35,7 +35,7 @@ export default WebpackMerger(WebpackConf, {
     }),
 
     new HtmlWebpackPlugin({
-      filename: path.join(distDir, './frame.html'),
+      filename: path.join(demoDir, './frame.html'),
       template: path.join(srcDir, './frame.pug')
     }),
 
