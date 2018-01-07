@@ -14,7 +14,7 @@ before_script:
 script:
 - npm run codecov
 before_deploy:
-- npm run release
+- npm run product
 - npm run gh-page
 deploy:
 - provider: pages
