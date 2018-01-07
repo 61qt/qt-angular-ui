@@ -16,7 +16,7 @@ export default WebpackMerger(WebpackConf, {
   },
   output: {
     path: demoDir,
-    publicPath: `/${Name}/${path.basename(demoDir)}`,
+    publicPath: `/${Name}/${path.basename(demoDir)}/`,
     umdNamedDefine: false
   },
   plugins: [
