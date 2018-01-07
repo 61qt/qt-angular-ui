@@ -31,12 +31,14 @@ export default WebpackMerger(WebpackConf, {
 
     new HtmlWebpackPlugin({
       filename: path.join(demoDir, './index.html'),
-      template: path.join(srcDir, './index.pug')
+      template: path.join(srcDir, './index.pug'),
+      excludeChunks: ['frame']
     }),
 
     new HtmlWebpackPlugin({
       filename: path.join(demoDir, './frame.html'),
-      template: path.join(srcDir, './frame.pug')
+      template: path.join(srcDir, './frame.pug'),
+      excludeChunks: ['index']
     }),
 
     /**
