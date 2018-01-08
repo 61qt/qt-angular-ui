@@ -5,7 +5,7 @@
   top: 50%;
   left: 50%;
   z-index: 999999;
-  display: block;
+  display: none;
   float: none;
   margin: 0;
   padding: rem(17px) rem(23px);
@@ -28,10 +28,10 @@
   transition: all 500ms ease-in-out;
 
   &.in {
-    opacity: 1;
+    display: block;
   }
 
-  &.out {
-    opacity: 0;
+  &.fade {
+    opacity: 1;
   }
 }

@@ -3,17 +3,12 @@ import './stylesheet.scss'
 import Remove from 'lodash/remove'
 import forEach from 'lodash/forEach'
 import isString from 'lodash/isString'
-import isInteger from 'lodash/isInteger'
-import isFunction from 'lodash/isFunction'
 import defaults from 'lodash/defaults'
 import template from 'lodash/template'
 import isPlainObject from 'lodash/isPlainObject'
 import angular from 'angular'
-import {
-  config as Config,
-  template as AliasTemplate
-} from './constants'
-import transitionEnd from '../../share/transitionEnd'
+import { template as AliasTemplate } from './constants'
+import { config as Config, FlashController } from '../../controllers/FlashController'
 import Template from './template.pug'
 
 const App = angular.module('QtNgUi.Alert', [])
@@ -35,14 +30,14 @@ class Service {
       }
 
       let AlertTemplate = template(AliasTemplate)({ message })
-      let $alert = angular.element(AlertTemplate)
+      let $alias = angular.element(AlertTemplate)
       let $newScope = $rootScope.$new()
 
       if (isPlainObject(options)) {
         $newScope.alertOptions = options
       }
 
-      let $element = $compile($alert)($newScope)
+      let $element = $compile($alias)($newScope)
       let $scope = angular.element($element[0].childNodes[0]).scope()
       angular.element(document.body).append($element)
 
@@ -62,67 +57,7 @@ class Service {
   }
 }
 
-class FlashController {
-  constructor ($scope) {
-    this.$scope = $scope
-
-    $scope.isOpen = false
-    $scope.duration = Config.duration
-    $scope.delay = Config.delay
-    $scope.displayClass = Config.displayClass
-    $scope.animationClass = Config.animationClass
-  }
-
-  configure ($scope = this.$scope, $element, options) {
-    this.$scope = this.$scope
-    this.$element = $element
-
-    $scope.duration = isInteger(options.duration) ? options.duration : Config.duration
-    $scope.delay = isInteger(options.delay) && options.delay > 0 ? options.delay : Config.delay
-    $scope.displayClass = options.displayClass || Config.displayClass
-    $scope.animationClass = options.animationClass || Config.animationClass
-  }
-
-  show ($scope = this.$scope, $element = this.$element, callback) {
-    if ($scope.isOpen === true) {
-      return
-    }
-
-    setTimeout(() => {
-      transitionEnd($element, callback, $scope.duration)
-      $element.addClass($scope.animationClass)
-      $scope.isOpen = true
-    }, 10)
-
-    this.$element.addClass($scope.displayClass)
-  }
-
-  hide ($scope = this.$scope, $element = this.$element, callback) {
-    if ($scope.isOpen === false) {
-      return
-    }
-
-    let afterFadeOut = () => {
-      this.$element.removeClass($scope.displayClass)
-      isFunction(callback) && callback()
-    }
-
-    transitionEnd(this.$element, afterFadeOut, $scope.duration)
-    this.$element.removeClass($scope.animationClass)
-    $scope.isOpen = false
-  }
-
-  dismiss ($scope = this.$scope, $element = this.$element, callback) {
-    this.hide($scope, $element, function () {
-      $element.remove()
-      $scope.$destroy()
-
-      isFunction(callback) && callback()
-    })
-  }
-}
-
-const Component = ($document, $alert) => ({
+const Component = ($alert) => ({
   restrict: 'EA',
   replace: true,
   transclude: true,
@@ -133,10 +68,10 @@ const Component = ($document, $alert) => ({
     options: '=?alertOptions'
   },
   link ($scope, $element, $attr, ctrl, transclude) {
-    let defaultSettings = defaults({}, $scope.options, Config)
-    ctrl.configure($scope, $element, defaultSettings)
+    let settings = defaults({}, $scope.options, Config)
+    ctrl.configure($scope, $element, settings)
 
-    $scope.type = defaultSettings.type || ''
+    $scope.type = settings.type || ''
     $scope.show = ctrl.show.bind(ctrl, $scope, $element)
     $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
     $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
@@ -146,10 +81,8 @@ const Component = ($document, $alert) => ({
       $element.remove()
     })
 
-    $document.ready(function () {
-      $scope.show(function () {
-        setTimeout($scope.dismiss.bind($scope), $scope.delay)
-      })
+    $scope.show(function () {
+      setTimeout($scope.dismiss.bind($scope), $scope.delay)
     })
   }
 })

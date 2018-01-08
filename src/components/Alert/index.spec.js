@@ -9,7 +9,7 @@ import 'angular-mocks'
 
 import sinon from 'sinon'
 import Alert from './index'
-import { config as Config } from './constants'
+import { config as Config } from '../../controllers/FlashController'
 import TransitionEnd from '../../share/transitionEnd'
 
 describe('Alert 组件', function () {
@@ -17,7 +17,7 @@ describe('Alert 组件', function () {
   const NEST_CONTENT = 'Message'
 
   beforeEach(function () {
-    // 设置延迟消失时间为 0
+    // 修改默认配置
     Config.displayClass = 'in-test'
     Config.animationClass = 'fade-test'
     Config.duration = 10
@@ -70,7 +70,7 @@ describe('Alert 组件', function () {
 
   describe('触发流程', function () {
     it('能够自动完成淡入淡出', function (done) {
-      inject(function ($rootScope, $document, $compile) {
+      inject(function ($rootScope, $compile) {
         let $element = $compile(`<alert>${NEST_CONTENT}</alert>`)($rootScope.$new())
         angular.element(document.body).append($element)
 
@@ -79,7 +79,6 @@ describe('Alert 组件', function () {
         expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
 
         let $scope = angular.element(dom[0].childNodes[0]).scope()
-        sinon.spy($scope, 'show')
         sinon.spy($scope, 'dismiss')
 
         expect($scope.isOpen).to.be.false
@@ -109,19 +108,16 @@ describe('Alert 组件', function () {
           TransitionEnd(dom, afterAnimation)
         }
 
-        $document.ready(function () {
-          expect($scope.show.calledOnce).to.be.true
-          expect(dom.length).to.equal(1)
-          expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
-          setTimeout(execAnimation, Config.padding)
-        })
+        expect(dom.length).to.equal(1)
+        expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
+        setTimeout(execAnimation, Config.padding)
       })
     })
   })
 
   describe('Alert Service', function () {
     it('能淡入到 body 中', function (done) {
-      inject(function ($alert, $document) {
+      inject(function ($alert) {
         $alert.create(NEST_CONTENT, Config)
 
         let dom = document.getElementsByClassName('alert')
@@ -129,7 +125,6 @@ describe('Alert 组件', function () {
         expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
 
         let $scope = angular.element(dom[0].childNodes[0]).scope()
-        sinon.spy($scope, 'show')
         sinon.spy($scope, 'dismiss')
 
         expect($scope.isOpen).to.be.false
@@ -159,12 +154,9 @@ describe('Alert 组件', function () {
           TransitionEnd(dom, afterAnimation)
         }
 
-        $document.ready(function () {
-          expect($scope.show.calledOnce).to.be.true
-          expect(dom.length).to.equal(1)
-          expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
-          setTimeout(execAnimation, Config.padding)
-        })
+        expect(dom.length).to.equal(1)
+        expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
+        setTimeout(execAnimation, Config.padding)
       })
     })
 
@@ -218,7 +210,7 @@ describe('Alert 组件', function () {
     })
 
     it('删除全部', function (done) {
-      inject(function ($document, $alert) {
+      inject(function ($alert) {
         $alert.create(NEST_CONTENT)
         $alert.create(NEST_CONTENT)
 
@@ -233,8 +225,8 @@ describe('Alert 组件', function () {
           done()
         }
 
-        let totalSpent = Config.padding + Config.duration + Config.delay + Config.duration
-        $document.ready(() => setTimeout(checkEmpty, totalSpent))
+        let totalSpent = Config.padding + Config.duration + Config.delay + Config.duration + 10
+        setTimeout(checkEmpty, totalSpent)
       })
     })
 
@@ -243,7 +235,7 @@ describe('Alert 组件', function () {
         $alertProvider.configure(Config)
       })
 
-      inject(function ($alert, $document) {
+      inject(function ($alert) {
         $alert.create(NEST_CONTENT)
 
         let dom = document.getElementsByClassName('alert')
@@ -251,7 +243,6 @@ describe('Alert 组件', function () {
         expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
 
         let $scope = angular.element(dom[0].childNodes[0]).scope()
-        sinon.spy($scope, 'show')
         sinon.spy($scope, 'dismiss')
 
         expect($scope.isOpen).to.be.false
@@ -281,12 +272,9 @@ describe('Alert 组件', function () {
           TransitionEnd(dom, afterAnimation)
         }
 
-        $document.ready(function () {
-          expect($scope.show.calledOnce).to.be.true
-          expect(dom.length).to.equal(1)
-          expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
-          setTimeout(execAnimation, Config.padding)
-        })
+        expect(dom.length).to.equal(1)
+        expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
+        setTimeout(execAnimation, Config.padding)
       })
     })
 
