@@ -37,15 +37,17 @@ class TransitionEnd {
         this.tid && clearTimeout(this.tid)
       })
 
-    this.tid = setTimeout(() => $element.triggerHandler(this.transitionEnd), duration)
+    if (duration > 0) {
+      this.tid = setTimeout(() => $element.triggerHandler(this.transitionEnd), duration)
+    }
   }
 
-  on (callback, duration) {
+  on (callback) {
     this.callbacks.push(callback)
     angular.element(this.element).on(this.transitionEnd, callback)
   }
 
-  off (callback, duration) {
+  off (callback) {
     let index = indexOf(this.callbacks, callback)
     index !== -1 && this.callbacks.splice(index, 1)
     angular.element(this.element).off(this.transitionEnd, callback)
@@ -95,7 +97,8 @@ export default function (element, callback, duration) {
     throw new TypeError('You need to pass an element as parameter')
   }
 
-  element = element instanceof angular.element || isArray(element) ? element[0] : element
+  element = element instanceof angular.element || isArray(element) || element.length ? element[0] : element
+
   let instance = Cache.insert(element)
   isFunction(callback) && instance.one(callback, duration)
 

@@ -40,7 +40,8 @@ export default function (config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'chai', 'sinon'],
     files: [
-      testEntryFile
+      // testEntryFile,
+      './src/components/Alert/index.spec.js'
     ],
     client: {
       chai: {

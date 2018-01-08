@@ -8,9 +8,9 @@ import angular from 'angular'
 import 'angular-mocks'
 
 import sinon from 'sinon'
-import $ from 'jquery'
 import Alert from './index'
 import { config as Config } from './constants'
+import TransitionEnd from '../../share/transitionEnd'
 
 describe('Alert 组件', function () {
   const { module, inject } = angular.mock
@@ -18,8 +18,10 @@ describe('Alert 组件', function () {
 
   beforeEach(function () {
     // 设置延迟消失时间为 0
-    Config.during = 10
-    Config.delay = 10
+    Config.displayClass = 'in-test'
+    Config.animationClass = 'fade-test'
+    Config.duration = 10
+    Config.delay = 20
 
     // 初始化 Alert 组件
     module(Alert)
@@ -68,78 +70,101 @@ describe('Alert 组件', function () {
 
   describe('触发流程', function () {
     it('能够自动完成淡入淡出', function (done) {
-      this.timeout(1000)
-
-      inject(function ($rootScope, $compile) {
+      inject(function ($rootScope, $document, $compile) {
         let $element = $compile(`<alert>${NEST_CONTENT}</alert>`)($rootScope.$new())
-        let $scope = angular.element($element[0].childNodes[0]).scope()
-
-        // 监听事件
-        sinon.spy($scope, 'dismiss')
-        sinon.spy($scope, 'hide')
-
         angular.element(document.body).append($element)
 
+        let dom = document.getElementsByClassName('alert')
+        expect(dom.length).to.equal(1)
+        expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
+
+        let $scope = angular.element(dom[0].childNodes[0]).scope()
+        sinon.spy($scope, 'show')
+        sinon.spy($scope, 'dismiss')
+
         expect($scope.isOpen).to.be.false
-        expect(document.getElementsByClassName('alert').length).to.equal(1)
 
-        let dismissCompleted = function () {
-          expect(document.getElementsByClassName('alert').length).to.equal(0)
-
+        let afterDismiss = function () {
+          let dom = document.getElementsByClassName('alert')
+          expect($scope.dismiss.calledOnce).to.be.true
+          expect(dom.length).to.equal(0)
           done()
         }
 
-        let hideCompleted = function () {
-          expect($scope.dismiss.calledOnce).to.be.true
-          expect($scope.hide.calledOnce).to.be.true
+        let execDismiss = function () {
           expect($scope.isOpen).to.be.false
-
-          setTimeout(dismissCompleted, Config.during)
+          expect(dom.length).to.equal(1)
+          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.false
+          TransitionEnd(dom, afterDismiss)
         }
 
-        let delayCompleted = function () {
+        let afterAnimation = function () {
           expect($scope.isOpen).to.be.true
-
-          setTimeout(hideCompleted, Config.during)
+          setTimeout(execDismiss, Config.delay)
         }
 
-        let showCompleted = function () {
+        let execAnimation = function () {
           expect($scope.isOpen).to.be.true
-
-          setTimeout(delayCompleted, Config.delay)
+          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.true
+          TransitionEnd(dom, afterAnimation)
         }
 
-        // 开始淡入窗口
-        setTimeout(showCompleted, 10)
+        $document.ready(function () {
+          expect($scope.show.calledOnce).to.be.true
+          expect(dom.length).to.equal(1)
+          expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
+          setTimeout(execAnimation, Config.padding)
+        })
       })
     })
   })
 
   describe('Alert Service', function () {
     it('能淡入到 body 中', function (done) {
-      this.timeout(1000)
-
-      inject(function ($alert, $timeout) {
+      inject(function ($alert, $document) {
         $alert.create(NEST_CONTENT, Config)
 
-        let $jqAlert = $('.alert')
-        let $scope = angular.element($jqAlert[0].childNodes[0]).scope()
+        let dom = document.getElementsByClassName('alert')
+        expect(dom.length).to.equal(1)
+        expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
 
-        // 检查 DOM 节点
-        expect($jqAlert.length).to.equal(1)
-        expect($jqAlert.text()).to.equal(NEST_CONTENT)
+        let $scope = angular.element(dom[0].childNodes[0]).scope()
+        sinon.spy($scope, 'show')
+        sinon.spy($scope, 'dismiss')
 
-        // 检查属性
         expect($scope.isOpen).to.be.false
 
-        setTimeout(function () {
-          expect($scope.isOpen).to.be.true
+        let afterDismiss = function () {
+          let dom = document.getElementsByClassName('alert')
+          expect($scope.dismiss.calledOnce).to.be.true
+          expect(dom.length).to.equal(0)
+          done()
+        }
 
-          setTimeout(function () {
-            expect($scope.isOpen).to.be.false
-            done()
-          }, Config.during + Config.delay + 10)
-        }, 1)
+        let execDismiss = function () {
+          expect($scope.isOpen).to.be.false
+          expect(dom.length).to.equal(1)
+          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.false
+          TransitionEnd(dom, afterDismiss)
+        }
+
+        let afterAnimation = function () {
+          expect($scope.isOpen).to.be.true
+          setTimeout(execDismiss, Config.delay)
+        }
+
+        let execAnimation = function () {
+          expect($scope.isOpen).to.be.true
+          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.true
+          TransitionEnd(dom, afterAnimation)
+        }
+
+        $document.ready(function () {
+          expect($scope.show.calledOnce).to.be.true
+          expect(dom.length).to.equal(1)
+          expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
+          setTimeout(execAnimation, Config.padding)
+        })
       })
     })
 
@@ -149,12 +174,16 @@ describe('Alert 组件', function () {
           $alert.create(NEST_CONTENT, { type })
           $rootScope.$digest()
 
-          let $jqAlert = $(`.alert.${type}`)
-          expect($jqAlert.length).to.equal(1)
+          let dom = document.getElementsByClassName('alert')
+          expect(dom.length).to.equal(1)
 
-          let scope = angular.element($jqAlert[0].childNodes[0]).scope()
+          let scope = angular.element(dom[0].childNodes[0]).scope()
           expect(scope.type).to.equal(type)
-          expect($(`.alert.${type}`).length).to.equal(1)
+
+          let tDom = document.getElementsByClassName(type)
+          expect(tDom.length).to.equal(1)
+
+          document.body.innerHTML = ''
         })
       })
     })
@@ -164,12 +193,16 @@ describe('Alert 组件', function () {
         forEach(['correct', 'info', 'error'], function (type) {
           $alert.create(NEST_CONTENT, type)
 
-          let $jqAlert = $(`.alert.${type}`)
-          expect($jqAlert.length).to.equal(1)
+          let dom = document.getElementsByClassName('alert')
+          expect(dom.length).to.equal(1)
 
-          let scope = angular.element($jqAlert[0].childNodes[0]).scope()
+          let scope = angular.element(dom[0].childNodes[0]).scope()
           expect(scope.type).to.equal(type)
-          expect($(`.alert.${type}`).length).to.equal(1)
+
+          let tDom = document.getElementsByClassName(type)
+          expect(tDom.length).to.equal(1)
+
+          document.body.innerHTML = ''
         })
       })
     })
@@ -179,71 +212,81 @@ describe('Alert 组件', function () {
         $alert.create(NEST_CONTENT)
         $alert.create(NEST_CONTENT)
 
-        expect(document.getElementsByClassName('alert').length).to.equal(2)
+        let dom = document.getElementsByClassName('alert')
+        expect(dom.length).to.equal(2)
       })
     })
 
     it('删除全部', function (done) {
-      this.timeout(1000)
-
-      inject(function ($alert, $timeout) {
-        $alert.removeAll()
-
+      inject(function ($document, $alert) {
         $alert.create(NEST_CONTENT)
         $alert.create(NEST_CONTENT)
 
-        expect(document.getElementsByClassName('alert').length).to.equal(2)
+        let dom = document.getElementsByClassName('alert')
+        expect(dom.length).to.equal(2)
 
         $alert.removeAll()
 
-        setTimeout(function () {
-          expect(document.getElementsByClassName('alert').length).to.equal(0)
+        let checkEmpty = function () {
+          let dom = document.getElementsByClassName('alert')
+          expect(dom.length).to.equal(0)
           done()
-        }, 10 + Config.during + Config.delay + Config.during)
+        }
+
+        let totalSpent = Config.padding + Config.duration + Config.delay + Config.duration
+        $document.ready(() => setTimeout(checkEmpty, totalSpent))
       })
     })
 
     it('能更改默认值', function (done) {
-      this.timeout(1000)
-
       module(function ($alertProvider) {
         $alertProvider.configure(Config)
       })
 
-      inject(function ($alert, $timeout) {
+      inject(function ($alert, $document) {
         $alert.create(NEST_CONTENT)
 
-        let $jqAlert = $('.alert')
-        let $scope = angular.element($jqAlert[0].childNodes[0]).scope()
+        let dom = document.getElementsByClassName('alert')
+        expect(dom.length).to.equal(1)
+        expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
 
-        // 监听 hide 事件
+        let $scope = angular.element(dom[0].childNodes[0]).scope()
+        sinon.spy($scope, 'show')
         sinon.spy($scope, 'dismiss')
-        sinon.spy($scope, 'hide')
 
-        expect(document.getElementsByClassName('alert').length).to.equal(1)
+        expect($scope.isOpen).to.be.false
 
-        let hideCompleted = function () {
-          expect(document.getElementsByClassName('alert').length).to.equal(0)
+        let afterDismiss = function () {
+          let dom = document.getElementsByClassName('alert')
+          expect($scope.dismiss.calledOnce).to.be.true
+          expect(dom.length).to.equal(0)
           done()
         }
 
-        let delayCompleted = function () {
-          expect($jqAlert.hasClass(Config.fadeClass)).to.be.false
-          setTimeout(hideCompleted, Config.during)
+        let execDismiss = function () {
+          expect($scope.isOpen).to.be.false
+          expect(dom.length).to.equal(1)
+          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.false
+          TransitionEnd(dom, afterDismiss)
         }
 
-        let showCompleted = function () {
-          expect($jqAlert.hasClass(Config.openClass) && $jqAlert.hasClass(Config.fadeClass)).to.be.true
-          setTimeout(delayCompleted, Config.delay)
+        let afterAnimation = function () {
+          expect($scope.isOpen).to.be.true
+          setTimeout(execDismiss, Config.delay)
         }
 
-        let beforeShow = function () {
-          expect($jqAlert.hasClass(Config.fadeClass)).to.be.true
-          setTimeout(showCompleted, Config.during)
+        let execAnimation = function () {
+          expect($scope.isOpen).to.be.true
+          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.true
+          TransitionEnd(dom, afterAnimation)
         }
 
-        expect($jqAlert.hasClass(Config.openClass)).to.be.true
-        setTimeout(beforeShow)
+        $document.ready(function () {
+          expect($scope.show.calledOnce).to.be.true
+          expect(dom.length).to.equal(1)
+          expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
+          setTimeout(execAnimation, Config.padding)
+        })
       })
     })
 
@@ -251,10 +294,11 @@ describe('Alert 组件', function () {
       inject(function ($alert, $timeout) {
         $alert.create(NEST_CONTENT, { delay: 0 })
 
-        let $jqAlert = $('.alert')
-        let $scope = angular.element($jqAlert[0].childNodes[0]).scope()
+        let dom = document.getElementsByClassName('alert')
+        expect(dom.length).to.equal(1)
 
-        expect($scope.delay).to.equal(10)
+        let $scope = angular.element(dom[0].childNodes[0]).scope()
+        expect($scope.delay).to.equal(Config.delay)
       })
     })
   })

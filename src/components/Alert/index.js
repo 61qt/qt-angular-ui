@@ -3,6 +3,8 @@ import './stylesheet.scss'
 import Remove from 'lodash/remove'
 import forEach from 'lodash/forEach'
 import isString from 'lodash/isString'
+import isInteger from 'lodash/isInteger'
+import isFunction from 'lodash/isFunction'
 import defaults from 'lodash/defaults'
 import template from 'lodash/template'
 import isPlainObject from 'lodash/isPlainObject'
@@ -60,70 +62,94 @@ class Service {
   }
 }
 
-const Component = ($timeout, $alert) => ({
+class FlashController {
+  constructor ($scope) {
+    this.$scope = $scope
+
+    $scope.isOpen = false
+    $scope.duration = Config.duration
+    $scope.delay = Config.delay
+    $scope.displayClass = Config.displayClass
+    $scope.animationClass = Config.animationClass
+  }
+
+  configure ($scope = this.$scope, $element, options) {
+    this.$scope = this.$scope
+    this.$element = $element
+
+    $scope.duration = isInteger(options.duration) ? options.duration : Config.duration
+    $scope.delay = isInteger(options.delay) && options.delay > 0 ? options.delay : Config.delay
+    $scope.displayClass = options.displayClass || Config.displayClass
+    $scope.animationClass = options.animationClass || Config.animationClass
+  }
+
+  show ($scope = this.$scope, $element = this.$element, callback) {
+    if ($scope.isOpen === true) {
+      return
+    }
+
+    setTimeout(() => {
+      transitionEnd($element, callback, $scope.duration)
+      $element.addClass($scope.animationClass)
+      $scope.isOpen = true
+    }, 10)
+
+    this.$element.addClass($scope.displayClass)
+  }
+
+  hide ($scope = this.$scope, $element = this.$element, callback) {
+    if ($scope.isOpen === false) {
+      return
+    }
+
+    let afterFadeOut = () => {
+      this.$element.removeClass($scope.displayClass)
+      isFunction(callback) && callback()
+    }
+
+    transitionEnd(this.$element, afterFadeOut, $scope.duration)
+    this.$element.removeClass($scope.animationClass)
+    $scope.isOpen = false
+  }
+
+  dismiss ($scope = this.$scope, $element = this.$element, callback) {
+    this.hide($scope, $element, function () {
+      $element.remove()
+      $scope.$destroy()
+
+      isFunction(callback) && callback()
+    })
+  }
+}
+
+const Component = ($document, $alert) => ({
   restrict: 'EA',
   replace: true,
   transclude: true,
   template: Template,
+  controller: FlashController,
+  controllerAs: '$ctrl',
   scope: {
     options: '=?alertOptions'
   },
   link ($scope, $element, $attr, ctrl, transclude) {
     let defaultSettings = defaults({}, $scope.options, Config)
-    let transitionEndInstance
+    ctrl.configure($scope, $element, defaultSettings)
 
-    $scope.isOpen = false
     $scope.type = defaultSettings.type || ''
-    $scope.during = defaultSettings.during || Config.during
-    $scope.delay = defaultSettings.delay || Config.delay
-    $scope.fadeClass = defaultSettings.fadeClass
-    $scope.openClass = defaultSettings.openClass
+    $scope.show = ctrl.show.bind(ctrl, $scope, $element)
+    $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
+    $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
 
-    $scope.show = (callback) => {
-      if ($scope.isOpen === true) {
-        return
-      }
-
-      setTimeout(() => {
-        transitionEndInstance && transitionEndInstance.remove()
-        transitionEndInstance = transitionEnd($element, callback, $scope.during)
-
-        $element.addClass($scope.fadeClass)
-        $scope.isOpen = true
-      })
-
-      $element.addClass($scope.openClass)
-    }
-
-    $scope.hide = (callback) => {
-      if ($scope.isOpen === false) {
-        return
-      }
-
-      transitionEndInstance && transitionEndInstance.remove()
-      transitionEndInstance = transitionEnd($element, () => {
-        $element.removeClass($scope.openClass)
-        callback()
-      }, $scope.during)
-
-      $element.removeClass($scope.fadeClass)
-      $scope.isOpen = false
-    }
-
-    $scope.dismiss = () => {
-      $scope.hide(function () {
-        $element.remove()
-        $scope.$destroy()
-      })
-    }
-
-    $scope.$on('$destroy', () => {
+    $scope.$on('$destroy', function () {
       $alert.remove($scope)
       $element.remove()
     })
 
-    $scope.show(() => {
-      setTimeout(() => $scope.dismiss(), $scope.delay)
+    $document.ready(function () {
+      $scope.show(function () {
+        setTimeout($scope.dismiss.bind($scope), $scope.delay)
+      })
     })
   }
 })
