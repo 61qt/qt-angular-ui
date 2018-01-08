@@ -3,8 +3,10 @@ import './stylesheet.scss'
 import defaults from 'lodash/defaults'
 import angular from 'angular'
 import Spinner from '../Spinner'
-import { config as Config, FlashController } from '../../controllers/FlashController'
+import { FlashController, config as Config } from '../../controllers/FlashController'
 import Template from './template.pug'
+
+export const DefaultSettings = defaults({ content: '努力加载中' }, Config)
 
 const App = angular.module('QtNgUi.Locker', [
   Spinner
@@ -12,7 +14,7 @@ const App = angular.module('QtNgUi.Locker', [
 
 class Service {
   constructor () {
-    this.defaultSettings = defaults({ content: '努力加载中' }, Config)
+    this.defaultSettings = DefaultSettings
   }
 
   configure (options) {
@@ -23,9 +25,9 @@ class Service {
     'ngInject'
 
     let $newScope = $rootScope.$new()
-    $newScope.lockerOptions = this.defaultSettings
+    $newScope.options = this.defaultSettings
 
-    let $component = $compile('<locker locker-options = "lockerOptions"></locker>')($newScope)
+    let $component = $compile('<locker locker-options="options"></locker>')($newScope)
     let $scope = $component.children().scope()
 
     angular.element(document.body).append($component)
@@ -52,7 +54,7 @@ const Component = ($timeout) => ({
     options: '=?lockerOptions'
   },
   link ($scope, $element, $attr, ctrl) {
-    let settings = defaults({}, $scope.options, Config)
+    let settings = defaults({}, $scope.options, DefaultSettings)
     ctrl.configure($scope, $element, settings)
 
     $scope.content = settings.content
