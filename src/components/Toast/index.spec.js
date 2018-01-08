@@ -3,30 +3,30 @@
 /* eslint-env mocha */
 /* global expect */
 
+import defaults from 'lodash/defaults'
 import angular from 'angular'
 import 'angular-mocks'
 
 import sinon from 'sinon'
-import Toast from './index'
-import { config as Config } from '../../controllers/FlashController'
+import Toast, { DefaultSettings } from './index'
 import TransitionEnd from '../../share/transitionEnd'
 
 describe('Toast 组件', function () {
   const { module, inject } = angular.mock
-  const NEST_CONTENT = 'Message'
+  const Content = 'Message'
+  const FakeSettings = defaults({
+    displayClass: 'in-test',
+    animationClass: 'fade-test',
+    padding: 10,
+    duration: 10,
+    delay: 20
+  }, DefaultSettings)
 
   beforeEach(function () {
-    // 修改默认配置
-    Config.displayClass = 'in-test'
-    Config.animationClass = 'fade-test'
-    Config.duration = 10
-    Config.delay = 20
-
-    // 初始化 Toast 组件
-    module(Toast)
-
     // 清场
     document.body.innerHTML = ''
+    // 初始化 Toast 组件
+    module(Toast)
   })
 
   describe('结构规范', function () {
@@ -37,16 +37,16 @@ describe('Toast 组件', function () {
     it('能进行初始化, 并且能自定义信息', function () {
       inject(function ($rootScope, $compile) {
         let $scope = $rootScope.$new()
-        let $toast = $compile(`<toast>${NEST_CONTENT}</toast>`)($scope)
+        let $toast = $compile(`<toast>${Content}</toast>`)($scope)
 
-        expect($toast.text()).to.equal(NEST_CONTENT)
+        expect($toast.text()).to.equal(Content)
       })
     })
 
     it('拥有自己的作用域', function () {
       inject(function ($rootScope, $compile) {
         let $scope = $rootScope.$new()
-        let $element = $compile(`<toast>${NEST_CONTENT}</toast>`)($scope)
+        let $element = $compile(`<toast>${Content}</toast>`)($scope)
         let $nestScope = angular.element($element[0].childNodes[0]).scope()
 
         expect($scope.$id).to.not.equal($nestScope.$id)
@@ -55,7 +55,7 @@ describe('Toast 组件', function () {
 
     it('应该拥有额定的结构', function () {
       inject(function ($rootScope, $compile) {
-        let $element = $compile(`<toast>${NEST_CONTENT}</toast>`)($rootScope.$new())
+        let $element = $compile(`<toast>${Content}</toast>`)($rootScope.$new())
         let $scope = angular.element($element[0].childNodes[0]).scope()
 
         expect($scope.show).to.be.a('function')
@@ -69,12 +69,15 @@ describe('Toast 组件', function () {
   describe('触发流程', function () {
     it('能够自动完成淡入淡出', function (done) {
       inject(function ($rootScope, $compile) {
-        let $element = $compile(`<toast>${NEST_CONTENT}</toast>`)($rootScope.$new())
+        let $newScope = $rootScope.$new()
+        $newScope.options = FakeSettings
+
+        let $element = $compile(`<toast toast-options="options">${Content}</toast>`)($newScope)
         angular.element(document.body).append($element)
 
         let dom = document.getElementsByClassName('toast')
         expect(dom.length).to.equal(1)
-        expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
+        expect(angular.element(dom).text()).to.equal(Content)
 
         let $scope = angular.element(dom[0].childNodes[0]).scope()
         sinon.spy($scope, 'dismiss')
@@ -91,161 +94,105 @@ describe('Toast 组件', function () {
         let execDismiss = function () {
           expect($scope.isOpen).to.be.false
           expect(dom.length).to.equal(1)
-          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.false
+          expect(angular.element(dom).hasClass(FakeSettings.animationClass)).to.be.false
           TransitionEnd(dom, afterDismiss)
         }
 
         let afterAnimation = function () {
           expect($scope.isOpen).to.be.true
-          setTimeout(execDismiss, Config.delay)
+          setTimeout(execDismiss, FakeSettings.delay)
         }
 
         let execAnimation = function () {
           expect($scope.isOpen).to.be.true
-          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.true
+          expect(angular.element(dom).hasClass(FakeSettings.animationClass)).to.be.true
           TransitionEnd(dom, afterAnimation)
         }
 
         expect(dom.length).to.equal(1)
-        expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
-        setTimeout(execAnimation, Config.padding)
+        expect(angular.element(dom).hasClass(FakeSettings.displayClass)).to.be.true
+        setTimeout(execAnimation, FakeSettings.padding)
       })
     })
   })
 
-  describe('Toast Service', function () {
-    it('能淡入到 body 中', function (done) {
+  describe('全局服务', function () {
+    it('能更改默认值', function () {
+      let $toastProvider
+
+      module(function (_$toastProvider_) {
+        $toastProvider = _$toastProvider_
+        $toastProvider.configure(FakeSettings)
+      })
+
       inject(function ($toast) {
-        $toast.create(NEST_CONTENT, Config)
+        $toast.create(Content)
 
-        let dom = document.getElementsByClassName('toast')
-        expect(dom.length).to.equal(1)
-        expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
+        expect($toastProvider.defaultSettings.displayClass).to.equal(FakeSettings.displayClass)
+        expect($toastProvider.defaultSettings.animationClass).to.equal(FakeSettings.animationClass)
+        expect($toastProvider.defaultSettings.duration).to.equal(FakeSettings.duration)
+        expect($toastProvider.defaultSettings.delay).to.equal(FakeSettings.delay)
+      })
+    })
 
-        let $scope = angular.element(dom[0].childNodes[0]).scope()
-        sinon.spy($scope, 'dismiss')
+    describe('服务运行', function () {
+      beforeEach(function () {
+        module(function ($toastProvider) {
+          $toastProvider.configure(FakeSettings)
+        })
+      })
 
-        expect($scope.isOpen).to.be.false
+      it('能淡入到 body 中', function () {
+        inject(function ($toast) {
+          $toast.create(Content, FakeSettings)
 
-        let afterDismiss = function () {
           let dom = document.getElementsByClassName('toast')
-          expect($scope.dismiss.calledOnce).to.be.true
-          expect(dom.length).to.equal(0)
-          done()
-        }
-
-        let execDismiss = function () {
-          expect($scope.isOpen).to.be.false
           expect(dom.length).to.equal(1)
-          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.false
-          TransitionEnd(dom, afterDismiss)
-        }
-
-        let afterAnimation = function () {
-          expect($scope.isOpen).to.be.true
-          setTimeout(execDismiss, Config.delay)
-        }
-
-        let execAnimation = function () {
-          expect($scope.isOpen).to.be.true
-          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.true
-          TransitionEnd(dom, afterAnimation)
-        }
-
-        expect(dom.length).to.equal(1)
-        expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
-        setTimeout(execAnimation, Config.padding)
+          expect(angular.element(dom).text()).to.equal(Content)
+        })
       })
-    })
 
-    it('能同时触发', function () {
-      inject(function ($toast) {
-        $toast.create(NEST_CONTENT)
-        $toast.create(NEST_CONTENT)
+      it('能同时触发', function () {
+        inject(function ($toast) {
+          $toast.create(Content)
+          $toast.create(Content)
 
-        let dom = document.getElementsByClassName('toast')
-        expect(dom.length).to.equal(2)
-      })
-    })
-
-    it('删除全部', function (done) {
-      inject(function ($toast) {
-        $toast.create(NEST_CONTENT)
-        $toast.create(NEST_CONTENT)
-
-        let dom = document.getElementsByClassName('toast')
-        expect(dom.length).to.equal(2)
-
-        $toast.removeAll()
-
-        let checkEmpty = function () {
           let dom = document.getElementsByClassName('toast')
-          expect(dom.length).to.equal(0)
-          done()
-        }
-
-        let totalSpent = Config.padding + Config.duration + Config.delay + Config.duration + 10
-        setTimeout(checkEmpty, totalSpent)
-      })
-    })
-
-    it('能更改默认值', function (done) {
-      module(function ($toastProvider) {
-        $toastProvider.configure(Config)
+          expect(dom.length).to.equal(2)
+        })
       })
 
-      inject(function ($toast) {
-        $toast.create(NEST_CONTENT)
+      it('删除全部', function (done) {
+        inject(function ($toast) {
+          $toast.create(Content)
+          $toast.create(Content)
 
-        let dom = document.getElementsByClassName('toast')
-        expect(dom.length).to.equal(1)
-        expect(angular.element(dom).text()).to.equal(NEST_CONTENT)
-
-        let $scope = angular.element(dom[0].childNodes[0]).scope()
-        sinon.spy($scope, 'dismiss')
-
-        expect($scope.isOpen).to.be.false
-
-        let afterDismiss = function () {
           let dom = document.getElementsByClassName('toast')
-          expect($scope.dismiss.calledOnce).to.be.true
-          expect(dom.length).to.equal(0)
-          done()
-        }
+          expect(dom.length).to.equal(2)
 
-        let execDismiss = function () {
-          expect($scope.isOpen).to.be.false
+          $toast.removeAll()
+
+          let checkEmpty = function () {
+            let dom = document.getElementsByClassName('toast')
+            expect(dom.length).to.equal(0)
+            done()
+          }
+
+          let totalSpent = FakeSettings.padding + FakeSettings.duration + FakeSettings.delay + FakeSettings.duration + 10
+          setTimeout(checkEmpty, totalSpent)
+        })
+      })
+
+      it('会过滤 delay 为 0 时的情况', function () {
+        inject(function ($toast) {
+          $toast.create(Content, { delay: 0 })
+
+          let dom = document.getElementsByClassName('toast')
           expect(dom.length).to.equal(1)
-          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.false
-          TransitionEnd(dom, afterDismiss)
-        }
 
-        let afterAnimation = function () {
-          expect($scope.isOpen).to.be.true
-          setTimeout(execDismiss, Config.delay)
-        }
-
-        let execAnimation = function () {
-          expect($scope.isOpen).to.be.true
-          expect(angular.element(dom).hasClass(Config.animationClass)).to.be.true
-          TransitionEnd(dom, afterAnimation)
-        }
-
-        expect(dom.length).to.equal(1)
-        expect(angular.element(dom).hasClass(Config.displayClass)).to.be.true
-        setTimeout(execAnimation, Config.padding)
-      })
-    })
-
-    it('会过滤 delay 为 0 时的情况', function () {
-      inject(function ($toast, $timeout) {
-        $toast.create(NEST_CONTENT, { delay: 0 })
-
-        let dom = document.getElementsByClassName('toast')
-        expect(dom.length).to.equal(1)
-
-        let $scope = angular.element(dom[0].childNodes[0]).scope()
-        expect($scope.delay).to.equal(Config.delay)
+          let $scope = angular.element(dom[0].childNodes[0]).scope()
+          expect($scope.delay).to.equal(DefaultSettings.delay)
+        })
       })
     })
   })

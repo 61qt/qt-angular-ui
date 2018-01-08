@@ -2,25 +2,28 @@ import './stylesheet.scss'
 
 import Remove from 'lodash/remove'
 import forEach from 'lodash/forEach'
-import isString from 'lodash/isString'
 import defaults from 'lodash/defaults'
 import template from 'lodash/template'
+import isString from 'lodash/isString'
+import isInteger from 'lodash/isInteger'
 import isPlainObject from 'lodash/isPlainObject'
 import angular from 'angular'
 import { template as AliasTemplate } from './constants'
 import { config as Config, FlashController } from '../../controllers/FlashController'
 import Template from './template.pug'
 
+export const DefaultSettings = defaults({ delay: 2500 }, Config)
+
 const App = angular.module('QtNgUi.Alert', [])
 
 class Service {
   constructor () {
     this.openScopes = []
-    this.defaultSettings = Config
+    this.defaultSettings = DefaultSettings
   }
 
   configure (options) {
-    this.defaultSettings = defaults({}, options, Config)
+    this.defaultSettings = defaults({}, options, this.defaultSettings)
   }
 
   $get ($rootScope, $compile) {
@@ -34,7 +37,7 @@ class Service {
       let $newScope = $rootScope.$new()
 
       if (isPlainObject(options)) {
-        $newScope.alertOptions = options
+        $newScope.options = defaults({}, options, this.defaultSettings)
       }
 
       let $element = $compile($alias)($newScope)
@@ -50,7 +53,7 @@ class Service {
     }
 
     const removeAll = () => {
-      forEach(this.openScopes, (scope) => scope.dismiss())
+      forEach(this.openScopes, (scope) => scope.dismiss(true))
     }
 
     return { create, remove, removeAll }
@@ -68,10 +71,11 @@ const Component = ($alert) => ({
     options: '=?alertOptions'
   },
   link ($scope, $element, $attr, ctrl, transclude) {
-    let settings = defaults({}, $scope.options, Config)
+    let settings = defaults({}, $scope.options, DefaultSettings)
     ctrl.configure($scope, $element, settings)
 
     $scope.type = settings.type || ''
+    $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
     $scope.show = ctrl.show.bind(ctrl, $scope, $element)
     $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
     $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)

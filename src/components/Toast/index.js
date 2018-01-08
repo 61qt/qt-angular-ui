@@ -3,32 +3,35 @@ import './stylesheet.scss'
 import Remove from 'lodash/remove'
 import forEach from 'lodash/forEach'
 import defaults from 'lodash/defaults'
+import isInteger from 'lodash/isInteger'
 import isPlainObject from 'lodash/isPlainObject'
 import angular from 'angular'
 import { FlashController, config as Config } from '../../controllers/FlashController'
 import Template from './template.pug'
+
+export const DefaultSettings = defaults({ delay: 2500 }, Config)
 
 const App = angular.module('QtNgUi.Toast', [])
 
 class Service {
   constructor () {
     this.openScopes = []
-    this.defaultSettings = Config
+    this.defaultSettings = DefaultSettings
   }
 
   configure (options) {
-    this.defaultSettings = defaults(options, this.defaultSettings)
+    this.defaultSettings = defaults({}, options, this.defaultSettings)
   }
 
   $get ($rootScope, $compile) {
     const create = (message, options = this.defaultSettings) => {
-      let $alias = angular.element(`<toast>${message}</toast>`)
       let $newScope = $rootScope.$new()
 
       if (isPlainObject(options)) {
-        $newScope.toastOptions = options
+        $newScope.options = defaults({}, options, this.defaultSettings)
       }
 
+      let $alias = angular.element(`<toast toast-options="options">${message}</toast>`)
       let $element = $compile($alias)($newScope)
       let $scope = angular.element($element[0].childNodes[0]).scope()
       angular.element(document.body).append($element)
@@ -42,7 +45,7 @@ class Service {
     }
 
     const removeAll = () => {
-      forEach(this.openScopes, (scope) => scope.dismiss())
+      forEach(this.openScopes, (scope) => scope.dismiss(true))
     }
 
     return { create, remove, removeAll }
@@ -60,9 +63,10 @@ const Component = ($toast) => ({
     options: '=?toastOptions'
   },
   link ($scope, $element, $attr, ctrl) {
-    let settings = defaults({}, $scope.options, Config)
+    let settings = defaults({}, $scope.options, DefaultSettings)
     ctrl.configure($scope, $element, settings)
 
+    $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
     $scope.show = ctrl.show.bind(ctrl, $scope, $element)
     $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
     $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)

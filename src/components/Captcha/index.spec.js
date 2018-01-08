@@ -6,18 +6,12 @@
 import angular from 'angular'
 import 'angular-mocks'
 
-import $ from 'jquery'
 import Captcha from './index'
 
-/**
- * $('a').click()无效的解决方法
- * @param {element} el
- * clickElement($('a')[0]);
- */
-let clickElement = function (el) {
-  let ev = document.createEvent('MouseEvent')
-  ev.initMouseEvent('click', true, true, window, null, 0, 0, 0, 0, false, false, false, false, 0, null)
-  el.dispatchEvent(ev)
+const clickElement = function (el) {
+  let event = document.createEvent('MouseEvent')
+  event.initMouseEvent('click', true, true, window, null, 0, 0, 0, 0, false, false, false, false, 0, null)
+  el.dispatchEvent(event)
 }
 
 describe('Captcha 组件', function () {
@@ -72,20 +66,22 @@ describe('Captcha 组件', function () {
       inject(function ($rootScope, $compile) {
         let $newSopen = $rootScope.$new()
         $newSopen.captcha = CAPTCHAURL
+
         let $element = $compile('<captcha class="captcha" ng-model="captcha"></captcha>')($newSopen)
         let $scope = $element.children().scope()
 
         angular.element(document.body).append($element)
         $scope.$digest()
-        let $Captcha = $('.captcha')
-        let $img = $('.captcha>img')
-        let oldCaptcha = $img.attr('src')
+
+        let captcha = document.getElementsByClassName('captcha')
+        let captchaImage = angular.element(captcha).find('img')
+        let oldCaptcha = captchaImage.attr('src')
 
         expect(oldCaptcha).to.equal($scope.captcha)
 
-        clickElement($Captcha[0])
+        clickElement(captcha[0])
 
-        let newCaptcha = $img.attr('src')
+        let newCaptcha = captchaImage.attr('src')
 
         expect(newCaptcha).to.equal($scope.captcha)
         expect(newCaptcha).to.not.equal(oldCaptcha)
@@ -96,6 +92,7 @@ describe('Captcha 组件', function () {
       inject(function ($rootScope, $compile, $timeout) {
         let $newSopen = $rootScope.$new()
         $newSopen.captcha = CAPTCHAURL
+
         let $element = $compile('<captcha class="captcha" ng-model="captcha"></captcha>')($newSopen)
         let $scope = $element.children().scope()
         let $parentScope = $element.scope()

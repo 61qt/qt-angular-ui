@@ -1,3 +1,4 @@
+import isBoolean from 'lodash/isBoolean'
 import isInteger from 'lodash/isInteger'
 import isFunction from 'lodash/isFunction'
 import TransitionEnd from '../share/transitionEnd'
@@ -6,7 +7,6 @@ export const config = {
   displayClass: 'in',
   animationClass: 'fade',
   duration: 260,
-  delay: 2500,
   padding: 10
 }
 
@@ -18,7 +18,6 @@ export class FlashController {
     $scope.displayClass = config.dismiss
     $scope.animationClass = config.animationClass
     $scope.duration = config.duration
-    $scope.delay = config.delay
     $scope.padding = config.padding
   }
 
@@ -28,10 +27,6 @@ export class FlashController {
 
     if (isInteger(options.duration)) {
       $scope.duration = options.duration
-    }
-
-    if (isInteger(options.delay) && options.delay > 0) {
-      $scope.delay = options.delay
     }
 
     if (options.displayClass) {
@@ -48,8 +43,10 @@ export class FlashController {
       return
     }
 
+    this.transitPromise && this.transitPromise.remove()
+
     setTimeout(() => {
-      TransitionEnd($element, callback, $scope.duration)
+      this.transitPromise = TransitionEnd($element, callback, $scope.duration)
       $element.addClass($scope.animationClass)
       $scope.isOpen = true
     }, 10)
@@ -57,8 +54,8 @@ export class FlashController {
     this.$element.addClass($scope.displayClass)
   }
 
-  hide ($scope = this.$scope, $element = this.$element, callback) {
-    if ($scope.isOpen === false) {
+  hide ($scope = this.$scope, $element = this.$element, callback, force) {
+    if ($scope.isOpen === false && force !== true) {
       return
     }
 
@@ -67,17 +64,24 @@ export class FlashController {
       isFunction(callback) && callback()
     }
 
-    TransitionEnd(this.$element, afterFadeOut, $scope.duration)
+    this.transitPromise && this.transitPromise.remove()
+    this.transitPromise = TransitionEnd(this.$element, afterFadeOut, $scope.duration)
     this.$element.removeClass($scope.animationClass)
     $scope.isOpen = false
   }
 
-  dismiss ($scope = this.$scope, $element = this.$element, callback) {
+  dismiss ($scope = this.$scope, $element = this.$element, callback, force) {
+    if (isBoolean(callback)) {
+      return this.dismiss($scope, $element, null, callback)
+    }
+
+    this.destroying = true
+
     this.hide($scope, $element, function () {
       $element.remove()
       $scope.$destroy()
 
       isFunction(callback) && callback()
-    })
+    }, force)
   }
 }

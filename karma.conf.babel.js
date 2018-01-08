@@ -41,6 +41,7 @@ export default function (config) {
     frameworks: ['mocha', 'chai', 'sinon'],
     files: [
       testEntryFile
+      // './src/components/Toast/index.spec.js'
     ],
     client: {
       chai: {
