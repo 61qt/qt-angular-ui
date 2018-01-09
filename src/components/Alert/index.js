@@ -2,28 +2,28 @@ import './stylesheet.scss'
 
 import Remove from 'lodash/remove'
 import forEach from 'lodash/forEach'
-import isString from 'lodash/isString'
 import defaults from 'lodash/defaults'
 import template from 'lodash/template'
+import isString from 'lodash/isString'
+import isInteger from 'lodash/isInteger'
 import isPlainObject from 'lodash/isPlainObject'
 import angular from 'angular'
-import {
-  config as Config,
-  template as AliasTemplate
-} from './constants'
-import transitionEnd from '../../share/transitionEnd'
+import { template as AliasTemplate } from './constants'
+import { config as Config, FlashController } from '../../controllers/FlashController'
 import Template from './template.pug'
+
+export const DefaultSettings = defaults({ delay: 2500 }, Config)
 
 const App = angular.module('QtNgUi.Alert', [])
 
 class Service {
   constructor () {
     this.openScopes = []
-    this.defaultSettings = Config
+    this.defaultSettings = DefaultSettings
   }
 
   configure (options) {
-    this.defaultSettings = defaults({}, options, Config)
+    this.defaultSettings = defaults({}, options, this.defaultSettings)
   }
 
   $get ($rootScope, $compile) {
@@ -33,14 +33,14 @@ class Service {
       }
 
       let AlertTemplate = template(AliasTemplate)({ message })
-      let $alert = angular.element(AlertTemplate)
+      let $alias = angular.element(AlertTemplate)
       let $newScope = $rootScope.$new()
 
       if (isPlainObject(options)) {
-        $newScope.alertOptions = options
+        $newScope.options = defaults({}, options, this.defaultSettings)
       }
 
-      let $element = $compile($alert)($newScope)
+      let $element = $compile($alias)($newScope)
       let $scope = angular.element($element[0].childNodes[0]).scope()
       angular.element(document.body).append($element)
 
@@ -53,77 +53,40 @@ class Service {
     }
 
     const removeAll = () => {
-      forEach(this.openScopes, (scope) => scope.dismiss())
+      forEach(this.openScopes, (scope) => scope.dismiss(true))
     }
 
     return { create, remove, removeAll }
   }
 }
 
-const Component = ($timeout, $alert) => ({
+const Component = ($alert) => ({
   restrict: 'EA',
   replace: true,
   transclude: true,
   template: Template,
+  controller: FlashController,
+  controllerAs: '$ctrl',
   scope: {
     options: '=?alertOptions'
   },
   link ($scope, $element, $attr, ctrl, transclude) {
-    let defaultSettings = defaults({}, $scope.options, Config)
-    let transitionEndInstance
+    let settings = defaults({}, $scope.options, DefaultSettings)
+    ctrl.configure($scope, $element, settings)
 
-    $scope.isOpen = false
-    $scope.type = defaultSettings.type || ''
-    $scope.during = defaultSettings.during || Config.during
-    $scope.delay = defaultSettings.delay || Config.delay
-    $scope.fadeClass = defaultSettings.fadeClass
-    $scope.openClass = defaultSettings.openClass
+    $scope.type = settings.type || ''
+    $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
+    $scope.show = ctrl.show.bind(ctrl, $scope, $element)
+    $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
+    $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
 
-    $scope.show = (callback) => {
-      if ($scope.isOpen === true) {
-        return
-      }
-
-      setTimeout(() => {
-        transitionEndInstance && transitionEndInstance.remove()
-        transitionEndInstance = transitionEnd($element, callback, $scope.during)
-
-        $element.addClass($scope.fadeClass)
-        $scope.isOpen = true
-      })
-
-      $element.addClass($scope.openClass)
-    }
-
-    $scope.hide = (callback) => {
-      if ($scope.isOpen === false) {
-        return
-      }
-
-      transitionEndInstance && transitionEndInstance.remove()
-      transitionEndInstance = transitionEnd($element, () => {
-        $element.removeClass($scope.openClass)
-        callback()
-      }, $scope.during)
-
-      $element.removeClass($scope.fadeClass)
-      $scope.isOpen = false
-    }
-
-    $scope.dismiss = () => {
-      $scope.hide(function () {
-        $element.remove()
-        $scope.$destroy()
-      })
-    }
-
-    $scope.$on('$destroy', () => {
+    $scope.$on('$destroy', function () {
       $alert.remove($scope)
       $element.remove()
     })
 
-    $scope.show(() => {
-      setTimeout(() => $scope.dismiss(), $scope.delay)
+    $scope.show(function () {
+      setTimeout($scope.dismiss.bind($scope), $scope.delay)
     })
   }
 })

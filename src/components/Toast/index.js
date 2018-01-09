@@ -1,109 +1,83 @@
 import './stylesheet.scss'
 
+import Remove from 'lodash/remove'
 import forEach from 'lodash/forEach'
 import defaults from 'lodash/defaults'
-import isFunction from 'lodash/isFunction'
+import isInteger from 'lodash/isInteger'
 import isPlainObject from 'lodash/isPlainObject'
 import angular from 'angular'
-import { config as Config } from './constant'
+import { FlashController, config as Config } from '../../controllers/FlashController'
 import Template from './template.pug'
+
+export const DefaultSettings = defaults({ delay: 2500 }, Config)
 
 const App = angular.module('QtNgUi.Toast', [])
 
 class Service {
   constructor () {
     this.openScopes = []
-    this.defaultSettings = Config
+    this.defaultSettings = DefaultSettings
   }
 
   configure (options) {
-    this.defaultSettings = defaults(options, this.defaultSettings)
+    this.defaultSettings = defaults({}, options, this.defaultSettings)
   }
 
-  $get ($document, $rootScope, $compile) {
+  $get ($rootScope, $compile) {
     const create = (message, options = this.defaultSettings) => {
-      let $toast = angular.element(`<toast>${message}</toast>`)
-      let $scope = $rootScope.$new()
+      let $newScope = $rootScope.$new()
 
       if (isPlainObject(options)) {
-        $scope.toastOptions = options
+        $newScope.options = defaults({}, options, this.defaultSettings)
       }
 
-      let $element = $compile($toast)($scope)
+      let $alias = angular.element(`<toast toast-options="options">${message}</toast>`)
+      let $element = $compile($alias)($newScope)
+      let $scope = angular.element($element[0].childNodes[0]).scope()
       angular.element(document.body).append($element)
 
       !$scope.$$phase && !$scope.$root.$$phase && $scope.$digest()
       this.openScopes.push($scope)
     }
 
-    const removeAll = () => {
-      forEach(this.openScopes, (scope) => scope.hide())
+    const remove = (scope) => {
+      Remove(this.openScopes, ($scope) => $scope === scope)
     }
 
-    return { create, removeAll }
+    const removeAll = () => {
+      forEach(this.openScopes, (scope) => scope.dismiss(true))
+    }
+
+    return { create, remove, removeAll }
   }
 }
 
-const Component = ($timeout) => ({
+const Component = ($toast) => ({
   restrict: 'EA',
   replace: true,
   transclude: true,
   template: Template,
+  controller: FlashController,
+  controllerAs: '$ctrl',
   scope: {
     options: '=?toastOptions'
   },
-  link ($scope, $element) {
-    let settings = defaults($scope.options, Config)
+  link ($scope, $element, $attr, ctrl) {
+    let settings = defaults({}, $scope.options, DefaultSettings)
+    ctrl.configure($scope, $element, settings)
 
-    /**
-     * 显示
-     */
-    $scope.show = function (options, callback = angular.noop) {
-      if (isFunction(options)) {
-        return $scope.show({}, options)
-      }
-
-      options = defaults(options, settings)
-
-      $timeout(() => {
-        $element.addClass(options.enterClass)
-        $timeout(callback.bind(null), options.during)
-      })
-    }
-
-    /**
-     * 隐藏
-     */
-    $scope.hide = function (options, callback = angular.noop) {
-      if (isFunction(options)) {
-        return $scope.hide({}, options)
-      }
-
-      options = defaults(options, settings)
-
-      $element.addClass(options.leaveClass)
-      $timeout(callback.bind(null), options.during)
-    }
-
-    /**
-     * 注销
-     */
-    $scope.dismiss = function () {
-      $scope.hide(function () {
-        $element.remove()
-        $scope.$destroy()
-      })
-    }
+    $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
+    $scope.show = ctrl.show.bind(ctrl, $scope, $element)
+    $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
+    $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
 
     $scope.$on('$destroy', function () {
-      return $element.remove()
+      $toast.remove($scope)
+      $element.remove()
     })
 
     $scope.show(function () {
-      setTimeout(function () {
-        $scope.hide()
-      },
-      defaults.delay || 1500)
+      setTimeout($scope.dismiss.bind($scope), $scope.delay)
     })
   }
 })

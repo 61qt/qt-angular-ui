@@ -1,170 +1,199 @@
-// /* eslint max-nested-callbacks: off */
-// /* eslint no-unused-expressions: off */
-// /* eslint-env mocha */
-// /* global expect */
+/* eslint max-nested-callbacks: off */
+/* eslint no-unused-expressions: off */
+/* eslint-env mocha */
+/* global expect */
 
-// import assign from 'lodash/assign'
-// import forEach from 'lodash/forEach'
-// import angular from 'angular'
-// import 'angular-mocks'
+import defaults from 'lodash/defaults'
+import angular from 'angular'
+import 'angular-mocks'
 
-// import sinon from 'sinon'
-// import $ from 'jquery'
-import './index'
-// import { config as Config } from './constant'
+import sinon from 'sinon'
+import Toast, { DefaultSettings } from './index'
+import TransitionEnd from '../../share/transitionEnd'
 
-// describe('Toast 组件', function () {
-//   const NEST_CONTENT = 'Message'
-//   const { module, inject } = angular.mock
+describe('Toast 组件', function () {
+  const { module, inject } = angular.mock
+  const Content = 'Message'
+  const FakeSettings = defaults({
+    displayClass: 'in-test',
+    animationClass: 'fade-test',
+    padding: 10,
+    duration: 10,
+    delay: 20
+  }, DefaultSettings)
 
-//   beforeEach(function () {
-//     // 设置延迟消失时间为 0
-//     Config.during = 10
-//     Config.delay = 10
+  beforeEach(function () {
+    // 清场
+    document.body.innerHTML = ''
+    // 初始化 Toast 组件
+    module(Toast)
+  })
 
-//     // 初始化 Toast 组件
-//     module(Toast)
+  describe('结构规范', function () {
+    it('会返回组件名称', function () {
+      expect(Toast).to.be.a('string')
+    })
 
-//     // 清场
-//     document.body.innerHTML = ''
-//   })
+    it('能进行初始化, 并且能自定义信息', function () {
+      inject(function ($rootScope, $compile) {
+        let $scope = $rootScope.$new()
+        let $toast = $compile(`<toast>${Content}</toast>`)($scope)
 
-//   describe('结构规范', function () {
-//     it('会返回组件名称', function () {
-//       expect('Toast').to.be.a('string')
-//     })
+        expect($toast.text()).to.equal(Content)
+      })
+    })
 
-//     it('能进行初始化, 并且能自定义信息', function () {
-//       inject(function ($rootScope, $compile) {
-//         let $scope = $rootScope.$new()
-//         let $toast = $compile(`<toast>${NEST_CONTENT}</toast>`)($scope)
+    it('拥有自己的作用域', function () {
+      inject(function ($rootScope, $compile) {
+        let $scope = $rootScope.$new()
+        let $element = $compile(`<toast>${Content}</toast>`)($scope)
+        let $nestScope = angular.element($element[0].childNodes[0]).scope()
 
-//         expect($toast.text()).to.equal(NEST_CONTENT)
-//       })
-//     })
+        expect($scope.$id).to.not.equal($nestScope.$id)
+      })
+    })
 
-//     it('拥有自己的作用域', function () {
-//       inject(function ($rootScope, $compile) {
-//         let $scope = $rootScope.$new()
-//         let $element = $compile(`<toast>${NEST_CONTENT}</toast>`)($scope)
-//         let $nestScope = angular.element($element[0].childNodes[0]).scope()
+    it('应该拥有额定的结构', function () {
+      inject(function ($rootScope, $compile) {
+        let $element = $compile(`<toast>${Content}</toast>`)($rootScope.$new())
+        let $scope = angular.element($element[0].childNodes[0]).scope()
 
-//         expect($scope.$id).to.not.equal($nestScope.$id)
-//       })
-//     })
+        expect($scope.show).to.be.a('function')
+        expect($scope.hide).to.be.a('function')
+        expect($scope.dismiss).to.be.a('function')
+        expect($scope.isOpen).to.be.a('boolean')
+      })
+    })
+  })
 
-//     it('应该拥有额定的结构', function () {
-//       inject(function ($rootScope, $compile) {
-//         let $element = $compile(`<toast>${NEST_CONTENT}</toast>`)($rootScope.$new())
-//         let $scope = angular.element($element[0].childNodes[0]).scope()
+  describe('触发流程', function () {
+    it('能够自动完成淡入淡出', function (done) {
+      inject(function ($rootScope, $compile) {
+        let $newScope = $rootScope.$new()
+        $newScope.options = FakeSettings
 
-//         expect($scope.show).to.be.a('function')
-//         expect($scope.hide).to.be.a('function')
-//         expect($scope.dismiss).to.be.a('function')
-//         expect($scope.isOpen).to.be.a('boolean')
-//       })
-//     })
-//   })
+        let $element = $compile(`<toast toast-options="options">${Content}</toast>`)($newScope)
+        angular.element(document.body).append($element)
 
-//   describe('触发流程', function () {
-//     it('能够自动完成淡入淡出', function (done) {
-//       this.timeout(1000)
+        let dom = document.getElementsByClassName('toast')
+        expect(dom.length).to.equal(1)
+        expect(angular.element(dom).text()).to.equal(Content)
 
-//       inject(function ($rootScope, $compile, $timeout) {
-//         let $element = $compile(`<toast>${NEST_CONTENT}</toast>`)($rootScope.$new())
-//         let $scope = angular.element($element[0].childNodes[0]).scope()
+        let $scope = angular.element(dom[0].childNodes[0]).scope()
+        sinon.spy($scope, 'dismiss')
 
-//         angular.element(document.body).append($element)
-//         expect($scope.isOpen).to.be.false
-//         expect(document.getElementsByClassName('toast').length).to.equal(1)
+        expect($scope.isOpen).to.be.false
 
-//         let hideCompleted = function () {
-//           expect($scope.isOpen).to.be.false
-//           expect(document.getElementsByClassName('toast').length).to.equal(0)
-//           done()
-//         }
+        let afterDismiss = function () {
+          let dom = document.getElementsByClassName('toast')
+          expect($scope.dismiss.calledOnce).to.be.true
+          expect(dom.length).to.equal(0)
+          done()
+        }
 
-//         let delayCompleted = function () {
-//           expect($scope.dismiss.calledOnce).to.be.true
-//           expect($scope.hide.called).to.be.true
-//           expect($scope.isOpen).to.be.false
+        let execDismiss = function () {
+          expect($scope.isOpen).to.be.false
+          expect(dom.length).to.equal(1)
+          expect(angular.element(dom).hasClass(FakeSettings.animationClass)).to.be.false
+          TransitionEnd(dom, afterDismiss)
+        }
 
-//           $timeout.flush()
-//           setTimeout(hideCompleted, Config.during)
-//         }
+        let afterAnimation = function () {
+          expect($scope.isOpen).to.be.true
+          setTimeout(execDismiss, FakeSettings.delay)
+        }
 
-//         let showCompleted = function () {
-//           expect($scope.isOpen).to.be.true
+        let execAnimation = function () {
+          expect($scope.isOpen).to.be.true
+          expect(angular.element(dom).hasClass(FakeSettings.animationClass)).to.be.true
+          TransitionEnd(dom, afterAnimation)
+        }
 
-//           $timeout.flush()
-//           setTimeout(delayCompleted, Config.delay)
-//         }
+        expect(dom.length).to.equal(1)
+        expect(angular.element(dom).hasClass(FakeSettings.displayClass)).to.be.true
+        setTimeout(execAnimation, FakeSettings.padding)
+      })
+    })
+  })
 
-//         // 监听 hide 事件
-//         sinon.spy($scope, 'dismiss')
-//         sinon.spy($scope, 'hide')
+  describe('全局服务', function () {
+    it('能更改默认值', function () {
+      let $toastProvider
 
-//         // 开始淡入窗口
-//         $timeout.flush()
-//         setTimeout(showCompleted, Config.during)
-//       })
-//     })
-//   })
+      module(function (_$toastProvider_) {
+        $toastProvider = _$toastProvider_
+        $toastProvider.configure(FakeSettings)
+      })
 
-//   describe('服务', function () {
-//     it('能淡入到 body 中', function (done) {
-//       this.timeout(1000)
+      inject(function ($toast) {
+        $toast.create(Content)
 
-//       inject(function ($toast, $timeout) {
-//         $toast.create(NEST_CONTENT, Config)
+        expect($toastProvider.defaultSettings.displayClass).to.equal(FakeSettings.displayClass)
+        expect($toastProvider.defaultSettings.animationClass).to.equal(FakeSettings.animationClass)
+        expect($toastProvider.defaultSettings.duration).to.equal(FakeSettings.duration)
+        expect($toastProvider.defaultSettings.delay).to.equal(FakeSettings.delay)
+      })
+    })
 
-//         let $jqToast = $('.toast')
-//         let $scope = angular.element($jqToast[0].childNodes[0]).scope()
+    describe('服务运行', function () {
+      beforeEach(function () {
+        module(function ($toastProvider) {
+          $toastProvider.configure(FakeSettings)
+        })
+      })
 
-//         // 检查 DOM 节点
-//         expect($jqToast.length).to.equal(1)
-//         expect($jqToast.text()).to.equal(NEST_CONTENT)
+      it('能淡入到 body 中', function () {
+        inject(function ($toast) {
+          $toast.create(Content, FakeSettings)
 
-//         // 检查属性
-//         expect($scope.isOpen).to.be.false
+          let dom = document.getElementsByClassName('toast')
+          expect(dom.length).to.equal(1)
+          expect(angular.element(dom).text()).to.equal(Content)
+        })
+      })
 
-//         // FadeIn
-//         $timeout.flush()
-//         setTimeout(function () {
-//           expect($scope.isOpen).to.be.true
+      it('能同时触发', function () {
+        inject(function ($toast) {
+          $toast.create(Content)
+          $toast.create(Content)
 
-//           // FadeOut
-//           $timeout.flush()
-//           setTimeout(function () {
-//             expect($scope.isOpen).to.be.false
+          let dom = document.getElementsByClassName('toast')
+          expect(dom.length).to.equal(2)
+        })
+      })
 
-//             done()
-//           }, Config.during + Config.delay + 10)
-//         }, 1)
-//       })
-//     })
+      it('删除全部', function (done) {
+        inject(function ($toast) {
+          $toast.create(Content)
+          $toast.create(Content)
 
-//     it('能更改类型', function () {
-//       inject(function ($toast) {
-//         forEach(['correct', 'error', 'info'], function (type) {
-//           $toast.create(NEST_CONTENT, assign(Config, { type }))
+          let dom = document.getElementsByClassName('toast')
+          expect(dom.length).to.equal(2)
 
-//           let $jqToast = $(`.toast.${type}`)
+          $toast.removeAll()
 
-//           let scope = angular.element($jqToast[0].childNodes[0]).scope()
-//           expect(scope.type).to.equal(type)
-//           expect($(`.toast.${type}`).length).to.equal(1)
-//         })
-//       })
-//     })
+          let checkEmpty = function () {
+            let dom = document.getElementsByClassName('toast')
+            expect(dom.length).to.equal(0)
+            done()
+          }
 
-//     it('能同时触发', function () {
-//       inject(function ($toast) {
-//         $toast.create(NEST_CONTENT)
-//         $toast.create(NEST_CONTENT)
+          let totalSpent = FakeSettings.padding + FakeSettings.duration + FakeSettings.delay + FakeSettings.duration + 10
+          setTimeout(checkEmpty, totalSpent)
+        })
+      })
 
-//         expect(document.getElementsByClassName('toast').length).to.equal(2)
-//       })
-//     })
-//   })
-// })
+      it('会过滤 delay 为 0 时的情况', function () {
+        inject(function ($toast) {
+          $toast.create(Content, { delay: 0 })
+
+          let dom = document.getElementsByClassName('toast')
+          expect(dom.length).to.equal(1)
+
+          let $scope = angular.element(dom[0].childNodes[0]).scope()
+          expect($scope.delay).to.equal(DefaultSettings.delay)
+        })
+      })
+    })
+  })
+})
