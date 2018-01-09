@@ -1,0 +1,22 @@
+.cropper-sample {
+  padding-top: 4em;
+  text-align: center;
+
+  .avatar-wrapper {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    width: 180px;
+    height: 180px;
+  }
+
+  .avatar {
+    position: relative;
+    z-index: 10;
+    display: block;
+    border-radius: 100%;
+    width: 160px;
+    height: 160px;
+  }
+}

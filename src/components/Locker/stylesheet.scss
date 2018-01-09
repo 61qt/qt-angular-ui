@@ -1,0 +1,76 @@
+@import "../../stylesheets/mixins/rem";
+
+.locker {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 666666;
+  opacity: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  transition: opacity .5s ease-in-out;
+
+  .locker-backdrop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,.75);
+  }
+
+  .locker-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 999999;
+    display: block;
+    float: none;
+    margin: 0;
+    padding: rem(17px) rem(23px);
+    min-height: 0;
+    max-height: auto;
+    min-width: 0;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    text-align: center;
+    font-size: rem(13px);
+    border-radius: rem(10px);
+    background-color: rgba(0,0,0,.8);
+    box-shadow: none;
+    color: #fff;
+    pointer-events: none;
+    user-select: none;
+    transform: translate(-50%, -50%);
+    transition: all 500ms ease-in-out;
+
+    .icon {
+      margin: rem(10px);
+      width: rem(30px);
+      height: rem(30px);
+    }
+
+    .content {
+      display: block;
+      margin: 0;
+      text-align: center;
+      font-size: rem(15px);
+    }
+  }
+
+  &.in {
+    display: block;
+  }
+
+  &.fade {
+    opacity: 1;
+  }
+}

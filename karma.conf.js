@@ -1,1 +1,2 @@
-module.exports = require('./scripts_dist/karma.conf.babel');
+require('babel-register')
+module.exports = require('./karma.conf.babel').default
