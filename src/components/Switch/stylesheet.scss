@@ -6,9 +6,9 @@ $switch-color: #129fdd !default;
   display: inline-block;
   overflow: hidden;
   border: 1px solid $switch-border-color;
-  border-radius: 4px * 2;
-  min-width: 104px * 2;
-  height: 30px * 2;
+  border-radius: 8px;
+  min-width: 208px;
+  height: 60px;
   cursor: pointer;
   user-select: none;
 
@@ -38,7 +38,7 @@ $switch-color: #129fdd !default;
       text-align: center;
       word-break: keep-all;
       white-space: nowrap;
-      font-size: 12px * 2;
+      font-size: 24px;
       font-family: Trebuchet, Arial, sans-serif;
       font-weight: bold;
       color: #fff;
@@ -51,7 +51,7 @@ $switch-color: #129fdd !default;
 
       .content {
         display: inline-block;
-        padding: 0 8px * 2;
+        padding: 0 16px;
         min-width: 50%;
         text-align: center;
       }
@@ -75,7 +75,7 @@ $switch-color: #129fdd !default;
     z-index: 0;
     display: block;
     margin: auto 0;
-    border-radius: 2px * 2 0 0 2px * 2;
+    border-radius: 4px 0 0 4px;
     width: 50%;
     height: 100%;
     background: $switch-color;
@@ -92,7 +92,7 @@ $switch-color: #129fdd !default;
 
   input:checked {
     + .switch-switcher {
-      border-radius: 0 2px * 2 2px * 2 0;
+      border-radius: 0 4px 4px 0;
       transform: translateX(0);
 
       + .switch-inner {
