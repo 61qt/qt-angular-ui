@@ -1,5 +1,7 @@
 import './stylesheet.scss'
-import isEmpty from 'lodash/isEmpty'
+import chunk from 'lodash/chunk'
+import forEach from 'lodash/forEach'
+import indexOf from 'lodash/indexOf'
 import defaults from 'lodash/defaults'
 import isFunction from 'lodash/isFunction'
 import angular from 'angular'
@@ -10,106 +12,117 @@ const App = angular.module('QtNgUi.Lazier', [])
 
 class Service {
   constructor () {
+    this.list = []
     this.defaultSettings = {
       placeholder: imagePlaceholder,
       errorholder: imagePlaceholder
     }
+
+    angular.element(window).on('scroll', this.scroll.bind(this))
   }
 
   configure (options) {
     this.defaultSettings = defaults(options, this.defaultSettings)
   }
 
-  $get () {
-    let openScopes = []
-    let $window = angular.element(window)
-
-    $window.on('scroll', () => {
-      for (let i = 0, l = openScopes.length; i < l; i++) {
-        let ret = openScopes[i].onload(function (error, imageSrc, scope) {
-          error && openScopes.push(scope)
-        })
-
-        if (ret) {
-          openScopes.splice(i, 1)
-
-          i--
-          l--
-        }
-      }
+  scroll () {
+    forEach(chunk(this.list, 2), ([_, handle]) => {
+      isFunction(handle) && handle()
     })
+  }
 
-    $window.triggerHandler('scroll')
+  $get () {
+    let list = this.list
+    let settings = this.defaultSettings
+    let scroll = this.scroll.bind(this)
 
-    return {
-      settings: this.defaultSettings,
-      bind ($scope) {
-        openScopes.push($scope)
-        $window.triggerHandler('scroll')
-      }
+    let onView = (scope, handle) => {
+      offView(scope)
+
+      handle = handle.bind(null, offView.bind(null, scope))
+      list.push(scope, handle)
+      this.scroll()
     }
+
+    let offView = (scope) => {
+      let index = indexOf(list, scope)
+      index !== -1 && list.splice(index, 2)
+    }
+
+    return { settings, onView, offView, scroll }
+  }
+}
+
+class Controller {
+  constructor ($scope, $lazier) {
+    this.$scope = $scope
+
+    $scope.state = 'idle'
+    $scope.finished = false
+
+    let { errorholder, placeholder } = $lazier.settings
+    $scope.errorholder = errorholder
+    $scope.placeholder = placeholder
+  }
+
+  inScreen ($element) {
+    let element = $element[0]
+    let { top, left } = element.getBoundingClientRect()
+    return top > -element.clientHeight && top < window.innerHeight && left > -element.clientWidth && left < window.innerWidth
+  }
+
+  load ($scope = this.$scope, $element, callback) {
+    $scope.state = 'loading'
+
+    let image = new window.Image()
+    image.onload = function () {
+      $scope.state = 'success'
+      $scope.finished = true
+
+      isFunction(callback) && callback(null, $scope.image)
+      $scope.$digest()
+    }
+
+    image.onerror = function (error) {
+      $scope.state = 'error'
+      $scope.finished = true
+
+      isFunction(callback) && callback(error)
+      $scope.$digest()
+    }
+
+    image.src = $scope.image
   }
 }
 
 const Component = ($lazier) => ({
-  restrict: 'AE',
+  restrict: 'EA',
   transclude: true,
   replace: true,
   template: Template,
-  require: ['^?ngModel'],
+  controller: Controller,
+  controllerAs: '$ctrl',
   scope: {
-    imageSrc: '=?ngModel'
+    image: '=?ngSrc'
   },
-  link ($scope, $element, $attrs) {
-    $scope.state = 'idle'
-    $scope.finished = false
+  link ($scope, $element, $attrs, ctrl) {
+    let { errorholder, placeholder } = $lazier.settings
+    $scope.errorholder = $attrs.errorholder || errorholder
+    $scope.placeholder = $attrs.placeholder || placeholder
 
-    $scope.errorholder = $attrs.errorholder || $lazier.settings.errorholder
-    $scope.placeholder = $attrs.placeholder || $lazier.settings.placeholder
-    $scope.imageSrc = $scope.imageSrc || $attrs.lazierSrc || ''
+    $scope.$watch('image', function (nextValue, prevValue) {
+      $scope.state = 'idle'
+      $scope.finished = false
 
-    if (isEmpty($scope.imageSrc)) {
-      return false
-    }
-
-    $scope.onload = function (callback) {
-      let element = $element[0]
-      let { top, left } = element.getBoundingClientRect()
-
-      if ($scope.finished) {
-        return true
-      }
-
-      if (top > -element.clientHeight && top < window.innerHeight &&
-       left > -element.clientWidth && left < window.innerWidth) {
-        $scope.state = 'loading'
-
-        let image = new Image()
-
-        image.onload = function () {
-          $scope.state = 'success'
-          $scope.finished = true
-
-          isFunction(callback) && callback(null, $scope.imageSrc, $scope)
-          $scope.$digest()
+      $lazier.onView($scope, function (done) {
+        if ($scope.finished === true) {
+          done(null)
+          return
         }
 
-        image.onerror = function (error) {
-          $scope.state = 'error'
-          $scope.finished = true
-
-          isFunction(callback) && callback(error, $scope.imageSrc, $scope)
-          $scope.$digest()
-        }
-
-        image.src = $scope.imageSrc
-        return true
-      }
-
-      return false
-    }
-
-    $lazier.bind($scope)
+        ctrl.inScreen($element) && ctrl.load($scope, $element, done)
+      })
+    })
   }
 })
 
