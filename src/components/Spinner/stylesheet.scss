@@ -1,13 +1,11 @@
-@import "../../stylesheets/mixins/rem";
-
 $spinner-offset: 187 !default;
 $spinner-duration: 1.4s !default;
 $spinner-index: 4110 !default;
 $spinner-color: #1aac19 !default;
 
 .spinner {
-  width: rem(24px);
-  height: rem(24px);
+  width: 24px * 2;
+  height: 24px * 2;
   animation: rotator $spinner-duration linear infinite;
 
   .path {

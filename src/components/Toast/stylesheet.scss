@@ -1,5 +1,3 @@
-@import "../../stylesheets/mixins/rem";
-
 .toast {
   position: fixed;
   top: 50%;
@@ -8,7 +6,7 @@
   display: none;
   float: none;
   margin: 0;
-  padding: rem(17px) rem(23px);
+  padding: 17px * 2 23px * 2;
   min-height: 0;
   max-height: auto;
   min-width: 0;
@@ -16,9 +14,9 @@
   width: auto;
   height: auto;
   text-align: center;
-  font-size: rem(13px);
+  font-size: 13px * 2;
   opacity: 0;
-  border-radius: rem(10px);
+  border-radius: 10px * 2;
   background-color: rgba(0,0,0,.8);
   box-shadow: none;
   color: #fff;
