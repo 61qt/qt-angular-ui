@@ -42,8 +42,8 @@ angular.module('app').config(function ($lazierProvider) {
 ### 使用模板
 
 ```html
-<lazier lazier-src='{{img}}'/></lazier>
-<div lazier lazier-src='{{img}}'/></div>
+<lazier ng-src='image | qiniu'/></lazier>
+<div lazier ng-src='image'/></div>
 ```
 
 
