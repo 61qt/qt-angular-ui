@@ -95,13 +95,13 @@ $primary-color: #129fdd !default;
 
   .cropper-toolsbar {
     position: absolute;
-    bottom: 15px * 2;
+    bottom: 30px;
     display: block;
     margin: auto;
-    padding: 0 15px * 2;
+    padding: 0 30px;
     width: 100%;
     text-align: center;
-    font-size: 14px * 2;
+    font-size: 28px;
 
     .cancel {
       display: inline-block;

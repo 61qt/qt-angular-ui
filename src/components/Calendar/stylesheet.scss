@@ -1,11 +1,11 @@
 $calendar-border-color: #f0f0f0 !default;
-$calendar-spacing: 10px * 2 0 !default;
-$calendar-header-height: 45px * 2 !default;
+$calendar-spacing: 20px 0 !default;
+$calendar-header-height: 90px !default;
 
-$calendar-header-size: 15px * 2 !default;
-$calendar-day-in-week-size: 13px * 2 !default;
-$calendar-date-size: 12px * 2 !default;
-$calendar-date-content-size: 12px * 30 * 2 / 12 !default;
+$calendar-header-size: 30px !default;
+$calendar-day-in-week-size: 26px !default;
+$calendar-date-size: 24px !default;
+$calendar-date-content-size: 12px * 30 / 12 !default;
 
 $calendar-day-in-week-color: #333 !default;
 $calendar-date-color: #666 !default;
@@ -58,13 +58,13 @@ $calendar-today-bgc: #e3f2ff !default;
 
   .button {
     position: relative;
-    margin-top: 15px * 2;
+    margin-top: 30px;
     right: 0;
     left: 0;
     display: block;
     margin: auto;
-    width: 40px * 2;
-    height: 40px * 2;
+    width: 80px;
+    height: 80px;
   }
 }
 
@@ -95,16 +95,16 @@ $calendar-today-bgc: #e3f2ff !default;
       vertical-align: middle;
       margin: auto;
       text-align: center;
-      font-size: 12px * 2;
+      font-size: 24px;
       color: inherit;
       cursor: pointer;
 
       &.prev {
-        left: 15px * 2;
+        left: 30px;
       }
 
       &.next {
-        right: 15px * 2;
+        right: 30px;
       }
     }
 
@@ -160,7 +160,7 @@ $calendar-today-bgc: #e3f2ff !default;
     }
 
     &.names > .day {
-      padding: 4px * 2 0;
+      padding: 8px 0;
       font-size: $calendar-day-in-week-size;
       font-weight: bold;
       color: $calendar-day-in-week-color;
@@ -174,19 +174,19 @@ $calendar-today-bgc: #e3f2ff !default;
     display: inline-block;
     transition: all .35s ease-in-out;
     display: inline-block;
-    width: 44px * 2;
-    height: 44px * 2;
-    border: 1.5px * 2 solid $qt-icon-wrong-color;
+    width: 88px;
+    height: 88px;
+    border: 3px solid $qt-icon-wrong-color;
     border-radius: 50%;
     position: relative;
     &:after, &:before {
       content: ' ';
       display: block;
-      width: 22px * 2;
-      height: 1.5px * 2;
+      width: 44px;
+      height: 3px;
       overflow: hidden;
-      left: 10px * 2;
-      top: 20.5px * 2;
+      left: 20px;
+      top: 41px;
       position: absolute;
       background: $qt-icon-wrong-color;
     }
