@@ -1,13 +1,11 @@
-@import "../../stylesheets/mixins/rem";
-
 $calendar-border-color: #f0f0f0 !default;
-$calendar-spacing: rem(10px) 0 !default;
-$calendar-header-height: rem(45px) !default;
+$calendar-spacing: 10px * 2 0 !default;
+$calendar-header-height: 45px * 2 !default;
 
-$calendar-header-size: rem(15px) !default;
-$calendar-day-in-week-size: rem(13px) !default;
-$calendar-date-size: rem(12px) !default;
-$calendar-date-content-size: rem(12px * 30 / 12) !default;
+$calendar-header-size: 15px * 2 !default;
+$calendar-day-in-week-size: 13px * 2 !default;
+$calendar-date-size: 12px * 2 !default;
+$calendar-date-content-size: 12px * 30 * 2 / 12 !default;
 
 $calendar-day-in-week-color: #333 !default;
 $calendar-date-color: #666 !default;
@@ -60,13 +58,13 @@ $calendar-today-bgc: #e3f2ff !default;
 
   .button {
     position: relative;
-    margin-top: rem(15px);
+    margin-top: 15px * 2;
     right: 0;
     left: 0;
     display: block;
     margin: auto;
-    width: rem(40px);
-    height: rem(40px);
+    width: 40px * 2;
+    height: 40px * 2;
   }
 }
 
@@ -97,16 +95,16 @@ $calendar-today-bgc: #e3f2ff !default;
       vertical-align: middle;
       margin: auto;
       text-align: center;
-      font-size: rem(12px);
+      font-size: 12px * 2;
       color: inherit;
       cursor: pointer;
 
       &.prev {
-        left: rem(15px);
+        left: 15px * 2;
       }
 
       &.next {
-        right: rem(15px);
+        right: 15px * 2;
       }
     }
 
@@ -162,7 +160,7 @@ $calendar-today-bgc: #e3f2ff !default;
     }
 
     &.names > .day {
-      padding: rem(4px) 0;
+      padding: 4px * 2 0;
       font-size: $calendar-day-in-week-size;
       font-weight: bold;
       color: $calendar-day-in-week-color;
@@ -176,19 +174,19 @@ $calendar-today-bgc: #e3f2ff !default;
     display: inline-block;
     transition: all .35s ease-in-out;
     display: inline-block;
-    width: rem(44px);
-    height: rem(44px);
-    border: rem(1.5px) solid $qt-icon-wrong-color;
+    width: 44px * 2;
+    height: 44px * 2;
+    border: 1.5px * 2 solid $qt-icon-wrong-color;
     border-radius: 50%;
     position: relative;
     &:after, &:before {
       content: ' ';
       display: block;
-      width: rem(22px);
-      height: rem(1.5px);
+      width: 22px * 2;
+      height: 1.5px * 2;
       overflow: hidden;
-      left: rem(10px);
-      top: rem(20.5px);
+      left: 10px * 2;
+      top: 20.5px * 2;
       position: absolute;
       background: $qt-icon-wrong-color;
     }
