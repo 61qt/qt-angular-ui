@@ -1,5 +1,3 @@
-@import "../../stylesheets/mixins/rem";
-
 $checkbox-color: #129fdd !default;
 
 .checkbox {
@@ -22,21 +20,21 @@ $checkbox-color: #129fdd !default;
       vertical-align: middle;
       margin: 0;
       padding: 0;
-      border: rem(1px) solid #ccc;
-      width: rem(16px);
-      height: rem(16px);
+      border: 1px solid #ccc;
+      width: 32px;
+      height: 32px;
       vertical-align: middle;
-      border-radius: rem(2px);
+      border-radius: 4px;
       cursor: pointer;
       transition: all .2s;
 
       &:before {
         position: absolute;
-        top: rem(2.5px);
+        top: 5px;
         right: 0;
         left: 0;
         margin: auto;
-        border: rem(2px) solid #fff;
+        border: 4px solid #fff;
         border-top: none;
         border-right: none;
         width: 80%;

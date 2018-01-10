@@ -9,6 +9,19 @@ export const App = angular.module('QtNgUi.Lazier.Sample', [
   Component
 ])
 
+App.filter('version', () => function (src) {
+  return src
+})
+
+App.config(function ($lazierProvider) {
+  /**
+   * 默认绑定 window scoll 事件, 因为这里样式为
+   * html { overflow: 'hidden'; height: 100%; }
+   * body { overflow: 'auto'; height: 100%; }
+   */
+  angular.element(document.body).on('scroll', $lazierProvider.scroll.bind($lazierProvider))
+})
+
 App.directive('lazierSample', () => ({
   restrict: 'EA',
   replace: true,
