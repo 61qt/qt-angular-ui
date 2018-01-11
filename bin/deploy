@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Variables definations
-DEPLOY_BRANCH=test
 DIST_FOLDER=libs
 TEMP_FOLDER=.temporary
+DEPLOY_BRANCH=release
 
 RELEASE_BRANCH=$(git symbolic-ref -q HEAD)
 RELEASE_BRANCH=${RELEASE_BRANCH##refs/heads/}

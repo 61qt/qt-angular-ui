@@ -2,12 +2,13 @@ language: node_js
 sudo: false
 stages:
   - name: Unit Test
-    if: branch = master
+    if: Not branch = release
   - name: GitHub Page Deploy
     if: branch = master
   - name: Branch Release
+    if: branch = master
   - name: Npm Release
-    if: branch = master AND tag =~ /^\d+\.\d+(\.\d+)?(-\S*)?$/
+    if: branch = release AND tag =~ /^\d+\.\d+(\.\d+)?(-\S*)?$/
 
 jobs:
   include:
@@ -39,7 +40,7 @@ jobs:
           secure: bef9k9oIq5wLIZcTjyVcYd3vV5WwyJuMQF6bVF4U+Y0+RxNbMSSA6udcWx6Zfm6i3sADGCMSRCyeqJQdRGNu7vugrFH1dGK1qIqA6AjikidWpurtigyrO7qkueqOGRjWv7Wx+57UTqAgWKBTmRQwspBjNYsSczF8dcbbnKtNG/rrkrtfVzk8r0klkZwLZXS+QSvKqwFMO3zaIlO9NlNCEuo7VOUIB8JSwTJn1EbuJG57EitiklFOicPt1HSBT7xKTQ6Hv21trD0dHXwyG8TkmohsaGoG5d6draoxlaElJJUWjVl4B9XpBZ+Bg7Y0tXPsf4nXRXKAsaUyzYlrgm/Dz3qlpZI6rLreiflwjht2HRpiu6bbEOWyBJ6XctOc4zhJj84CeiT0NCbtf2e1yEZRl+Mnw7Nu256yKvdn3fNesqqZ5DjUGA+wC3OxWlhzBdBgvauyAs2zhEIFk7+itCPz4qNVOxQxXOtklZndLBDxb0bKJVBmfWbXjATBbKW2kugVts6fhA4iqWIcu2SrGF/61hGmgj0XCnJ/gBNPNoETe7bD+WVQISKULUDxwkJIXjdVdTqdw8HnTA4QY4RHHgsOrB02iWhF2rUdOu8K3zXHGKrLF4aje1GcjiBrqESYfcbQ2oUaroMxl7ZvbE33iMn/lBilXgqat1pDErcFfHrel24=
         on:
           branch: master
-    
+
     - stage: Branch Release
       node_js: 7
       cache:
@@ -55,21 +56,12 @@ jobs:
         script: ./bin/deploy
 
     - stage: Npm Release
-      node_js: 7
-      cache:
-        directories:
-        - node_modules
-      install:
-      - npm install
-      script:
-      - npm run product
-      - cd ./libs
       deploy:
       - provider: npm
         skip_cleanup: true
         email: qowera@qq.com
         api_key:
-          secure: SgnJ140D4GU67sDeqTwozzbmSWf1HzqO34LpykKYySYqlKsNmQiC2lm+4MwAEwD/StprIjDLVt7+F+eBkP7VdjVUg2wSUjXa1g26qKh4mZ0oixb7DTUohy7mgqvW67gd3rsltMCo9ABQP0liYDqIz8cE0tinaaUW/YsFVIrTv2kTlQzqu4WQj1PQh3MoOUTNiHaCkjqlxPPJjVn5MYQOZep3qrb2k+6iVGFXqmeqiJ+2NiwRyAfOxsE6dAyPoAGlHoUwZTayEDKy46vLjEyHyN6PRooFD13dBlS14mkKq7VuqgM8k2mig3D5HpUhMLhap1V4msMngyM/d2UjsjuzTq7Q0Md8gOE/vlAUCQBXHZ18HOTHPiDGD0ctewIfW30eDFimPiPjr3X00wTOWMBqovSkdLY59aOc3beBGFAsGHbeD8bYZA0C6H2OF4L2yS21AULcgmNqfN3vY4e/HkUrTgxeNHHH/kLbXvGgikPCXwLqbV9pTRcZCZmNddszwVMqmm3BBiIQdfVoapPyvhrVQ+j02N4LySErbvYabtb+/1Hxwv/ev1TOPJ6Y2WbPeqDvdqKSeBlxyrfFRXWEcXnuiWyHXiemxcwQ7sJfrsWudlwKkSuEwPIO3cqZa0An6VYPAznUOjzIbFbyZToQuQ5dZIhEnprEVUmHGxN/2gAT7RI=
+          secure: lL8hWzne46WO6gtReVXuscRkdxut17Vt6XtlswyRWi3sziE7NjdfsjZ4p+Nwlxq98EjkMNnRWp9Up/nuPfb6m1gmDJ9PvCu7IRpjPYJYP9HkRYZC1A6y92qoYdtSZB/4LCkotERIwMssVkFN+Wz5wUGBYdr1khAwPGi1fMgOsI2bmqoYIVCbywbJwkVhMSbTcdPEfryWStpAt80XlRhzke/jNDj16hGAt/3PiarYPL+2HkDM6J+pNcEkKYnRM9pToSICbIMoUN0fB8ZQXmrjxhW2eUidCAiZXqE8sjoFVWzRxXm1WhgGayoawCpx8B76iYWUvYrHDbQvp0+XMuSFnJY5korOd2Pr2Z8NYIyY4KQfcgC3nHpEBrS0wIJcA+85DQvHOqjdd02L0QABc3Eo4DCFdDsNIC20HWqn6DKyPlGhzYBPEpwlTOLCukWplKjn4I2h6ad/4iWQfdIXXrvHHlUyUESporqMB9uEnNoIZZQALhcoX1ShMHRToh8RSppBspnHIhNQaL4ZX87DvafMhwY3kaQ0IsjjkdE2eiJ92Axubx/9HnYcxh0W3dTBJVYCHAxKYjzMRcFcItssSmSjLcF0UP2W75auJLdNgc1fD6HLEMb3ng8T0XyWQpB7hYpspEcoAcIeQitiWNnhCzlq9e/t2c6kXdQaecBzhU2PfLc=
         on:
           tags: true
           repo: 61qt/qt-angular-ui
