@@ -41,32 +41,37 @@ if [ -d $DIST_FOLDER_PATH ]; then
 
   if [ $(git checkout $DEPLOY_BRANCH) ]; then
     printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' "Checkout branch $DEPLOY_BRANCH."
-    git pull origin $DEPLOY_BRANCH
+  else
+    printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' "Create and switch to branch $DEPLOY_BRANCH."
+    git checkout -b $DEPLOY_BRANCH
 
-    # Copy data we're interested in to that directory
-    git rm -rf .
-    cp -rf $DIST_FOLDER_PATH/* .
-
-    # Add, commit and push files
-    git add -f .
-
-    DIFF=$(git diff-index --name-only HEAD --) || exit 0;
-
-    if [ -z $DIFF ]; then
-      printf '\e[0;93m! %s\e[0m\n' 'Nothing has been changed.'
+    if [ $(git pull origin $DEPLOY_BRANCH) ]; then
+      printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' 'Branch is not exist.'
     else
+      cp -rf $DIST_FOLDER_PATH/* .
+
+      git add -f .
+
       git commit -m "($LAST_MESSAGE) Deploy branch $RELEASE_BRANCH to $TARGET_REPO:$DEPLOY_BRANCH"
       git push origin $DEPLOY_BRANCH > /dev/null || exit 0;
 
       printf '\e[0;32m\xe2\x9c\x94  %s\e[0m\n' 'Deployment completed.'
+      exit 0;
     fi
+  fi
+
+  # Copy data we're interested in to that directory
+  git rm -rf .
+  cp -rf $DIST_FOLDER_PATH/* .
+
+  # Add, commit and push files
+  git add -f .
+
+  DIFF=$(git diff-index --name-only HEAD --) || exit 0;
+
+  if [ -z $DIFF ]; then
+    printf '\e[0;93m! %s\e[0m\n' 'Nothing has been changed.'
   else
-    printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' "Create and switch to branch $DEPLOY_BRANCH."
-    git checkout -b $DEPLOY_BRANCH
-    cp -rf $DIST_FOLDER_PATH/* .
-
-    git add -f .
-
     git commit -m "($LAST_MESSAGE) Deploy branch $RELEASE_BRANCH to $TARGET_REPO:$DEPLOY_BRANCH"
     git push origin $DEPLOY_BRANCH > /dev/null || exit 0;
 
