@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables definations
-RELEASE_BRANCH=feature/3.0.0
+RELEASE_BRANCH=master
 DEPLOY_BRANCH=release
 DIST_FOLDER=libs
 TEMP_FOLDER=.temporary
@@ -40,25 +40,26 @@ if [ -d $DIST_FOLDER_PATH ]; then
   else
     printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' "Create and switch to branch $DEPLOY_BRANCH."
     git checkout -b $DEPLOY_BRANCH
+    git pull origin $DEPLOY_BRANCH || exit 0;
   fi
 
   # Copy data we're interested in to that directory
-  git rm -rf .
-  cp -rf $DIST_FOLDER_PATH/* .
+  # git rm -rf .
+  # cp -rf $DIST_FOLDER_PATH/* .
 
-  # Add, commit and push files
-  git add -f .
+  # # Add, commit and push files
+  # git add -f .
 
-  DIFF=$(git diff-index --name-only HEAD --) || exit 0;
+  # DIFF=$(git diff-index --name-only HEAD --) || exit 0;
 
-  if [ -z $DIFF ]; then
-    printf '\e[0;93m! %s\e[0m\n' 'Nothing has been changed.'
-  else
-    git commit -m "($LAST_MESSAGE) Deploy branch $RELEASE_BRANCH to $TARGET_REPO:$DEPLOY_BRANCH"
-    git push origin $DEPLOY_BRANCH > /dev/null || exit 0;
+  # if [ -z $DIFF ]; then
+  #   printf '\e[0;93m! %s\e[0m\n' 'Nothing has been changed.'
+  # else
+  #   git commit -m "($LAST_MESSAGE) Deploy branch $RELEASE_BRANCH to $TARGET_REPO:$DEPLOY_BRANCH"
+  #   git push origin $DEPLOY_BRANCH > /dev/null || exit 0;
 
-    printf '\e[0;32m\xe2\x9c\x94  %s\e[0m\n' 'Deployment completed.'
-  fi
+  #   printf '\e[0;32m\xe2\x9c\x94  %s\e[0m\n' 'Deployment completed.'
+  # fi
 else
   printf '\e[0;31m\xe2\x9c\x98  %s\e[0m\n' "Folder $DIST_FOLDER_PATH does not exist."
 fi
