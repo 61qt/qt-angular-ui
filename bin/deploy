@@ -11,8 +11,8 @@ RELEASE_BRANCH=${RELEASE_BRANCH:-HEAD}
 
 TARGET_REPO=$(git config --get remote.origin.url)
 LAST_MESSAGE=$(git log -1 origin/$RELEASE_BRANCH --oneline)
-DIST_FOLDER_PATH=$(realpath "$DIST_FOLDER")
-TEMP_FOLDER_PATH=$(realpath "$TEMP_FOLDER")
+DIST_FOLDER_PATH=$(realpath "$DIST_FOLDER" || "./$DIST_FOLDER")
+TEMP_FOLDER_PATH=$(realpath "$TEMP_FOLDER" || "./$TEMP_FOLDER")
 
 printf '%s \e[0;94m%s\e[0m\n' 'Repository:' "$TARGET_REPO"
 printf '%s \e[0;94m%s\e[0m\n' 'Distribute:' "$DIST_FOLDER_PATH"
