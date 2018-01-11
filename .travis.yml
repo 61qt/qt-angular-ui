@@ -48,4 +48,11 @@ jobs:
       script:
       - npm run product
       - cd ./libs
-      - echo 'ok'
+      deploy:
+      - provider: npm
+        email: qowera@qq.com
+        api_key:
+          secure: SgnJ140D4GU67sDeqTwozzbmSWf1HzqO34LpykKYySYqlKsNmQiC2lm+4MwAEwD/StprIjDLVt7+F+eBkP7VdjVUg2wSUjXa1g26qKh4mZ0oixb7DTUohy7mgqvW67gd3rsltMCo9ABQP0liYDqIz8cE0tinaaUW/YsFVIrTv2kTlQzqu4WQj1PQh3MoOUTNiHaCkjqlxPPJjVn5MYQOZep3qrb2k+6iVGFXqmeqiJ+2NiwRyAfOxsE6dAyPoAGlHoUwZTayEDKy46vLjEyHyN6PRooFD13dBlS14mkKq7VuqgM8k2mig3D5HpUhMLhap1V4msMngyM/d2UjsjuzTq7Q0Md8gOE/vlAUCQBXHZ18HOTHPiDGD0ctewIfW30eDFimPiPjr3X00wTOWMBqovSkdLY59aOc3beBGFAsGHbeD8bYZA0C6H2OF4L2yS21AULcgmNqfN3vY4e/HkUrTgxeNHHH/kLbXvGgikPCXwLqbV9pTRcZCZmNddszwVMqmm3BBiIQdfVoapPyvhrVQ+j02N4LySErbvYabtb+/1Hxwv/ev1TOPJ6Y2WbPeqDvdqKSeBlxyrfFRXWEcXnuiWyHXiemxcwQ7sJfrsWudlwKkSuEwPIO3cqZa0An6VYPAznUOjzIbFbyZToQuQ5dZIhEnprEVUmHGxN/2gAT7RI=
+        on:
+          tags: true
+          repo: 61qt/qt-angular-ui
