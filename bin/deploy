@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables definations
-DEPLOY_BRANCH=release
+DEPLOY_BRANCH=test
 DIST_FOLDER=libs
 TEMP_FOLDER=.temporary
 
@@ -46,7 +46,7 @@ if [ -d $DIST_FOLDER_PATH ]; then
     git checkout -b $DEPLOY_BRANCH
 
     if [ $(git pull origin $DEPLOY_BRANCH) ]; then
-      printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' 'Branch is not exist.'
+      printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' 'Remote branch is exist.'
     else
       cp -rf $DIST_FOLDER_PATH/* .
 
