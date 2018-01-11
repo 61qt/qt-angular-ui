@@ -30,7 +30,8 @@
     "sample": "webpack --progress --profile --hide-modules --config ./webpack.sample.config.babel.js",
     "develop": "webpack-dev-server --hot --config ./webpack.develop.config.babel.js --content-base ./libs",
     "product": "webpack --progress --profile --hide-modules --config ./webpack.product.config.babel.js",
-    "release": "npm run test && npm run product && babel-node ./scripts/make.js",
+    "release": "npm run test && npm run product",
+    "deploy": "npm run release && ./bin/deploy",
     "gh-page": "rimraf ./gh-page && npm run sample && npm run docs && ncp ./docs ./gh-page && ncp ./sample ./gh-page/sample",
     "start": "npm run develop"
   },
