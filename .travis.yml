@@ -1,12 +1,15 @@
 language: node_js
 sudo: false
 stages:
-  - unit test
-  - gh-page release
+  - name: Unit Test
+  - name: GitHub Page Deploy
+    if: branch = master
+  - name: Npm Release
+    if: tag =~ /^\d+\.\d+(\.\d+)?(-\S*)?$/
 
 jobs:
   include:
-    - stage: unit test
+    - stage: Unit Test
       node_js: 7
       cache:
         directories:
@@ -17,7 +20,7 @@ jobs:
       script:
       - npm run codecov
 
-    - stage: gh-page release
+    - stage: GitHub Page Deploy
       node_js: 7
       cache:
         directories:
@@ -34,3 +37,15 @@ jobs:
           secure: bef9k9oIq5wLIZcTjyVcYd3vV5WwyJuMQF6bVF4U+Y0+RxNbMSSA6udcWx6Zfm6i3sADGCMSRCyeqJQdRGNu7vugrFH1dGK1qIqA6AjikidWpurtigyrO7qkueqOGRjWv7Wx+57UTqAgWKBTmRQwspBjNYsSczF8dcbbnKtNG/rrkrtfVzk8r0klkZwLZXS+QSvKqwFMO3zaIlO9NlNCEuo7VOUIB8JSwTJn1EbuJG57EitiklFOicPt1HSBT7xKTQ6Hv21trD0dHXwyG8TkmohsaGoG5d6draoxlaElJJUWjVl4B9XpBZ+Bg7Y0tXPsf4nXRXKAsaUyzYlrgm/Dz3qlpZI6rLreiflwjht2HRpiu6bbEOWyBJ6XctOc4zhJj84CeiT0NCbtf2e1yEZRl+Mnw7Nu256yKvdn3fNesqqZ5DjUGA+wC3OxWlhzBdBgvauyAs2zhEIFk7+itCPz4qNVOxQxXOtklZndLBDxb0bKJVBmfWbXjATBbKW2kugVts6fhA4iqWIcu2SrGF/61hGmgj0XCnJ/gBNPNoETe7bD+WVQISKULUDxwkJIXjdVdTqdw8HnTA4QY4RHHgsOrB02iWhF2rUdOu8K3zXHGKrLF4aje1GcjiBrqESYfcbQ2oUaroMxl7ZvbE33iMn/lBilXgqat1pDErcFfHrel24=
         on:
           branch: master
+
+    - stage: Npm Release
+      node_js: 7
+      cache:
+        directories:
+        - node_modules
+      install:
+      - npm install
+      script:
+      - npm run product
+      - cd ./libs
+      - echo 'ok'

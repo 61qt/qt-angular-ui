@@ -4,8 +4,6 @@
   "license": "MIT",
   "description": "angular@1.x.x components for qt61.cn",
   "homepage": "https://github.com/61qt/qt-angular-ui",
-  "main": "./libs/index.js",
-  "style": "./libs/index.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/61qt/qt-angular-ui.git"
@@ -32,7 +30,7 @@
     "sample": "webpack --progress --profile --hide-modules --config ./webpack.sample.config.babel.js",
     "develop": "webpack-dev-server --hot --config ./webpack.develop.config.babel.js --content-base ./libs",
     "product": "webpack --progress --profile --hide-modules --config ./webpack.product.config.babel.js",
-    "release": "npm run test && npm run product",
+    "release": "npm run test && npm run product && babel-node ./scripts/make.js",
     "gh-page": "rimraf ./gh-page && npm run sample && npm run docs && ncp ./docs ./gh-page && ncp ./sample ./gh-page/sample",
     "start": "npm run develop"
   },
