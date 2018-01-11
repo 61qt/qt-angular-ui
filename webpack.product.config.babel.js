@@ -95,7 +95,7 @@ export default WebpackMerger(WebpackConfig, {
     new CopyWebpackPlugin([
       {
         context: srcDir,
-        from: '+(components|share|stylesheets)/**',
+        from: '+(components|share|stylesheets|controllers)/**',
         to: path.join(distDir, './')
       }
     ])
