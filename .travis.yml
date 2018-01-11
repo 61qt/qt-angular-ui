@@ -1,47 +1,27 @@
 language: node_js
 sudo: false
 stages:
-  # - name: Unit Test
-  #   if: Not branch = release
-  # - name: GitHub Page Deploy
-  #   if: branch = master
-  - name: Branch Release
-    # if: branch = master
-  # - name: Npm Release
-  #   if: branch = release AND tag =~ /^\d+\.\d+(\.\d+)?(-\S*)?$/
+  - name: Unit Test
+    if: Not branch = release
+  - name: GitHub Page Deploy
+    if: branch = master
+  - name: Npm Release
+    if: branch = release AND tag =~ /^\d+\.\d+(\.\d+)?(-\S*)?$/
 
 jobs:
   include:
-    # - stage: Unit Test
-    #   node_js: 7
-    #   cache:
-    #     directories:
-    #     - node_modules
-    #   install:
-    #   - npm install
-    #   - npm install codecov
-    #   script:
-    #   - npm run codecov
+    - stage: Unit Test
+      node_js: 7
+      cache:
+        directories:
+        - node_modules
+      install:
+      - npm install
+      - npm install codecov
+      script:
+      - npm run codecov
 
-    # - stage: GitHub Page Deploy
-    #   node_js: 7
-    #   cache:
-    #     directories:
-    #     - node_modules
-    #   install:
-    #   - npm install
-    #   script:
-    #   - npm run gh-page
-    #   deploy:
-    #   - provider: pages
-    #     local_dir: gh-page
-    #     skip_cleanup: true
-    #     github_token:
-    #       secure: bef9k9oIq5wLIZcTjyVcYd3vV5WwyJuMQF6bVF4U+Y0+RxNbMSSA6udcWx6Zfm6i3sADGCMSRCyeqJQdRGNu7vugrFH1dGK1qIqA6AjikidWpurtigyrO7qkueqOGRjWv7Wx+57UTqAgWKBTmRQwspBjNYsSczF8dcbbnKtNG/rrkrtfVzk8r0klkZwLZXS+QSvKqwFMO3zaIlO9NlNCEuo7VOUIB8JSwTJn1EbuJG57EitiklFOicPt1HSBT7xKTQ6Hv21trD0dHXwyG8TkmohsaGoG5d6draoxlaElJJUWjVl4B9XpBZ+Bg7Y0tXPsf4nXRXKAsaUyzYlrgm/Dz3qlpZI6rLreiflwjht2HRpiu6bbEOWyBJ6XctOc4zhJj84CeiT0NCbtf2e1yEZRl+Mnw7Nu256yKvdn3fNesqqZ5DjUGA+wC3OxWlhzBdBgvauyAs2zhEIFk7+itCPz4qNVOxQxXOtklZndLBDxb0bKJVBmfWbXjATBbKW2kugVts6fhA4iqWIcu2SrGF/61hGmgj0XCnJ/gBNPNoETe7bD+WVQISKULUDxwkJIXjdVdTqdw8HnTA4QY4RHHgsOrB02iWhF2rUdOu8K3zXHGKrLF4aje1GcjiBrqESYfcbQ2oUaroMxl7ZvbE33iMn/lBilXgqat1pDErcFfHrel24=
-    #     on:
-    #       branch: master
-
-    - stage: Branch Release
+    - stage: GitHub Page Deploy
       node_js: 7
       cache:
         directories:
@@ -49,19 +29,23 @@ jobs:
       install:
       - npm install
       script:
-      - npm run release
+      - npm run gh-page
       deploy:
-        provider: script
+      - provider: pages
+        local_dir: gh-page
         skip_cleanup: true
-        script: ./bin/deploy
+        github_token:
+          secure: bef9k9oIq5wLIZcTjyVcYd3vV5WwyJuMQF6bVF4U+Y0+RxNbMSSA6udcWx6Zfm6i3sADGCMSRCyeqJQdRGNu7vugrFH1dGK1qIqA6AjikidWpurtigyrO7qkueqOGRjWv7Wx+57UTqAgWKBTmRQwspBjNYsSczF8dcbbnKtNG/rrkrtfVzk8r0klkZwLZXS+QSvKqwFMO3zaIlO9NlNCEuo7VOUIB8JSwTJn1EbuJG57EitiklFOicPt1HSBT7xKTQ6Hv21trD0dHXwyG8TkmohsaGoG5d6draoxlaElJJUWjVl4B9XpBZ+Bg7Y0tXPsf4nXRXKAsaUyzYlrgm/Dz3qlpZI6rLreiflwjht2HRpiu6bbEOWyBJ6XctOc4zhJj84CeiT0NCbtf2e1yEZRl+Mnw7Nu256yKvdn3fNesqqZ5DjUGA+wC3OxWlhzBdBgvauyAs2zhEIFk7+itCPz4qNVOxQxXOtklZndLBDxb0bKJVBmfWbXjATBbKW2kugVts6fhA4iqWIcu2SrGF/61hGmgj0XCnJ/gBNPNoETe7bD+WVQISKULUDxwkJIXjdVdTqdw8HnTA4QY4RHHgsOrB02iWhF2rUdOu8K3zXHGKrLF4aje1GcjiBrqESYfcbQ2oUaroMxl7ZvbE33iMn/lBilXgqat1pDErcFfHrel24=
+        on:
+          branch: master
 
-    # - stage: Npm Release
-    #   deploy:
-    #   - provider: npm
-    #     skip_cleanup: true
-    #     email: qowera@qq.com
-    #     api_key:
-    #       secure: lL8hWzne46WO6gtReVXuscRkdxut17Vt6XtlswyRWi3sziE7NjdfsjZ4p+Nwlxq98EjkMNnRWp9Up/nuPfb6m1gmDJ9PvCu7IRpjPYJYP9HkRYZC1A6y92qoYdtSZB/4LCkotERIwMssVkFN+Wz5wUGBYdr1khAwPGi1fMgOsI2bmqoYIVCbywbJwkVhMSbTcdPEfryWStpAt80XlRhzke/jNDj16hGAt/3PiarYPL+2HkDM6J+pNcEkKYnRM9pToSICbIMoUN0fB8ZQXmrjxhW2eUidCAiZXqE8sjoFVWzRxXm1WhgGayoawCpx8B76iYWUvYrHDbQvp0+XMuSFnJY5korOd2Pr2Z8NYIyY4KQfcgC3nHpEBrS0wIJcA+85DQvHOqjdd02L0QABc3Eo4DCFdDsNIC20HWqn6DKyPlGhzYBPEpwlTOLCukWplKjn4I2h6ad/4iWQfdIXXrvHHlUyUESporqMB9uEnNoIZZQALhcoX1ShMHRToh8RSppBspnHIhNQaL4ZX87DvafMhwY3kaQ0IsjjkdE2eiJ92Axubx/9HnYcxh0W3dTBJVYCHAxKYjzMRcFcItssSmSjLcF0UP2W75auJLdNgc1fD6HLEMb3ng8T0XyWQpB7hYpspEcoAcIeQitiWNnhCzlq9e/t2c6kXdQaecBzhU2PfLc=
-    #     on:
-    #       tags: true
-    #       repo: 61qt/qt-angular-ui
+    - stage: Npm Release
+      deploy:
+      - provider: npm
+        skip_cleanup: true
+        email: qowera@qq.com
+        api_key:
+          secure: lL8hWzne46WO6gtReVXuscRkdxut17Vt6XtlswyRWi3sziE7NjdfsjZ4p+Nwlxq98EjkMNnRWp9Up/nuPfb6m1gmDJ9PvCu7IRpjPYJYP9HkRYZC1A6y92qoYdtSZB/4LCkotERIwMssVkFN+Wz5wUGBYdr1khAwPGi1fMgOsI2bmqoYIVCbywbJwkVhMSbTcdPEfryWStpAt80XlRhzke/jNDj16hGAt/3PiarYPL+2HkDM6J+pNcEkKYnRM9pToSICbIMoUN0fB8ZQXmrjxhW2eUidCAiZXqE8sjoFVWzRxXm1WhgGayoawCpx8B76iYWUvYrHDbQvp0+XMuSFnJY5korOd2Pr2Z8NYIyY4KQfcgC3nHpEBrS0wIJcA+85DQvHOqjdd02L0QABc3Eo4DCFdDsNIC20HWqn6DKyPlGhzYBPEpwlTOLCukWplKjn4I2h6ad/4iWQfdIXXrvHHlUyUESporqMB9uEnNoIZZQALhcoX1ShMHRToh8RSppBspnHIhNQaL4ZX87DvafMhwY3kaQ0IsjjkdE2eiJ92Axubx/9HnYcxh0W3dTBJVYCHAxKYjzMRcFcItssSmSjLcF0UP2W75auJLdNgc1fD6HLEMb3ng8T0XyWQpB7hYpspEcoAcIeQitiWNnhCzlq9e/t2c6kXdQaecBzhU2PfLc=
+        on:
+          tags: true
+          repo: 61qt/qt-angular-ui
