@@ -6,7 +6,7 @@ stages:
   - name: GitHub Page Deploy
     if: branch = master
   - name: Npm Release
-    if: branch = release AND tag =~ /^\d+\.\d+(\.\d+)?(-\S*)?$/
+    if: branch = release OR tag =~ /^\d+\.\d+(\.\d+)?(-\S*)?$/
 
 jobs:
   include:
