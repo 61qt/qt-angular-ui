@@ -12,6 +12,8 @@ export const App = angular.module('QtNgUi.Cropper.Sample', [
 
 App.provider('cropperInterceptor', function () {
   this.$get = function ($alert) {
+    'ngInject'
+
     const notify = () => $alert.create('因为实例无法并不能获取TOKEN 所以不能上传')
     const upload = (file, options, callback) => callback(null, true)
 

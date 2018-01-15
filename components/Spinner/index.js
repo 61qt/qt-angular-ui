@@ -5,11 +5,13 @@ import Template from './template.pug'
 
 const App = angular.module('QtNgUi.Spinner', [])
 
-const Component = () => ({
-  restrict: 'E',
-  replace: true,
-  template: Template
-})
+const Component = function () {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: Template
+  }
+}
 
 App.directive('spinner', Component)
 

@@ -14,18 +14,22 @@ const App = angular.module('QtNgUi.Cropper', [
   QiniuUploader
 ])
 
-const CropperImageLink = ($rootScope, cropperInterceptor) => ({
-  restrict: 'A',
-  require: '^cropper',
-  scope: true,
-  link ($scope, $element, $attrs, ctrl) {
-    $element.on('load', function () {
-      ctrl.setupCropper(this)
-    })
+const CropperImageLink = function ($rootScope, cropperInterceptor) {
+  return {
+    restrict: 'A',
+    require: '^cropper',
+    scope: true,
+    link ($scope, $element, $attrs, ctrl) {
+      $element.on('load', function () {
+        ctrl.setupCropper(this)
+      })
+    }
   }
-})
+}
 
 const CropperLinkController = function ($scope, cropperInterceptor) {
+  'ngInject'
+
   $scope.cropperImage = ''
   $scope.$cropper = null
 
@@ -120,98 +124,86 @@ const CropperLinkController = function ($scope, cropperInterceptor) {
   }
 }
 
-const CropperLink = ($rootScope, cropperInterceptor) => ({
-  restrict: 'EA',
-  transclude: true,
-  replace: true,
-  template: Template,
-  controller: CropperLinkController,
-  require: ['^?ngModel', '^cropper'],
-  scope: {
-    model: '=?ngModel',
-    cropperOptions: '=?cropperOptions'
-  },
-  link ($scope, $element, $attrs, ctrls) {
-    let cropCtrl = ctrls[1]
+const CropperLink = function ($rootScope, cropperInterceptor) {
+  'ngInject'
 
-    /**
-     * https://github.com/fengyuanchen/cropperjs#options
-     */
-    $scope.options = defaultsDeep($scope.cropperOptions, {
-      responsive: true,
-      viewMode: 2,
-      checkCrossOrigin: true,
-      rotatable: true,
-      aspectRatio: 1 / 1,
-      minCropBoxWidth: 100,
-      minCropBoxHeight: 100,
-      minContainerWidth: 100,
-      minContainerHeight: 100
-    })
+  return {
+    restrict: 'EA',
+    transclude: true,
+    replace: true,
+    template: Template,
+    controller: CropperLinkController,
+    require: ['^?ngModel', '^cropper'],
+    scope: {
+      model: '=?ngModel',
+      cropperOptions: '=?cropperOptions'
+    },
+    link ($scope, $element, $attrs, ctrls) {
+      let cropCtrl = ctrls[1]
 
-    $scope.openResult = !!$scope.model
-    $scope.fileSelected = false
-    $scope.loading = false
-    $scope.uploading = false
-    $scope.uploadProgress = 0
-    $scope.message = '点击与拽拉图片都能上传哦'
-
-    /**
-     * 选择文件并预览
-     */
-    $scope.onCropperFileSelect = function ([file]) {
-      $scope.loading = true
-
-      cropCtrl.readDataByFile(file, function (error, data) {
-        $scope.loading = false
-
-        if (error) {
-          cropCtrl.upload(file, function (error) {
-            if (error) {
-              notify(error, 'error')
-              $scope.cancel()
-              $scope.$digest()
-            }
-          })
-
-          return
-        }
-
-        cropCtrl.crop(data)
-        $scope.openResult = false
-        $scope.fileSelected = true
-        $scope.$digest()
+      /**
+       * https://github.com/fengyuanchen/cropperjs#options
+       */
+      $scope.options = defaultsDeep($scope.cropperOptions, {
+        responsive: true,
+        viewMode: 2,
+        checkCrossOrigin: true,
+        rotatable: true,
+        aspectRatio: 1 / 1,
+        minCropBoxWidth: 100,
+        minCropBoxHeight: 100,
+        minContainerWidth: 100,
+        minContainerHeight: 100
       })
-    }
 
-    /**
-     * 上传
-     */
-    $scope.upload = function () {
-      if ($scope.uploading === true) {
-        return false
+      $scope.openResult = !!$scope.model
+      $scope.fileSelected = false
+      $scope.loading = false
+      $scope.uploading = false
+      $scope.uploadProgress = 0
+      $scope.message = '点击与拽拉图片都能上传哦'
+
+      /**
+       * 选择文件并预览
+       */
+      $scope.onCropperFileSelect = function ([file]) {
+        $scope.loading = true
+
+        cropCtrl.readDataByFile(file, function (error, data) {
+          $scope.loading = false
+
+          if (error) {
+            cropCtrl.upload(file, function (error) {
+              if (error) {
+                notify(error, 'error')
+                $scope.cancel()
+                $scope.$digest()
+              }
+            })
+
+            return
+          }
+
+          cropCtrl.crop(data)
+          $scope.openResult = false
+          $scope.fileSelected = true
+          $scope.$digest()
+        })
       }
 
-      $scope.$cropper.disable()
-      $scope.uploading = true
-      $scope.uploadProgress = 0
-
-      cropCtrl.transformBlob(function (error, blob) {
-        if (error) {
-          notify(error, 'error')
-          $scope.cancel()
-          $scope.$digest()
-          return
+      /**
+       * 上传
+       */
+      $scope.upload = function () {
+        if ($scope.uploading === true) {
+          return false
         }
 
-        cropCtrl.upload(blob, {
-          onProgress (progress) {
-            $scope.uploadProgress = progress
-          }
-        }, function (error, data) {
-          $scope.uploading = false
-          $scope.$cropper.enable()
+        $scope.$cropper.disable()
+        $scope.uploading = true
+        $scope.uploadProgress = 0
 
+        cropCtrl.transformBlob(function (error, blob) {
           if (error) {
             notify(error, 'error')
             $scope.cancel()
@@ -219,39 +211,55 @@ const CropperLink = ($rootScope, cropperInterceptor) => ({
             return
           }
 
-          let image = data.image
-          $scope.openResult = true
-          $scope.fileSelected = false
-          $scope.model = image
+          cropCtrl.upload(blob, {
+            onProgress (progress) {
+              $scope.uploadProgress = progress
+            }
+          }, function (error, data) {
+            $scope.uploading = false
+            $scope.$cropper.enable()
 
-          $rootScope.$digest()
+            if (error) {
+              notify(error, 'error')
+              $scope.cancel()
+              $scope.$digest()
+              return
+            }
+
+            let image = data.image
+            $scope.openResult = true
+            $scope.fileSelected = false
+            $scope.model = image
+
+            $rootScope.$digest()
+          })
         })
-      })
-    }
-
-    /**
-     * 取消
-     */
-    $scope.cancel = function () {
-      $scope.fileSelected = false
-      $scope.loading = false
-      $scope.uploading = false
-    }
-
-    /**
-     * 地址改变删除
-     */
-    $rootScope.$on('$stateChangeStart', $scope.cancel.bind($scope))
-
-    function notify (type, message) {
-      if (arguments.length < 2) {
-        return notify('log', type)
       }
 
-      isFunction(cropperInterceptor.notify) ? cropperInterceptor.notify(message, type) : console.log(message)
+      /**
+       * 取消
+       */
+      $scope.cancel = function () {
+        $scope.fileSelected = false
+        $scope.loading = false
+        $scope.uploading = false
+      }
+
+      /**
+       * 地址改变删除
+       */
+      $rootScope.$on('$stateChangeStart', $scope.cancel.bind($scope))
+
+      function notify (type, message) {
+        if (arguments.length < 2) {
+          return notify('log', type)
+        }
+
+        isFunction(cropperInterceptor.notify) ? cropperInterceptor.notify(message, type) : console.log(message)
+      }
     }
   }
-})
+}
 
 App.directive('cropperImage', CropperImageLink)
 App.directive('cropper', CropperLink)

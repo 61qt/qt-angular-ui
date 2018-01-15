@@ -12,16 +12,14 @@ const App = angular.module('QtNgUi.Locker', [
   Spinner
 ])
 
-class Service {
-  constructor () {
-    this.defaultSettings = DefaultSettings
-  }
+const Service = function () {
+  this.defaultSettings = DefaultSettings
 
-  configure (options) {
+  this.configure = function (options) {
     this.defaultSettings = defaults({}, options, this.defaultSettings)
   }
 
-  $get ($rootScope, $compile) {
+  this.$get = function ($rootScope, $compile) {
     'ngInject'
 
     let $newScope = $rootScope.$new()
@@ -44,25 +42,29 @@ class Service {
   }
 }
 
-const Component = ($timeout) => ({
-  restrict: 'E',
-  replace: true,
-  template: Template,
-  controller: FlashController,
-  controllerAs: '$ctrl',
-  scope: {
-    options: '=?lockerOptions'
-  },
-  link ($scope, $element, $attr, ctrl) {
-    let settings = defaults({}, $scope.options, DefaultSettings)
-    ctrl.configure($scope, $element, settings)
+const Component = function ($timeout) {
+  'ngInject'
 
-    $scope.content = settings.content
-    $scope.show = ctrl.show.bind(ctrl, $scope, $element)
-    $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
-    $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
+  return {
+    restrict: 'E',
+    replace: true,
+    template: Template,
+    controller: FlashController,
+    controllerAs: '$ctrl',
+    scope: {
+      options: '=?lockerOptions'
+    },
+    link ($scope, $element, $attr, ctrl) {
+      let settings = defaults({}, $scope.options, DefaultSettings)
+      ctrl.configure($scope, $element, settings)
+
+      $scope.content = settings.content
+      $scope.show = ctrl.show.bind(ctrl, $scope, $element)
+      $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
+      $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
+    }
   }
-})
+}
 
 App.provider('$locker', Service)
 App.directive('locker', Component)
