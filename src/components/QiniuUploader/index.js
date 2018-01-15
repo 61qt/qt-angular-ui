@@ -7,7 +7,9 @@ import angular from 'angular'
 const App = angular.module('QtNgUi.QiniuUploader', [])
 
 class Service {
-  settings = {}
+  constructor () {
+    this.settings = {}
+  }
 
   ResponseInterceptor ($q, response) {
     'ngInject'
