@@ -19,8 +19,8 @@ printf '%s \e[0;94m%s\e[0m\n' 'Distribute:' "$DIST_FOLDER_PATH"
 printf '%s \e[0;94m%s\e[0m\n' ' Temporary:' "$TEMP_FOLDER_PATH"
 
 # Switch release branch
-git checkout $RELEASE_BRANCH || exit 0;
-git pull origin $RELEASE_BRANCH || exit 0;
+# git checkout $RELEASE_BRANCH || exit 0;
+# git pull origin $RELEASE_BRANCH || exit 0;
 
 if [ -d $DIST_FOLDER_PATH ]; then
   printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' 'Deploy to product environment.'
@@ -49,6 +49,7 @@ if [ -d $DIST_FOLDER_PATH ]; then
       printf '\e[0;94m\xe2\x9c\xa8  %s\e[0m\n' 'Remote branch is exist.'
     else
       cp -rf $DIST_FOLDER_PATH/* .
+      cp $DIST_FOLDER_PATH/.travis.yml ./.travis.yml
 
       git add -f .
 
@@ -63,6 +64,7 @@ if [ -d $DIST_FOLDER_PATH ]; then
   # Copy data we're interested in to that directory
   git rm -rf .
   cp -rf $DIST_FOLDER_PATH/* .
+  cp $DIST_FOLDER_PATH/.travis.yml ./.travis.yml
 
   # Add, commit and push files
   git add -f .

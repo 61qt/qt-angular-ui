@@ -2,7 +2,7 @@ language: node_js
 sudo: false
 stages:
   - name: Unit Test
-    if: Not branch = release
+    if: NOT branch IN (release)
   - name: GitHub Page Deploy
     if: branch = master
   - name: Npm Release
@@ -40,6 +40,8 @@ jobs:
           branch: master
 
     - stage: Npm Release
+      script:
+      - echo "Npm release is already..."
       deploy:
       - provider: npm
         skip_cleanup: true
