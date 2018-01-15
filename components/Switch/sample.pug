@@ -1,0 +1,27 @@
+.switch-sample
+  .switch-wrapper
+    form(name='form')
+      .row
+        p Normal:
+        switch(name='gender' ng-model='gender' ng-true-value='1' ng-false-value='2')
+          on M
+          off F
+
+      .row
+        p Disabled:
+        switch(disabled name='gender' ng-model='gender' ng-true-value='1' ng-false-value='2')
+          on M
+          off F
+
+      .row
+        p Checked:
+        switch(checked name='open' ng-model='open' ng-true-value='1' ng-false-value='2')
+          on Yes
+          off No
+
+      .row
+        p Checked Disabled:
+        switch(checked disabled ng-model='open' name='open' ng-true-value='1' ng-false-value='2')
+          on Yes
+          off No
+

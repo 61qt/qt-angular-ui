@@ -1,0 +1,31 @@
+.alert {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  z-index: 4444;
+  display: none;
+  margin: 0 auto;
+  border-radius: 0;
+  padding: 25px 30px;
+  width: auto;
+  height: auto;
+  text-align: center;
+  line-height: 32px;
+  font-size: 32px;
+  background-color: #ff4640;
+  box-shadow: none;
+  color: #fff;
+  opacity: 0;
+  user-select: none;
+  transition: opacity .26s ease-in;
+
+  &.in {
+    display: block;
+  }
+
+  &.fade {
+    opacity: 1;
+  }
+}

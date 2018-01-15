@@ -1,0 +1,22 @@
+{
+  "main": "./index.js",
+  "style": "./index.css",
+  "name": "qt-angular-ui",
+  "version": "3.0.1",
+  "license": "MIT",
+  "description": "angular@1.x.x components for qt61.cn",
+  "homepage": "https://github.com/61qt/qt-angular-ui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/61qt/qt-angular-ui.git"
+  },
+  "dependencies": {
+    "angular": "^1.6.3",
+    "blueimp-canvas-to-blob": "^3.7.0",
+    "canvas-compress": "^1.1.5",
+    "cropperjs": "^1.0.0-beta.2",
+    "lodash": "^4.17.4",
+    "moment": "^2.20.1",
+    "qiniup": "^0.2.1"
+  }
+}

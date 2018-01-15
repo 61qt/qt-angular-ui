@@ -1,0 +1,18 @@
+.lazier-sample {
+  padding-top: 4em;
+  text-align: center;
+
+  .container {
+    display: block;
+    margin: 0 auto;
+    width: 60%;
+  }
+
+  .image {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    width: 100%;
+    padding-top: percentage(1080/1920);
+  }
+}

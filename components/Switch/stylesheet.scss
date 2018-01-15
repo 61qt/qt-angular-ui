@@ -1,0 +1,144 @@
+$switch-border-color: #129fdd !default;
+$switch-color: #129fdd !default;
+
+.switch {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border: 1px solid $switch-border-color;
+  border-radius: 8px;
+  min-width: 208px;
+  height: 60px;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    display: none;
+  }
+
+  .switch-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+    transition: margin .3s;
+
+    .switch-on,
+    .switch-off {
+      box-sizing: border-box;
+      display: table;
+      float: left;
+      margin: 0;
+      padding: 0;
+      min-width: 50%;
+      height: 100%;
+      text-align: center;
+      word-break: keep-all;
+      white-space: nowrap;
+      font-size: 24px;
+      font-family: Trebuchet, Arial, sans-serif;
+      font-weight: bold;
+      color: #fff;
+      transition: all .3s ease;
+
+      .inner {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      .content {
+        display: inline-block;
+        padding: 0 16px;
+        min-width: 50%;
+        text-align: center;
+      }
+    }
+
+    .switch-on {
+      color: $switch-color;
+    }
+
+    .switch-off {
+      color: #fff;
+    }
+  }
+
+  .switch-switcher {
+    position: absolute;
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    display: block;
+    margin: auto 0;
+    border-radius: 4px 0 0 4px;
+    width: 50%;
+    height: 100%;
+    background: $switch-color;
+    pointer-events: none;
+    transform: translateX(100%);
+    transition: all .3s ease;
+
+    &:before {
+      display: inline-block;
+      padding-right: 100%;
+      content: '';
+    }
+  }
+
+  input:checked {
+    + .switch-switcher {
+      border-radius: 0 4px 4px 0;
+      transform: translateX(0);
+
+      + .switch-inner {
+        margin-left: 0;
+
+        .switch-on {
+          color: #fff;
+        }
+
+        .switch-off {
+          color: $switch-color;
+        }
+      }
+    }
+  }
+
+  input.disabled,
+  input:disabled,
+  input[disabled] {
+    + .switch-switcher {
+      background-color: #aeaeae;
+    }
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    border-color: #aeaeae;
+
+    .switch-inner {
+      .switch-on {
+        color: #aeaeae;
+      }
+
+      .switch-off {
+        color: #fff;
+      }
+    }
+
+    input:checked + .switch-switcher + .switch-inner {
+      .switch-on {
+        color: #fff;
+      }
+
+      .switch-off {
+        color: #aeaeae;
+      }
+    }
+  }
+}
