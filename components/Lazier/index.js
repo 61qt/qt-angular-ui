@@ -80,7 +80,6 @@ class Controller {
       $scope.finished = true
 
       isFunction(callback) && callback(null, $scope.image)
-      $scope.$digest()
     }
 
     image.onerror = function (error) {
@@ -88,7 +87,6 @@ class Controller {
       $scope.finished = true
 
       isFunction(callback) && callback(error)
-      $scope.$digest()
     }
 
     image.src = $scope.image
