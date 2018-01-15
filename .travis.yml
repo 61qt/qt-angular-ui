@@ -50,4 +50,5 @@ jobs:
           secure: lL8hWzne46WO6gtReVXuscRkdxut17Vt6XtlswyRWi3sziE7NjdfsjZ4p+Nwlxq98EjkMNnRWp9Up/nuPfb6m1gmDJ9PvCu7IRpjPYJYP9HkRYZC1A6y92qoYdtSZB/4LCkotERIwMssVkFN+Wz5wUGBYdr1khAwPGi1fMgOsI2bmqoYIVCbywbJwkVhMSbTcdPEfryWStpAt80XlRhzke/jNDj16hGAt/3PiarYPL+2HkDM6J+pNcEkKYnRM9pToSICbIMoUN0fB8ZQXmrjxhW2eUidCAiZXqE8sjoFVWzRxXm1WhgGayoawCpx8B76iYWUvYrHDbQvp0+XMuSFnJY5korOd2Pr2Z8NYIyY4KQfcgC3nHpEBrS0wIJcA+85DQvHOqjdd02L0QABc3Eo4DCFdDsNIC20HWqn6DKyPlGhzYBPEpwlTOLCukWplKjn4I2h6ad/4iWQfdIXXrvHHlUyUESporqMB9uEnNoIZZQALhcoX1ShMHRToh8RSppBspnHIhNQaL4ZX87DvafMhwY3kaQ0IsjjkdE2eiJ92Axubx/9HnYcxh0W3dTBJVYCHAxKYjzMRcFcItssSmSjLcF0UP2W75auJLdNgc1fD6HLEMb3ng8T0XyWQpB7hYpspEcoAcIeQitiWNnhCzlq9e/t2c6kXdQaecBzhU2PfLc=
         on:
           tags: true
+          branch: release
           repo: 61qt/qt-angular-ui
