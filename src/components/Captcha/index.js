@@ -8,16 +8,14 @@ const confilt = function (captcha) {
   return captcha.replace(/\?([\w\W]+?)$/, '') + `?v=${Date.now()}`
 }
 
-class Service {
-  constructor () {
-    this.defaultSettings = { url: '' }
-  }
+const Service = function () {
+  this.defaultSettings = { url: '' }
 
-  configure (options) {
+  this.configure = function (options) {
     this.defaultSettings = defaults({}, options, this.defaultSettings)
   }
 
-  $get () {
+  this.$get = function () {
     const ArrayProps = Array.prototype
     const defaultSettings = this.defaultSettings
 
@@ -65,41 +63,43 @@ class Service {
   }
 }
 
-const Captcha = ($uiCaptcha) => ({
-  restrict: 'EA',
-  replace: true,
-  template: Template,
-  scope: {
-    captcha: '=?ngModel'
-  },
-  link ($scope, $element) {
-    if (angular.isString($scope.captcha) && $scope.captcha) {
-      $scope.captcha = $uiCaptcha.$change($scope.captcha)
-
-      $scope.changeCaptcha = function () {
+const Captcha = function ($uiCaptcha) {
+  return {
+    restrict: 'EA',
+    replace: true,
+    template: Template,
+    scope: {
+      captcha: '=?ngModel'
+    },
+    link ($scope, $element) {
+      if (angular.isString($scope.captcha) && $scope.captcha) {
         $scope.captcha = $uiCaptcha.$change($scope.captcha)
-      }
-    } else {
-      $uiCaptcha.$add($scope)
-      $scope.captcha = $uiCaptcha.url
 
-      $scope.changeCaptcha = function () {
-        $uiCaptcha.change()
+        $scope.changeCaptcha = function () {
+          $scope.captcha = $uiCaptcha.$change($scope.captcha)
+        }
+      } else {
+        $uiCaptcha.$add($scope)
+        $scope.captcha = $uiCaptcha.url
+
+        $scope.changeCaptcha = function () {
+          $uiCaptcha.change()
+        }
       }
+
+      $element.on('click', function () {
+        $scope.changeCaptcha()
+        $scope.$digest()
+      })
+
+      $scope.$on('captcha.change', function () {
+        $scope.changeCaptcha()
+      })
+
+      $scope.changeCaptcha()
     }
-
-    $element.on('click', function () {
-      $scope.changeCaptcha()
-      $scope.$digest()
-    })
-
-    $scope.$on('captcha.change', function () {
-      $scope.changeCaptcha()
-    })
-
-    $scope.changeCaptcha()
   }
-})
+}
 
 App.provider('$uiCaptcha', Service)
 App.directive('captcha', Captcha)

@@ -10,18 +10,12 @@ export const config = {
   padding: 10
 }
 
-export class FlashController {
-  constructor ($scope) {
-    this.$scope = $scope
+export const FlashController = function ($scope) {
+  'ngInject'
 
-    $scope.isOpen = false
-    $scope.displayClass = config.dismiss
-    $scope.animationClass = config.animationClass
-    $scope.duration = config.duration
-    $scope.padding = config.padding
-  }
+  this.$scope = $scope
 
-  configure ($scope = this.$scope, $element, options) {
+  this.configure = function ($scope = this.$scope, $element, options) {
     this.$scope = this.$scope
     this.$element = $element
 
@@ -38,7 +32,7 @@ export class FlashController {
     }
   }
 
-  show ($scope = this.$scope, $element = this.$element, callback) {
+  this.show = function ($scope = this.$scope, $element = this.$element, callback) {
     if ($scope.isOpen === true) {
       return
     }
@@ -54,7 +48,7 @@ export class FlashController {
     this.$element.addClass($scope.displayClass)
   }
 
-  hide ($scope = this.$scope, $element = this.$element, callback, force) {
+  this.hide = function ($scope = this.$scope, $element = this.$element, callback, force) {
     if ($scope.isOpen === false && force !== true) {
       return
     }
@@ -70,7 +64,7 @@ export class FlashController {
     $scope.isOpen = false
   }
 
-  dismiss ($scope = this.$scope, $element = this.$element, callback, force) {
+  this.dismiss = function ($scope = this.$scope, $element = this.$element, callback, force) {
     if (isBoolean(callback)) {
       return this.dismiss($scope, $element, null, callback)
     }
@@ -84,4 +78,10 @@ export class FlashController {
       isFunction(callback) && callback()
     }, force)
   }
+
+  $scope.isOpen = false
+  $scope.displayClass = config.dismiss
+  $scope.animationClass = config.animationClass
+  $scope.duration = config.duration
+  $scope.padding = config.padding
 }

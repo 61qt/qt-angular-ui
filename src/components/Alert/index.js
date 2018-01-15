@@ -16,17 +16,17 @@ export const DefaultSettings = defaults({ delay: 2500 }, Config)
 
 const App = angular.module('QtNgUi.Alert', [])
 
-class Service {
-  constructor () {
-    this.openScopes = []
-    this.defaultSettings = DefaultSettings
-  }
+const Service = function () {
+  this.openScopes = []
+  this.defaultSettings = DefaultSettings
 
-  configure (options) {
+  this.configure = function (options) {
     this.defaultSettings = defaults({}, options, this.defaultSettings)
   }
 
-  $get ($rootScope, $compile) {
+  this.$get = function ($rootScope, $compile) {
+    'ngInject'
+
     const create = (message, options = this.defaultSettings) => {
       if (isString(options)) {
         return create(message, { type: options })
@@ -60,36 +60,40 @@ class Service {
   }
 }
 
-const Component = ($alert) => ({
-  restrict: 'EA',
-  replace: true,
-  transclude: true,
-  template: Template,
-  controller: FlashController,
-  controllerAs: '$ctrl',
-  scope: {
-    options: '=?alertOptions'
-  },
-  link ($scope, $element, $attr, ctrl, transclude) {
-    let settings = defaults({}, $scope.options, DefaultSettings)
-    ctrl.configure($scope, $element, settings)
+const Component = function ($alert) {
+  'ngInject'
 
-    $scope.type = settings.type || ''
-    $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
-    $scope.show = ctrl.show.bind(ctrl, $scope, $element)
-    $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
-    $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
+  return {
+    restrict: 'EA',
+    replace: true,
+    transclude: true,
+    template: Template,
+    controller: FlashController,
+    controllerAs: '$ctrl',
+    scope: {
+      options: '=?alertOptions'
+    },
+    link ($scope, $element, $attr, ctrl, transclude) {
+      let settings = defaults({}, $scope.options, DefaultSettings)
+      ctrl.configure($scope, $element, settings)
 
-    $scope.$on('$destroy', function () {
-      $alert.remove($scope)
-      $element.remove()
-    })
+      $scope.type = settings.type || ''
+      $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
+      $scope.show = ctrl.show.bind(ctrl, $scope, $element)
+      $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
+      $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
 
-    $scope.show(function () {
-      setTimeout($scope.dismiss.bind($scope), $scope.delay)
-    })
+      $scope.$on('$destroy', function () {
+        $alert.remove($scope)
+        $element.remove()
+      })
+
+      $scope.show(function () {
+        setTimeout($scope.dismiss.bind($scope), $scope.delay)
+      })
+    }
   }
-})
+}
 
 App.provider('$alert', Service)
 App.directive('alert', Component)
