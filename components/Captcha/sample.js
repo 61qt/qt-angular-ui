@@ -8,11 +8,14 @@ export const App = angular.module('QtNgUi.Captcha.Sample', [
   Component
 ])
 
-App.config(function ($uiCaptchaProvider) {
-  $uiCaptchaProvider.configure({
-    url: 'https://student-api.61qt.cn/common/captcha'
-  })
-})
+App.config([
+  '$uiCaptchaProvider',
+  function ($uiCaptchaProvider) {
+    $uiCaptchaProvider.configure({
+      url: 'https://student-api.61qt.cn/common/captcha'
+    })
+  }
+])
 
 App.directive('captchaSample', () => ({
   restrict: 'EA',
