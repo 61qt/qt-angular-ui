@@ -2,7 +2,7 @@
   "main": "./index.js",
   "style": "./index.css",
   "name": "qt-angular-ui",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "license": "MIT",
   "description": "angular@1.x.x components for qt61.cn",
   "homepage": "https://github.com/61qt/qt-angular-ui",
