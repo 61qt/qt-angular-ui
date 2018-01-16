@@ -6,110 +6,117 @@ import angular from 'angular'
 
 const App = angular.module('QtNgUi.QiniuUploader', [])
 
-class Service {
-  constructor () {
-    this.settings = {}
-  }
+const Service = function () {
+  this.settings = {}
 
-  ResponseInterceptor ($q, response) {
-    'ngInject'
+  this.ResponseInterceptor = [
+    '$q', 'response',
+    function ($q, response) {
+      let deferred = $q.defer()
+      deferred.resolve(response)
+      return deferred.promise
+    }
+  ]
 
-    let deferred = $q.defer()
-    deferred.resolve(response)
-    return deferred.promise
-  }
-
-  configure (options) {
+  this.configure = function (options) {
     this.settings = defaultsDeep(options, this.settings)
   }
 
-  setTokenGetter (getter) {
+  this.setTokenGetter = function (getter) {
     if (isFunction(getter) || isArray(getter)) {
       this.TokenGetter = getter
     }
   }
 
-  setResponseInterceptor (interceptor) {
+  this.setResponseInterceptor = function (interceptor) {
     if (isFunction(interceptor) || isArray(interceptor)) {
       this.ResponseInterceptor = interceptor
     }
   }
 
-  $get ($injector) {
-    let options = {}
+  this.$get = [
+    '$injector',
+    function ($injector) {
+      let options = {}
 
-    if (isFunction(this.ResponseInterceptor) || isArray(this.ResponseInterceptor)) {
-      options.responseInterceptor = (options) => $injector.invoke(this.ResponseInterceptor, null, options)
+      if (isFunction(this.ResponseInterceptor) || isArray(this.ResponseInterceptor)) {
+        options.responseInterceptor = (options) => $injector.invoke(this.ResponseInterceptor, null, options)
+      }
+
+      if (isFunction(this.TokenGetter) || isArray(this.TokenGetter)) {
+        options.tokenGetter = (callback) => $injector.invoke(this.TokenGetter, null, { callback })
+      }
+
+      return new Uploader(options)
     }
-
-    if (isFunction(this.TokenGetter) || isArray(this.TokenGetter)) {
-      options.tokenGetter = (callback) => $injector.invoke(this.TokenGetter, null, { callback })
-    }
-
-    return new Uploader(options)
-  }
+  ]
 }
 
-const Link = ($parse, $timeout) => ({
-  restrict: 'EA',
-  replace: true,
-  transclude: true,
-  template: '<label ng-transclude></label>',
-  link ($scope, $element, $attrs) {
-    let selectFn = $parse($attrs.ngFileSelect)
+const Link = [
+  '$parse', '$timeout',
+  function ($parse, $timeout) {
+    return {
+      restrict: 'EA',
+      replace: true,
+      transclude: true,
+      template: '<label ng-transclude></label>',
+      link ($scope, $element, $attrs) {
+        let selectFn = $parse($attrs.ngFileSelect)
 
-    let element = $element[0]
-    if (element.tagName.toLowerCase() !== 'input' ||
-      ($element.attr('type') && $element.attr('type').toLowerCase() !== 'file')) {
-      let fileElem = angular.element('<input type="file">')
-      for (let i = 0, len = element.attributes.length; i < len; i++) {
-        fileElem.attr(element.attributes[i].name, element.attributes[i].value)
-      }
+        let element = $element[0]
+        if (element.tagName.toLowerCase() !== 'input' ||
+          ($element.attr('type') && $element.attr('type').toLowerCase() !== 'file')) {
+          let fileElem = angular.element('<input type="file">')
+          for (let i = 0, len = element.attributes.length; i < len; i++) {
+            fileElem.attr(element.attributes[i].name, element.attributes[i].value)
+          }
 
-      if ($element.attr('data-multiple')) {
-        fileElem.attr('multiple', 'true')
-      }
+          if ($element.attr('data-multiple')) {
+            fileElem.attr('multiple', 'true')
+          }
 
-      fileElem
-        .css('top', 0)
-        .css('bottom', 0)
-        .css('left', 0)
-        .css('right', 0)
-        .css('width', '100%')
-        .css('opacity', 0)
-        .css('position', 'absolute')
-        .css('filter', 'alpha(opacity=0)')
+          fileElem
+            .css('top', 0)
+            .css('bottom', 0)
+            .css('left', 0)
+            .css('right', 0)
+            .css('width', '100%')
+            .css('opacity', 0)
+            .css('position', 'absolute')
+            .css('filter', 'alpha(opacity=0)')
 
-      $element.append(fileElem)
+          $element.append(fileElem)
 
-      if ($element.css('position') === '' || $element.css('position') === 'static') {
-        $element.css('position', 'relative')
-      }
+          if ($element.css('position') === '' || $element.css('position') === 'static') {
+            $element.css('position', 'relative')
+          }
 
-      $element = fileElem
-    }
-
-    $element.bind('change', (event) => {
-      let files = []
-      let fileList = event.__files__ || event.target.files
-
-      if (fileList !== null) {
-        for (let i = 0, len = fileList.length; i < len; i++) {
-          files.push(fileList.item(i))
+          $element = fileElem
         }
-      }
 
-      $timeout(() => {
-        selectFn($scope, {
-          $files: files,
-          $event: event
+        $element.bind('change', (event) => {
+          let files = []
+          let fileList = event.__files__ || event.target.files
+
+          if (fileList !== null) {
+            for (let i = 0, len = fileList.length; i < len; i++) {
+              files.push(fileList.item(i))
+            }
+          }
+
+          $timeout(() => {
+            selectFn($scope, {
+              $files: files,
+              $event: event
+            })
+
+            $element.val('')
+          })
         })
-
-        $element.val('')
-      })
-    })
+      }
+    }
   }
-})
+]
 
 App.provider('$qiniuUploader', Service)
 App.directive('qiniuUploader', Link)

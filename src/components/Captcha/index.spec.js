@@ -62,7 +62,7 @@ describe('Captcha 组件', function () {
   })
 
   describe('触发流程', function () {
-    it('能够点击刷新图片验证码', function (done) {
+    it('能够点击刷新图片验证码', function () {
       inject(function ($rootScope, $compile) {
         let $newSopen = $rootScope.$new()
         $newSopen.captcha = CAPTCHAURL
@@ -80,13 +80,11 @@ describe('Captcha 组件', function () {
         expect(oldCaptcha).to.equal($scope.captcha)
 
         clickElement(captcha[0])
+        $scope.$digest()
 
-        setTimeout(function () {
-          let newCaptcha = captchaImage.attr('src')
-          expect(newCaptcha).to.equal($scope.captcha)
-          expect(newCaptcha).to.not.equal(oldCaptcha)
-          done()
-        }, 10)
+        let newCaptcha = captchaImage.attr('src')
+        expect(newCaptcha).to.equal($scope.captcha)
+        expect(newCaptcha).to.not.equal(oldCaptcha)
       })
     })
 

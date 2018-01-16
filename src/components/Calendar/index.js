@@ -56,103 +56,110 @@ const _buildWeek = function (date, month) {
   return days
 }
 
-const Calendar = () => ({
-  restrict: 'E',
-  replace: true,
-  template: Template,
-  require: '?^ngModel',
-  scope: {
-    selected: '=?ngModel'
-  },
-  link ($scope, $element, $attrs) {
-    let isDisabled = $attrs.hasOwnProperty('disabled')
+const Calendar = function () {
+  return {
+    restrict: 'E',
+    replace: true,
+    template: Template,
+    require: '?^ngModel',
+    scope: {
+      selected: '=?ngModel'
+    },
+    link ($scope, $element, $attrs) {
+      let isDisabled = $attrs.hasOwnProperty('disabled')
 
-    $scope.selected = isArray($scope.selected) ? $scope.selected : []
-    $scope.month = $scope.selected[0] ? moment($scope.selected[0]) : moment()
+      $scope.selected = isArray($scope.selected) ? $scope.selected : []
+      $scope.month = $scope.selected[0] ? moment($scope.selected[0]) : moment()
 
-    _buildMonth($scope, $scope.month)
+      _buildMonth($scope, $scope.month)
 
-    $scope.select = function (day) {
-      if (isDisabled) {
-        return
+      $scope.select = function (day) {
+        if (isDisabled) {
+          return
+        }
+
+        let date = day.date.format('YYYY-MM-DD')
+        let index = $scope.selected.indexOf(date)
+
+        index === -1
+          ? $scope.selected.push(date)
+          : $scope.selected.splice(index, 1)
       }
 
-      let date = day.date.format('YYYY-MM-DD')
-      let index = $scope.selected.indexOf(date)
-
-      index === -1
-        ? $scope.selected.push(date)
-        : $scope.selected.splice(index, 1)
-    }
-
-    $scope.isSelected = function (day) {
-      let date = day.date.format('YYYY-MM-DD')
-      return $scope.selected.indexOf(date) !== -1
-    }
-
-    $scope.redirectYear = function (number) {
-      $scope.month.date(1).year(number)
-      _buildMonth($scope, $scope.month)
-    }
-
-    $scope.redirectMonth = function (number) {
-      $scope.month.date(1).month(number)
-      _buildMonth($scope, $scope.month)
-    }
-
-    $scope.focus = function (date) {
-      let month = moment(date)
-      if (!month.isValid()) {
-        return false
+      $scope.isSelected = function (day) {
+        let date = day.date.format('YYYY-MM-DD')
+        return $scope.selected.indexOf(date) !== -1
       }
 
-      $scope.month = month.clone()
-      _buildMonth($scope, $scope.month)
-    }
+      $scope.redirectYear = function (number) {
+        $scope.month.date(1).year(number)
+        _buildMonth($scope, $scope.month)
+      }
 
-    $scope.next = function () {
-      $scope.month.add(1, 'M')
-      _buildMonth($scope, $scope.month)
-    }
+      $scope.redirectMonth = function (number) {
+        $scope.month.date(1).month(number)
+        _buildMonth($scope, $scope.month)
+      }
 
-    $scope.previous = function () {
-      $scope.month.subtract(1, 'M')
-      _buildMonth($scope, $scope.month)
+      $scope.focus = function (date) {
+        let month = moment(date)
+        if (!month.isValid()) {
+          return false
+        }
+
+        $scope.month = month.clone()
+        _buildMonth($scope, $scope.month)
+      }
+
+      $scope.next = function () {
+        $scope.month.add(1, 'M')
+        _buildMonth($scope, $scope.month)
+      }
+
+      $scope.previous = function () {
+        $scope.month.subtract(1, 'M')
+        _buildMonth($scope, $scope.month)
+      }
     }
   }
-})
+}
 
-const Modal = ($rootScope, $timeout) => ({
-  restrict: 'E',
-  replace: true,
-  transclude: true,
-  template: ModalTemplate,
-  require: '?^ngModel',
-  scope: {
-    isOpen: '=?ngModel'
-  },
-  link ($scope, $element, $attrs, ctrl, transclude) {
-    $scope.isOpen = false
+const Modal = [
+  '$rootScope', '$timeout',
+  function ($rootScope, $timeout) {
+    return {
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      template: ModalTemplate,
+      require: '?^ngModel',
+      scope: {
+        isOpen: '=?ngModel'
+      },
+      link ($scope, $element, $attrs, ctrl, transclude) {
+        $scope.isOpen = false
 
-    $element.find('section').append(transclude())
+        $element.find('section').append(transclude())
 
-    $scope.$watch('isOpen', (isOpen) => {
-      angular
-        .element(document.body)
-        .toggleClass('calendar-modal-open', isOpen)
+        $scope.$watch('isOpen', (isOpen) => {
+          angular
+            .element(document.body)
+            .toggleClass('calendar-modal-open', isOpen)
 
-      if (isOpen) {
-        $element.removeClass('hide')
-        $element[0].focus()
+          if (isOpen) {
+            $element.removeClass('hide')
+            $element[0].focus()
 
-        $timeout(() => $element.addClass('in'), 10)
-      } else {
-        $element.removeClass('in')
-        $timeout(() => $element.addClass('hide'), 350)
+            $timeout(() => $element.addClass('in'), 10)
+          } else {
+            $element.removeClass('in')
+            $timeout(() => $element.addClass('hide'), 350)
+          }
+        })
       }
-    })
+    }
   }
-})
+]
 
 App.directive('calendar', Calendar)
 App.directive('calendarModal', Modal)
