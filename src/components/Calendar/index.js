@@ -124,39 +124,42 @@ const Calendar = function () {
   }
 }
 
-const Modal = function ($rootScope, $timeout) {
-  return {
-    restrict: 'E',
-    replace: true,
-    transclude: true,
-    template: ModalTemplate,
-    require: '?^ngModel',
-    scope: {
-      isOpen: '=?ngModel'
-    },
-    link ($scope, $element, $attrs, ctrl, transclude) {
-      $scope.isOpen = false
+const Modal = [
+  '$rootScope', '$timeout',
+  function ($rootScope, $timeout) {
+    return {
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      template: ModalTemplate,
+      require: '?^ngModel',
+      scope: {
+        isOpen: '=?ngModel'
+      },
+      link ($scope, $element, $attrs, ctrl, transclude) {
+        $scope.isOpen = false
 
-      $element.find('section').append(transclude())
+        $element.find('section').append(transclude())
 
-      $scope.$watch('isOpen', (isOpen) => {
-        angular
-          .element(document.body)
-          .toggleClass('calendar-modal-open', isOpen)
+        $scope.$watch('isOpen', (isOpen) => {
+          angular
+            .element(document.body)
+            .toggleClass('calendar-modal-open', isOpen)
 
-        if (isOpen) {
-          $element.removeClass('hide')
-          $element[0].focus()
+          if (isOpen) {
+            $element.removeClass('hide')
+            $element[0].focus()
 
-          $timeout(() => $element.addClass('in'), 10)
-        } else {
-          $element.removeClass('in')
-          $timeout(() => $element.addClass('hide'), 350)
-        }
-      })
+            $timeout(() => $element.addClass('in'), 10)
+          } else {
+            $element.removeClass('in')
+            $timeout(() => $element.addClass('hide'), 350)
+          }
+        })
+      }
     }
   }
-}
+]
 
 App.directive('calendar', Calendar)
 App.directive('calendarModal', Modal)

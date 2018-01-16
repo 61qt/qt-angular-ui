@@ -8,124 +8,126 @@ import Template from './template.pug'
 
 const App = angular.module('QtNgUi.Radio', [])
 
-const Controller = function ($scope) {
-  'ngInject'
+const Controller = [
+  '$scope',
+  function ($scope) {
+    $scope.checked = false
+  }
+]
 
-  $scope.checked = false
-}
+const Component = [
+  '$rootScope',
+  function ($rootScope) {
+    return {
+      restrict: 'E',
+      transclude: true,
+      replace: true,
+      controller: Controller,
+      template: Template,
+      require: ['^radio', '^?ngModel'],
+      scope: {
+        model: '=?ngModel',
+        ngChecked: '=?ngChecked',
+        ngDisabled: '=?ngDisabled',
+        ngChange: '&'
+      },
+      link ($scope, $element, $attrs, ctrls) {
+        let RadioCtrl = ctrls[0]
 
-const Component = function ($rootScope) {
-  'ngInject'
+        $scope.attrId = $attrs.id
+        $scope.attrName = $attrs.ngModel || `radio-${Date.now() + Math.round(Math.random() * 100)}`
 
-  return {
-    restrict: 'E',
-    transclude: true,
-    replace: true,
-    controller: Controller,
-    template: Template,
-    require: ['^radio', '^?ngModel'],
-    scope: {
-      model: '=?ngModel',
-      ngChecked: '=?ngChecked',
-      ngDisabled: '=?ngDisabled',
-      ngChange: '&'
-    },
-    link ($scope, $element, $attrs, ctrls) {
-      let RadioCtrl = ctrls[0]
+        $scope.attrValue = $attrs.hasOwnProperty('value') ? $attrs.value : true
+        $scope.attrNgTrueValue = $attrs.hasOwnProperty('ngTrueValue') ? $attrs.ngTrueValue : $scope.attrValue
+        $scope.attrNgFalseValue = $attrs.hasOwnProperty('ngFalseValue') ? $attrs.ngFalseValue : false
 
-      $scope.attrId = $attrs.id
-      $scope.attrName = $attrs.ngModel || `radio-${Date.now() + Math.round(Math.random() * 100)}`
+        $scope.attrNgChecked = $attrs.ngChecked
+        $scope.disabled = $attrs.hasOwnProperty('disabled')
+        $scope.checked = isBoolean($scope.ngModel) ? $scope.ngModel : $attrs.hasOwnProperty('checked')
 
-      $scope.attrValue = $attrs.hasOwnProperty('value') ? $attrs.value : true
-      $scope.attrNgTrueValue = $attrs.hasOwnProperty('ngTrueValue') ? $attrs.ngTrueValue : $scope.attrValue
-      $scope.attrNgFalseValue = $attrs.hasOwnProperty('ngFalseValue') ? $attrs.ngFalseValue : false
+        $scope.stopPropagation = $attrs.hasOwnProperty('stopPropagation')
+        $scope.preventDefault = $attrs.hasOwnProperty('preventDefault')
 
-      $scope.attrNgChecked = $attrs.ngChecked
-      $scope.disabled = $attrs.hasOwnProperty('disabled')
-      $scope.checked = isBoolean($scope.ngModel) ? $scope.ngModel : $attrs.hasOwnProperty('checked')
+        $scope.toggle = (isCheck) => {
+          isCheck = angular.isDefined(isCheck) ? !!isCheck : !$scope.checked
+          $scope.checked = isCheck
+        }
 
-      $scope.stopPropagation = $attrs.hasOwnProperty('stopPropagation')
-      $scope.preventDefault = $attrs.hasOwnProperty('preventDefault')
+        $element
+          .removeAttr('id')
+          .on('click', (event) => {
+            if ($scope.stopPropagation) {
+              event.stopPropagation()
+            }
 
-      $scope.toggle = (isCheck) => {
-        isCheck = angular.isDefined(isCheck) ? !!isCheck : !$scope.checked
-        $scope.checked = isCheck
-      }
+            if ($scope.preventDefault) {
+              event.preventDefault()
+            }
 
-      $element
-        .removeAttr('id')
-        .on('click', (event) => {
-          if ($scope.stopPropagation) {
-            event.stopPropagation()
-          }
+            if ($scope.disabled) {
+              event.preventDefault()
+              event.stopPropagation()
+              return false
+            }
 
-          if ($scope.preventDefault) {
-            event.preventDefault()
-          }
+            $scope.toggle(true)
+            RadioCtrl.toggle && RadioCtrl.toggle($scope.checked)
 
-          if ($scope.disabled) {
-            event.preventDefault()
-            event.stopPropagation()
-            return false
-          }
-
-          $scope.toggle(true)
-          RadioCtrl.toggle && RadioCtrl.toggle($scope.checked)
-
-          $rootScope.$apply(() => {
-            $scope.model = $scope.attrValue
+            $rootScope.$apply(() => {
+              $scope.model = $scope.attrValue
+            })
           })
+
+        $scope.$watch('ngChecked', (isChecked) => {
+          if (angular.isDefined(isChecked)) {
+            $element.attr('checked', isChecked)
+            $scope.toggle(!!isChecked)
+            RadioCtrl.toggle(isChecked)
+            $scope.model = $scope.checked ? $scope.attrNgTrueValue : $scope.attrNgFalseValue
+          }
         })
 
-      $scope.$watch('ngChecked', (isChecked) => {
-        if (angular.isDefined(isChecked)) {
+        $scope.$watch('ngDisabled', function (isDisabled) {
+          if (typeof isDisabled === 'boolean') {
+            $scope.disabled = isDisabled
+          }
+        })
+
+        $scope.$watch('model', (value) => {
+          /* eslint eqeqeq: off */
+          let isChecked = $scope.checked = value === true || value == $scope.attrNgTrueValue
+
+          /**
+           * 当不知道 model 为 true 或 false 的值时,
+           * 重复设置一次 model 的相对 true/false 的值.
+           * 会触发多一次 $watch 事件
+           */
+          if ($scope.attrNgTrueValue !== true && value === true) {
+            $scope.model = $scope.attrNgTrueValue
+          } else if ($scope.attrNgFalseValue !== false && value === false) {
+            $scope.model = $scope.attrNgFalseValue
+          }
+
           $element.attr('checked', isChecked)
-          $scope.toggle(!!isChecked)
-          RadioCtrl.toggle(isChecked)
+          $scope.toggle(isChecked)
+
+          /**
+           * 这里不能触发 change 事件, 否则会再次触发关联者的再次 $digest
+           */
+          RadioCtrl.toggle(isChecked, false)
+        })
+
+        RadioCtrl.unchecked = function () {
+          $element.removeAttr('checked')
+        }
+
+        if (angular.isUndefined($scope.model)) {
           $scope.model = $scope.checked ? $scope.attrNgTrueValue : $scope.attrNgFalseValue
         }
-      })
-
-      $scope.$watch('ngDisabled', function (isDisabled) {
-        if (typeof isDisabled === 'boolean') {
-          $scope.disabled = isDisabled
-        }
-      })
-
-      $scope.$watch('model', (value) => {
-        /* eslint eqeqeq: off */
-        let isChecked = $scope.checked = value === true || value == $scope.attrNgTrueValue
-
-        /**
-         * 当不知道 model 为 true 或 false 的值时,
-         * 重复设置一次 model 的相对 true/false 的值.
-         * 会触发多一次 $watch 事件
-         */
-        if ($scope.attrNgTrueValue !== true && value === true) {
-          $scope.model = $scope.attrNgTrueValue
-        } else if ($scope.attrNgFalseValue !== false && value === false) {
-          $scope.model = $scope.attrNgFalseValue
-        }
-
-        $element.attr('checked', isChecked)
-        $scope.toggle(isChecked)
-
-        /**
-         * 这里不能触发 change 事件, 否则会再次触发关联者的再次 $digest
-         */
-        RadioCtrl.toggle(isChecked, false)
-      })
-
-      RadioCtrl.unchecked = function () {
-        $element.removeAttr('checked')
-      }
-
-      if (angular.isUndefined($scope.model)) {
-        $scope.model = $scope.checked ? $scope.attrNgTrueValue : $scope.attrNgFalseValue
       }
     }
   }
-}
+]
 
 const Origin = function () {
   return {
