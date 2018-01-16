@@ -63,43 +63,46 @@ const Service = function () {
   }
 }
 
-const Captcha = function ($uiCaptcha) {
-  return {
-    restrict: 'EA',
-    replace: true,
-    template: Template,
-    scope: {
-      captcha: '=?ngModel'
-    },
-    link ($scope, $element) {
-      if (angular.isString($scope.captcha) && $scope.captcha) {
-        $scope.captcha = $uiCaptcha.$change($scope.captcha)
-
-        $scope.changeCaptcha = function () {
+const Captcha = [
+  '$uiCaptcha',
+  function ($uiCaptcha) {
+    return {
+      restrict: 'EA',
+      replace: true,
+      template: Template,
+      scope: {
+        captcha: '=?ngModel'
+      },
+      link ($scope, $element) {
+        if (angular.isString($scope.captcha) && $scope.captcha) {
           $scope.captcha = $uiCaptcha.$change($scope.captcha)
-        }
-      } else {
-        $uiCaptcha.$add($scope)
-        $scope.captcha = $uiCaptcha.url
 
-        $scope.changeCaptcha = function () {
-          $uiCaptcha.change()
+          $scope.changeCaptcha = function () {
+            $scope.captcha = $uiCaptcha.$change($scope.captcha)
+          }
+        } else {
+          $uiCaptcha.$add($scope)
+          $scope.captcha = $uiCaptcha.url
+
+          $scope.changeCaptcha = function () {
+            $uiCaptcha.change()
+          }
         }
+
+        $element.on('click', function () {
+          $scope.changeCaptcha()
+          $scope.$digest()
+        })
+
+        $scope.$on('captcha.change', function () {
+          $scope.changeCaptcha()
+        })
+
+        $scope.changeCaptcha()
       }
-
-      $element.on('click', function () {
-        $scope.changeCaptcha()
-        $scope.$digest()
-      })
-
-      $scope.$on('captcha.change', function () {
-        $scope.changeCaptcha()
-      })
-
-      $scope.changeCaptcha()
     }
   }
-}
+]
 
 App.provider('$uiCaptcha', Service)
 App.directive('captcha', Captcha)

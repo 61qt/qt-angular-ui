@@ -14,18 +14,21 @@ const App = angular.module('QtNgUi.Cropper', [
   QiniuUploader
 ])
 
-const CropperImageLink = function ($rootScope, cropperInterceptor) {
-  return {
-    restrict: 'A',
-    require: '^cropper',
-    scope: true,
-    link ($scope, $element, $attrs, ctrl) {
-      $element.on('load', function () {
-        ctrl.setupCropper(this)
-      })
+const CropperImageLink = [
+  '$rootScope', 'cropperInterceptor',
+  function ($rootScope, cropperInterceptor) {
+    return {
+      restrict: 'A',
+      require: '^cropper',
+      scope: true,
+      link ($scope, $element, $attrs, ctrl) {
+        $element.on('load', function () {
+          ctrl.setupCropper(this)
+        })
+      }
     }
   }
-}
+]
 
 const CropperLinkController = [
   '$scope', 'cropperInterceptor',
@@ -266,12 +269,15 @@ const CropperLink = [
 App.directive('cropperImage', CropperImageLink)
 App.directive('cropper', CropperLink)
 
-App.run(function ($injector) {
-  try {
-    $injector.get('cropperInterceptor')
-  } catch (error) {
-    throw new Error('尚未进行 Cropper 的配置')
+App.run([
+  '$injector',
+  function ($injector) {
+    try {
+      $injector.get('cropperInterceptor')
+    } catch (error) {
+      throw new Error('尚未进行 Cropper 的配置')
+    }
   }
-})
+])
 
 export default App.name
