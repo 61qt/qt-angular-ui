@@ -1,21 +1,36 @@
-import './sample.scss'
+'use strict';
 
-import angular from 'angular'
-import Component from './index'
-import Template from './sample.pug'
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.App = undefined;
 
-export const App = angular.module('QtNgUi.Checkbox.Sample', [
-  Component
-])
+require('./sample.scss');
 
-App.directive('checkboxSample', () => ({
-  restrict: 'EA',
-  replace: true,
-  transclude: true,
-  template: Template,
-  link ($scope) {
+var _angular = require('angular');
 
-  }
-}))
+var _angular2 = _interopRequireDefault(_angular);
 
-export default App.name
+var _index = require('./index');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _sample = require('./sample.pug');
+
+var _sample2 = _interopRequireDefault(_sample);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = exports.App = _angular2.default.module('QtNgUi.Checkbox.Sample', [_index2.default]);
+
+App.directive('checkboxSample', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    transclude: true,
+    template: _sample2.default,
+    link: function link($scope) {}
+  };
+});
+
+exports.default = App.name;

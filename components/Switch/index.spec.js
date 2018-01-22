@@ -1,1 +1,3 @@
-import './index'
+'use strict';
+
+require('./index');

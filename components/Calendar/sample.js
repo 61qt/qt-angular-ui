@@ -1,18 +1,35 @@
-import './sample.scss'
+'use strict';
 
-import angular from 'angular'
-import Component from './index'
-import Template from './sample.pug'
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.App = undefined;
 
-export const App = angular.module('QtNgUi.Calendar.Sample', [
-  Component
-])
+require('./sample.scss');
 
-App.directive('calendarSample', () => ({
-  restrict: 'EA',
-  replace: true,
-  transclude: true,
-  template: Template
-}))
+var _angular = require('angular');
 
-export default App.name
+var _angular2 = _interopRequireDefault(_angular);
+
+var _index = require('./index');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _sample = require('./sample.pug');
+
+var _sample2 = _interopRequireDefault(_sample);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = exports.App = _angular2.default.module('QtNgUi.Calendar.Sample', [_index2.default]);
+
+App.directive('calendarSample', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    transclude: true,
+    template: _sample2.default
+  };
+});
+
+exports.default = App.name;

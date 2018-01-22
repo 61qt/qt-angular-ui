@@ -1,103 +1,147 @@
-import './stylesheet.scss'
+'use strict';
 
-import Remove from 'lodash/remove'
-import forEach from 'lodash/forEach'
-import defaults from 'lodash/defaults'
-import template from 'lodash/template'
-import isString from 'lodash/isString'
-import isInteger from 'lodash/isInteger'
-import isPlainObject from 'lodash/isPlainObject'
-import angular from 'angular'
-import { template as AliasTemplate } from './constants'
-import { config as Config, FlashController } from '../../controllers/FlashController'
-import Template from './template.pug'
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Name = exports.DefaultSettings = undefined;
 
-export const DefaultSettings = defaults({ delay: 2500 }, Config)
+require('./stylesheet.scss');
 
-const App = angular.module('QtNgUi.Alert', [])
+var _remove = require('lodash/remove');
 
-const Service = function () {
-  this.openScopes = []
-  this.defaultSettings = DefaultSettings
+var _remove2 = _interopRequireDefault(_remove);
 
-  this.configure = function (options) {
-    this.defaultSettings = defaults({}, options, this.defaultSettings)
-  }
+var _forEach = require('lodash/forEach');
 
-  this.$get = [
-    '$rootScope', '$compile',
-    function ($rootScope, $compile) {
-      const create = (message, options = this.defaultSettings) => {
-        if (isString(options)) {
-          return create(message, { type: options })
+var _forEach2 = _interopRequireDefault(_forEach);
+
+var _defaults = require('lodash/defaults');
+
+var _defaults2 = _interopRequireDefault(_defaults);
+
+var _template = require('lodash/template');
+
+var _template2 = _interopRequireDefault(_template);
+
+var _isString = require('lodash/isString');
+
+var _isString2 = _interopRequireDefault(_isString);
+
+var _isInteger = require('lodash/isInteger');
+
+var _isInteger2 = _interopRequireDefault(_isInteger);
+
+var _isPlainObject = require('lodash/isPlainObject');
+
+var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
+
+var _angular = require('angular');
+
+var _angular2 = _interopRequireDefault(_angular);
+
+var _constants = require('./constants');
+
+var _FlashController = require('../../controllers/FlashController');
+
+var _module = require('../../share/module');
+
+var _template3 = require('./template.pug');
+
+var _template4 = _interopRequireDefault(_template3);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DefaultSettings = exports.DefaultSettings = (0, _defaults2.default)({ delay: 2500 }, _FlashController.config);
+var Name = exports.Name = 'QtNgUi.Alert';
+exports.default = Name;
+
+
+if (!(0, _module.exists)(Name)) {
+  var App = (0, _module.def)(Name, []);
+
+  var Service = function Service() {
+    this.openScopes = [];
+    this.defaultSettings = DefaultSettings;
+
+    this.configure = function (options) {
+      this.defaultSettings = (0, _defaults2.default)({}, options, this.defaultSettings);
+    };
+
+    this.$get = ['$rootScope', '$compile', function ($rootScope, $compile) {
+      var _this = this;
+
+      var create = function create(message) {
+        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _this.defaultSettings;
+
+        if ((0, _isString2.default)(options)) {
+          return create(message, { type: options });
         }
 
-        let AlertTemplate = template(AliasTemplate)({ message })
-        let $alias = angular.element(AlertTemplate)
-        let $newScope = $rootScope.$new()
+        var AlertTemplate = (0, _template2.default)(_constants.template)({ message: message });
+        var $alias = _angular2.default.element(AlertTemplate);
+        var $newScope = $rootScope.$new();
 
-        if (isPlainObject(options)) {
-          $newScope.options = defaults({}, options, this.defaultSettings)
+        if ((0, _isPlainObject2.default)(options)) {
+          $newScope.options = (0, _defaults2.default)({}, options, _this.defaultSettings);
         }
 
-        let $element = $compile($alias)($newScope)
-        let $scope = angular.element($element[0].childNodes[0]).scope()
-        angular.element(document.body).append($element)
+        var $element = $compile($alias)($newScope);
+        var $scope = _angular2.default.element($element[0].childNodes[0]).scope();
+        _angular2.default.element(document.body).append($element);
 
-        !$scope.$$phase && !$scope.$root.$$phase && $scope.$digest()
-        this.openScopes.push($scope)
-      }
+        !$scope.$$phase && !$scope.$root.$$phase && $scope.$digest();
+        _this.openScopes.push($scope);
+      };
 
-      const remove = (scope) => {
-        Remove(this.openScopes, ($scope) => $scope === scope)
-      }
+      var remove = function remove(scope) {
+        (0, _remove2.default)(_this.openScopes, function ($scope) {
+          return $scope === scope;
+        });
+      };
 
-      const removeAll = () => {
-        forEach(this.openScopes, (scope) => scope.dismiss(true))
-      }
+      var removeAll = function removeAll() {
+        (0, _forEach2.default)(_this.openScopes, function (scope) {
+          return scope.dismiss(true);
+        });
+      };
 
-      return { create, remove, removeAll }
-    }
-  ]
-}
+      return { create: create, remove: remove, removeAll: removeAll };
+    }];
+  };
 
-const Component = [
-  '$alert',
-  function ($alert) {
+  var Component = ['$alert', function ($alert) {
     return {
       restrict: 'EA',
       replace: true,
       transclude: true,
-      template: Template,
-      controller: FlashController,
+      template: _template4.default,
+      controller: _FlashController.FlashController,
       controllerAs: '$ctrl',
       scope: {
         options: '=?alertOptions'
       },
-      link ($scope, $element, $attr, ctrl, transclude) {
-        let settings = defaults({}, $scope.options, DefaultSettings)
-        ctrl.configure($scope, $element, settings)
+      link: function link($scope, $element, $attr, ctrl, transclude) {
+        var settings = (0, _defaults2.default)({}, $scope.options, DefaultSettings);
+        ctrl.configure($scope, $element, settings);
 
-        $scope.type = settings.type || ''
-        $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
-        $scope.show = ctrl.show.bind(ctrl, $scope, $element)
-        $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
-        $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
+        $scope.type = settings.type || '';
+        $scope.delay = (0, _isInteger2.default)(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay;
+        $scope.show = ctrl.show.bind(ctrl, $scope, $element);
+        $scope.hide = ctrl.hide.bind(ctrl, $scope, $element);
+        $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element);
 
         $scope.$on('$destroy', function () {
-          $alert.remove($scope)
-          $element.remove()
-        })
+          $alert.remove($scope);
+          $element.remove();
+        });
 
         $scope.show(function () {
-          setTimeout($scope.dismiss.bind($scope), $scope.delay)
-        })
+          setTimeout($scope.dismiss.bind($scope), $scope.delay);
+        });
       }
-    }
-  }
-]
+    };
+  }];
 
-App.provider('$alert', Service)
-App.directive('alert', Component)
-
-export default App.name
+  App.provider('$alert', Service);
+  App.directive('alert', Component);
+}

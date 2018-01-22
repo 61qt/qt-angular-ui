@@ -1,27 +1,41 @@
-import './sample.scss'
+'use strict';
 
-import angular from 'angular'
-import Component from './index'
-import Template from './sample.pug'
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.App = undefined;
 
-export const App = angular.module('QtNgUi.Captcha.Sample', [
-  Component
-])
+require('./sample.scss');
 
-App.config([
-  '$uiCaptchaProvider',
-  function ($uiCaptchaProvider) {
-    $uiCaptchaProvider.configure({
-      url: 'https://student-api.61qt.cn/common/captcha'
-    })
-  }
-])
+var _angular = require('angular');
 
-App.directive('captchaSample', () => ({
-  restrict: 'EA',
-  replace: true,
-  transclude: true,
-  template: Template
-}))
+var _angular2 = _interopRequireDefault(_angular);
 
-export default App.name
+var _index = require('./index');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _sample = require('./sample.pug');
+
+var _sample2 = _interopRequireDefault(_sample);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var App = exports.App = _angular2.default.module('QtNgUi.Captcha.Sample', [_index2.default]);
+
+App.config(['$uiCaptchaProvider', function ($uiCaptchaProvider) {
+  $uiCaptchaProvider.configure({
+    url: 'https://student-api.61qt.cn/common/captcha'
+  });
+}]);
+
+App.directive('captchaSample', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    transclude: true,
+    template: _sample2.default
+  };
+});
+
+exports.default = App.name;

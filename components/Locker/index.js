@@ -1,74 +1,92 @@
-import './stylesheet.scss'
+'use strict';
 
-import defaults from 'lodash/defaults'
-import angular from 'angular'
-import Spinner from '../Spinner'
-import { FlashController, config as Config } from '../../controllers/FlashController'
-import Template from './template.pug'
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Name = exports.DefaultSettings = undefined;
 
-export const DefaultSettings = defaults({ content: '努力加载中' }, Config)
+require('./stylesheet.scss');
 
-const App = angular.module('QtNgUi.Locker', [
-  Spinner
-])
+var _defaults = require('lodash/defaults');
 
-const Service = function () {
-  this.defaultSettings = DefaultSettings
+var _defaults2 = _interopRequireDefault(_defaults);
 
-  this.configure = function (options) {
-    this.defaultSettings = defaults({}, options, this.defaultSettings)
-  }
+var _angular = require('angular');
 
-  this.$get = [
-    '$rootScope', '$compile',
-    function ($rootScope, $compile) {
-      let $newScope = $rootScope.$new()
-      $newScope.options = this.defaultSettings
+var _angular2 = _interopRequireDefault(_angular);
 
-      let $component = $compile('<locker locker-options="options"></locker>')($newScope)
-      let $scope = $component.children().scope()
+var _Spinner = require('../Spinner');
 
-      angular.element(document.body).append($component)
+var _Spinner2 = _interopRequireDefault(_Spinner);
 
-      const show = function (options, callback) {
-        $scope.show(options, callback)
-      }
+var _FlashController = require('../../controllers/FlashController');
 
-      const hide = function (options, callback) {
-        $scope.hide(options, callback)
-      }
+var _module = require('../../share/module');
 
-      return { show, hide }
-    }
-  ]
-}
+var _template = require('./template.pug');
 
-const Component = [
-  '$timeout',
-  function ($timeout) {
+var _template2 = _interopRequireDefault(_template);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DefaultSettings = exports.DefaultSettings = (0, _defaults2.default)({ content: '努力加载中' }, _FlashController.config);
+var Name = exports.Name = 'QtNgUi.Locker';
+exports.default = Name;
+
+
+if (!(0, _module.exists)(Name)) {
+  var App = (0, _module.def)(Name, [_Spinner2.default]);
+
+  var Service = function Service() {
+    this.defaultSettings = DefaultSettings;
+
+    this.configure = function (options) {
+      this.defaultSettings = (0, _defaults2.default)({}, options, this.defaultSettings);
+    };
+
+    this.$get = ['$rootScope', '$compile', function ($rootScope, $compile) {
+      var $newScope = $rootScope.$new();
+      $newScope.options = this.defaultSettings;
+
+      var $component = $compile('<locker locker-options="options"></locker>')($newScope);
+      var $scope = $component.children().scope();
+
+      _angular2.default.element(document.body).append($component);
+
+      var show = function show(options, callback) {
+        $scope.show(options, callback);
+      };
+
+      var hide = function hide(options, callback) {
+        $scope.hide(options, callback);
+      };
+
+      return { show: show, hide: hide };
+    }];
+  };
+
+  var Component = ['$timeout', function ($timeout) {
     return {
       restrict: 'E',
       replace: true,
-      template: Template,
-      controller: FlashController,
+      template: _template2.default,
+      controller: _FlashController.FlashController,
       controllerAs: '$ctrl',
       scope: {
         options: '=?lockerOptions'
       },
-      link ($scope, $element, $attr, ctrl) {
-        let settings = defaults({}, $scope.options, DefaultSettings)
-        ctrl.configure($scope, $element, settings)
+      link: function link($scope, $element, $attr, ctrl) {
+        var settings = (0, _defaults2.default)({}, $scope.options, DefaultSettings);
+        ctrl.configure($scope, $element, settings);
 
-        $scope.content = settings.content
-        $scope.show = ctrl.show.bind(ctrl, $scope, $element)
-        $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
-        $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
+        $scope.content = settings.content;
+        $scope.show = ctrl.show.bind(ctrl, $scope, $element);
+        $scope.hide = ctrl.hide.bind(ctrl, $scope, $element);
+        $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element);
       }
-    }
-  }
-]
+    };
+  }];
 
-App.provider('$locker', Service)
-App.directive('locker', Component)
-
-export default App.name
+  App.provider('$locker', Service);
+  App.directive('locker', Component);
+}
