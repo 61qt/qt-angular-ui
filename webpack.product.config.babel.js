@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import map from 'lodash/map'
+import assign from 'lodash/assign'
 import forEach from 'lodash/forEach'
 import filter from 'lodash/filter'
 import indexOf from 'lodash/indexOf'
@@ -30,6 +31,14 @@ let source = map(files, (file) => `import '${file}';`).join('\n')
 fs.ensureFileSync(bootFile)
 fs.writeFileSync(bootFile, source)
 
+let entries = {}
+
+forEach(files, (file) => {
+  let dirName = path.dirname(file)
+  let folderName = path.basename(dirName)
+  entries[folderName] = [file]
+})
+
 /**
  * Filter CommonsChunkPlugin
  * docs: https://github.com/webpack-contrib/karma-webpack/issues/24
@@ -41,12 +50,12 @@ WebpackConfig.plugins = filter(WebpackConfig.plugins, (plugin) => {
 
 export default WebpackMerger(WebpackConfig, {
   devtool: 'source-map',
-  entry: {
+  entry: assign(entries, {
     index: [
       'babel-polyfill',
       bootFile
     ]
-  },
+  }),
   output: {
     filename: '[name].js',
     umdNamedDefine: false
@@ -71,7 +80,7 @@ export default WebpackMerger(WebpackConfig, {
      * Inline styles can be externally optimized for loading
      */
     new ExtractTextPlugin({
-      filename: 'index.css',
+      filename: '[name].css',
       allChunks: true
     }),
 
