@@ -58,8 +58,13 @@ export default WebpackMerger(WebpackConfig, {
   }),
   output: {
     filename: '[name].js',
-    umdNamedDefine: false
+    libraryTarget: 'umd'
   },
+  externals: [
+    {
+      angular: 'angular'
+    }
+  ],
   module: {
     noParse: [
       /[/\\]node_modules[/\\]angular/
