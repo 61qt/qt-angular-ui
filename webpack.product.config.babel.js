@@ -7,10 +7,9 @@ import filter from 'lodash/filter'
 import indexOf from 'lodash/indexOf'
 import webpack, { DefinePlugin } from 'webpack'
 import WebpackMerger from 'webpack-merge'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import WebpackConfig from './webpack.common.config.babel'
-import { srcDir, distDir, tmpDir } from './variables'
+import { srcDir, tmpDir } from './variables'
 
 const { UglifyJsPlugin } = webpack.optimize
 
@@ -101,17 +100,6 @@ export default WebpackMerger(WebpackConfig, {
       output: {
         comments: false
       }
-    }),
-
-    /**
-     * Copy files
-     */
-    new CopyWebpackPlugin([
-      {
-        context: srcDir,
-        from: '+(components|share|stylesheets|controllers)/**',
-        to: path.join(distDir, './')
-      }
-    ])
+    })
   ]
 })

@@ -7,88 +7,91 @@ import isInteger from 'lodash/isInteger'
 import isPlainObject from 'lodash/isPlainObject'
 import angular from 'angular'
 import { FlashController, config as Config } from '../../controllers/FlashController'
+import { exists as ngExistsModule, def as ngModule } from '../../share/module'
 import Template from './template.pug'
 
 export const DefaultSettings = defaults({ delay: 2500 }, Config)
+export const Name = 'QtNgUi.Toast'
+export default Name
 
-const App = angular.module('QtNgUi.Toast', [])
+if (!ngExistsModule(Name)) {
+  const App = ngModule(Name, [])
 
-const Service = function () {
-  this.openScopes = []
-  this.defaultSettings = DefaultSettings
+  const Service = function () {
+    this.openScopes = []
+    this.defaultSettings = DefaultSettings
 
-  this.configure = function (options) {
-    this.defaultSettings = defaults({}, options, this.defaultSettings)
-  }
+    this.configure = function (options) {
+      this.defaultSettings = defaults({}, options, this.defaultSettings)
+    }
 
-  this.$get = [
-    '$rootScope', '$compile',
-    function ($rootScope, $compile) {
-      const create = (message, options = this.defaultSettings) => {
-        let $newScope = $rootScope.$new()
+    this.$get = [
+      '$rootScope', '$compile',
+      function ($rootScope, $compile) {
+        const create = (message, options = this.defaultSettings) => {
+          let $newScope = $rootScope.$new()
 
-        if (isPlainObject(options)) {
-          $newScope.options = defaults({}, options, this.defaultSettings)
+          if (isPlainObject(options)) {
+            $newScope.options = defaults({}, options, this.defaultSettings)
+          }
+
+          let $alias = angular.element(`<toast toast-options="options">${message}</toast>`)
+          let $element = $compile($alias)($newScope)
+          let $scope = angular.element($element[0].childNodes[0]).scope()
+          angular.element(document.body).append($element)
+
+          !$scope.$$phase && !$scope.$root.$$phase && $scope.$digest()
+          this.openScopes.push($scope)
         }
 
-        let $alias = angular.element(`<toast toast-options="options">${message}</toast>`)
-        let $element = $compile($alias)($newScope)
-        let $scope = angular.element($element[0].childNodes[0]).scope()
-        angular.element(document.body).append($element)
+        const remove = (scope) => {
+          Remove(this.openScopes, ($scope) => $scope === scope)
+        }
 
-        !$scope.$$phase && !$scope.$root.$$phase && $scope.$digest()
-        this.openScopes.push($scope)
+        const removeAll = () => {
+          forEach(this.openScopes, (scope) => scope.dismiss(true))
+        }
+
+        return { create, remove, removeAll }
       }
+    ]
+  }
 
-      const remove = (scope) => {
-        Remove(this.openScopes, ($scope) => $scope === scope)
+  const Component = [
+    '$toast',
+    function ($toast) {
+      return {
+        restrict: 'EA',
+        replace: true,
+        transclude: true,
+        template: Template,
+        controller: FlashController,
+        controllerAs: '$ctrl',
+        scope: {
+          options: '=?toastOptions'
+        },
+        link ($scope, $element, $attr, ctrl) {
+          let settings = defaults({}, $scope.options, DefaultSettings)
+          ctrl.configure($scope, $element, settings)
+
+          $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
+          $scope.show = ctrl.show.bind(ctrl, $scope, $element)
+          $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
+          $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
+
+          $scope.$on('$destroy', function () {
+            $toast.remove($scope)
+            $element.remove()
+          })
+
+          $scope.show(function () {
+            setTimeout($scope.dismiss.bind($scope), $scope.delay)
+          })
+        }
       }
-
-      const removeAll = () => {
-        forEach(this.openScopes, (scope) => scope.dismiss(true))
-      }
-
-      return { create, remove, removeAll }
     }
   ]
+
+  App.provider('$toast', Service)
+  App.directive('toast', Component)
 }
-
-const Component = [
-  '$toast',
-  function ($toast) {
-    return {
-      restrict: 'EA',
-      replace: true,
-      transclude: true,
-      template: Template,
-      controller: FlashController,
-      controllerAs: '$ctrl',
-      scope: {
-        options: '=?toastOptions'
-      },
-      link ($scope, $element, $attr, ctrl) {
-        let settings = defaults({}, $scope.options, DefaultSettings)
-        ctrl.configure($scope, $element, settings)
-
-        $scope.delay = isInteger(settings.delay) && settings.delay > 0 ? settings.delay : DefaultSettings.delay
-        $scope.show = ctrl.show.bind(ctrl, $scope, $element)
-        $scope.hide = ctrl.hide.bind(ctrl, $scope, $element)
-        $scope.dismiss = ctrl.dismiss.bind(ctrl, $scope, $element)
-
-        $scope.$on('$destroy', function () {
-          $toast.remove($scope)
-          $element.remove()
-        })
-
-        $scope.show(function () {
-          setTimeout($scope.dismiss.bind($scope), $scope.delay)
-        })
-      }
-    }
-  }
-]
-
-App.provider('$toast', Service)
-App.directive('toast', Component)
-
-export default App.name
